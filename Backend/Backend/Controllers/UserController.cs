@@ -58,7 +58,13 @@ namespace BackEnd.Controllers
 
         }
 
-        
+        [HttpDelete("DeletUser")]
+        public void DeleteUser(string email)
+        {
+            var user = _db.Users.FirstOrDefault(x => x.Email == email);
+            _db.Users.Remove(user);
+            _db.SaveChanges();
+        }
 
     }
 }
