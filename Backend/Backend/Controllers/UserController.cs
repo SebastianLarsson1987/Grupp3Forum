@@ -1,5 +1,6 @@
 ﻿
 using Backend.Models.Database;
+using Backend.Models.ViewModels;
 using BackEnd.Models.ViewModels;
 using BackEnd.Services;
 using Microsoft.AspNetCore.Http;
@@ -56,6 +57,8 @@ namespace BackEnd.Controllers
             _userService.RemoveUser(email);
 
         }
+
+        
 
     }
 }
