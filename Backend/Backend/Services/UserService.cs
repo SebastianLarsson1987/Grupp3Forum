@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BackEnd.Services
 {
-    public class UserService
+    public class UserService : IUserService
     {
         private readonly grupp3forumContext _Db;
 
