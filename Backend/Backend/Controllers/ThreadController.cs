@@ -1,6 +1,7 @@
 ﻿using Backend.Models.Database;
 using BackEnd.Models.ViewModels;
 using BackEnd.Services;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -24,7 +25,7 @@ namespace BackEnd.Controllers
             _db = new grupp3forumContext();
         }
 
-        [HttpPost("Create Thread")]
+        [HttpPost("CreateThread")]
         public async Task<NewThread> CreateThread(CreateThreadViewModel model)
         {
             var newThread = new NewThread()
