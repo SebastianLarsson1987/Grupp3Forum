@@ -1,19 +1,24 @@
+
+
+
 import { createStore } from "vuex" 
 
 const store = createStore({
   state:{
-       name: "Vue"
+       categories: []
   },
   mutations:{
-      setName(state, x){
-          state.name = x
+      setCategories(state, data){
+          state.categories = data
       }
   },
   actions:{
-       async ({commit}){
-           let name = 'Vue with vuex'
-           commit('setName', name)
-       }
+      async fetchCategories({commit}){
+          let response = await fetch("http://localhost:41653/api/Thread/GetAllCategories")
+          let data = await response.json()
+          console.log(data)
+          commit('setCategories', data)
+      }
   }
 })
 

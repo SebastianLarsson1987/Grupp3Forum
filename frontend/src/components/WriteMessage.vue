@@ -6,9 +6,13 @@
       <input type="text" name="Topic" v-model="topic"/>
       <label>Content</label>
       <textarea type="text" name="Content" v-model="content"></textarea>
+      <select>
+        <option>Välj kategori</option>
+        <option v-for="item in categories" :key="item.id" value="item.id">{{item.categoryName}}</option>
+      </select>
       <button>Tryck</button>
     </form>
-    <p>{{topic}}</p>
+   
   </div>
 </template>
 
@@ -34,10 +38,18 @@
         })
       }
     },
-    
+    created(){
+      this.$store.dispatch('fetchCategories')
+    },
+    computed:{
+      categories(){
+        return this.$store.state.categories
+      }
+    }
   }
 </script>
 
 <style lang="scss" scoped>
 
 </style>
+
