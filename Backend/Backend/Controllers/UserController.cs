@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using Backend.Models.Database;
+using Backend.Models.ViewModels;
+using BackEnd.Models.ViewModels;
+using BackEnd.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -14,21 +19,58 @@ namespace Backend.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
-        public UserController()
+        private readonly grupp3forumContext _db;
+        public UserController(IUserService userService)
         {
+            _userService = userService as UserService;
+            _db = new grupp3forumContext();
             _userService = new UserService();
         }
 
-        [HttpGet]
-        public async Task<IEnumerable<User>> GetAllUser()
+        [HttpGet("GetAllUser")]
+        public void GetAllUser()
         {
-            return await _userService.GetAllUser();
+            var result = _userService.GetAllUser();
+        }
+        [HttpPost("AddUser")]
+        public async Task<User> AddUser(AddUserViewModel model)
+        {
+            var newUser = new User()
+            {
+                UserName = model.UserName,
+                Email = model.Email,
+                Banned = false,
+                RoleId = 1
+            };
+            _db.Users.Add(newUser);
+            await _db.SaveChangesAsync();
+            return newUser;
+
+        }
+        [HttpGet("GetOneUser")]
+        public User GetOneUser(int id)
+        {
+            var reuslt = _userService.GetOneUser(id);
+            return reuslt;
         }
 
         [HttpPut]
         public async Task<bool> UpdateUser(User user)
+        [HttpPost("Remove User")]
+        public void RemoveGuest(string email)
+        {
+            _userService.RemoveUser(email);
+
+        }
+
+        [HttpDelete("DeletUser")]
+        public void DeleteUser(string email)
         {
             return await _userService.UpdateUser(user: user);
+            var user = _db.Users.FirstOrDefault(x => x.Email == email);
+            _db.Users.Remove(user);
+            _db.SaveChanges();
         }
+
     }
 }
