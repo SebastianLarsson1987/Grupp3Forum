@@ -8,7 +8,7 @@
       <textarea type="text" name="Content" v-model="content"></textarea>
       <select>
         <option>Välj kategori</option>
-        <option v-for="item in categories" :key="item.id" value="item.id">{{item.categoryName}}</option>
+        <option v-for="item in categories" :key="item.id" :value="item.id" >{{item.categoryName}}</option>
       </select>
       <button>Tryck</button>
     </form>
@@ -22,18 +22,19 @@
       return{
         msg: "",
         topic: "",
-        content:""
+        content:"",
+        categoryId: ""
       }
     },
     methods:{
       async submit(){
-        console.log("Hello world")
+        
         await fetch("api/Thread/CreateThread", {
           method: "POST",
           headers:{
             'Content-Type': "application/json"
           },
-          body: JSON.stringify({topic: this.topic, content: this.content})
+          body: JSON.stringify({topic: this.topic, content: this.content, categoryId: this.categoryId})
 
         })
       }

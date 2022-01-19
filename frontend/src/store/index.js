@@ -1,6 +1,3 @@
-
-
-
 import { createStore } from "vuex" 
 
 const store = createStore({
@@ -14,7 +11,7 @@ const store = createStore({
   },
   actions:{
       async fetchCategories({commit}){
-          let response = await fetch("http://localhost:41653/api/Thread/GetAllCategories")
+          let response = await fetch("api/Thread/GetAllCategories")
           let data = await response.json()
           console.log(data)
           commit('setCategories', data)
