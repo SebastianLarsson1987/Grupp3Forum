@@ -14,8 +14,9 @@
             </div>
             <div class="userprofile-form-grid3">
                 <h2>Innehåll</h2>
-                <nav>
+                <nav class="userprofile-form-grid3-contentNavbar">
                     <router-link to="#">Inlägg</router-link>
+                    <router-link to="#">Grupper</router-link>
                 </nav>
             </div>
             <div class="userprofile-form-grid4">
@@ -132,6 +133,11 @@ export default {
 
     .userprofile-form-grid3>nav>a{
         margin-left: 2vw;
+    }
+
+    .userprofile-form-grid3-contentNavbar{
+        display:flex;
+        flex-direction: column;
     }
 
     .userprofile-form-grid4{

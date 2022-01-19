@@ -23,5 +23,11 @@ namespace Backend.Controllers
         {
             return await _messageService.DeleteMessage(id);
         }
+
+        [HttpGet("GetUserMessages")]
+        public async Task<IEnumerable<Message>> GetUserMessages(int id)
+        {
+            return await _messageService.GetUserMessages(id);
+        }
     }
 }

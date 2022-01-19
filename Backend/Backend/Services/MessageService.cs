@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models.Database;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services
 {
@@ -24,6 +25,13 @@ namespace Backend.Services
 
             return message;
 
+        }
+
+        public async Task<IEnumerable<Message>> GetUserMessages(int id)
+        {
+            var result = await _Db.Messages.Where(message => message.UserId == id).ToListAsync();
+            return result;
+            
         }
     }
 }
