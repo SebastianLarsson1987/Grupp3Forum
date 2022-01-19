@@ -1,12 +1,13 @@
-﻿using BackEnd.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Models.Database;
+using Backend.Services;
 
-namespace BackEnd.Controllers
+namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,9 +20,15 @@ namespace BackEnd.Controllers
         }
 
         [HttpGet]
-        public void GetAllUser()
+        public async Task<IEnumerable<User>> GetAllUser()
         {
-            var result = _userService.GetAllUser();
+            return await _userService.GetAllUser();
+        }
+
+        [HttpPut]
+        public async Task<bool> UpdateUser(User user)
+        {
+            return await _userService.UpdateUser(user: user);
         }
     }
 }

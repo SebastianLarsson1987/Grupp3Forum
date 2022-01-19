@@ -1,10 +1,11 @@
-﻿using BackEnd.Models.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Backend.Models.Database;
+using Microsoft.EntityFrameworkCore;
 
-namespace BackEnd.Services
+namespace Backend.Services
 {
     public class UserService
     {
@@ -15,16 +16,17 @@ namespace BackEnd.Services
             _Db = new grupp3forumContext();
         }
 
-        public IEnumerable<User> GetAllUser()
+        public async Task<IEnumerable<User>> GetAllUser()
         {
-            return _Db.Users.Where(x => x.UserName == "Larzzons");
+            return await _Db.Users.ToListAsync();
         }
 
-        public bool UpdateUser(User user)
+        public async Task<bool> UpdateUser(User user)
         {
             try
             {
-
+                _Db.Entry(user).State = EntityState.Modified;
+                await _Db.SaveChangesAsync();
                 return true;
             }
             catch (Exception e)
