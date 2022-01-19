@@ -1,3 +1,4 @@
+using Backend.Services;
 using BackEnd.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,7 @@ namespace Backend
         {
             services.AddTransient<IThreadService, ThreadService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<MessageService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
