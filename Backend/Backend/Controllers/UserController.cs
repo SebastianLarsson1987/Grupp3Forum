@@ -1,16 +1,9 @@
-﻿
-using Backend.Models.Database;
-using Backend.Models.ViewModels;
-using BackEnd.Models.ViewModels;
-using BackEnd.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Backend.Models.Database;
 using Backend.Services;
+using Backend.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Backend.Controllers
 {
@@ -20,19 +13,20 @@ namespace Backend.Controllers
     {
         private readonly UserService _userService;
         private readonly grupp3forumContext _db;
+
         public UserController(IUserService userService)
         {
             _userService = userService as UserService;
             _db = new grupp3forumContext();
-            _userService = new UserService();
         }
 
-        [HttpGet("GetAllUser")]
-        public void GetAllUser()
+        [HttpGet("GetAll")]
+        public async Task<IEnumerable<User>> GetAllUser()
         {
-            var result = _userService.GetAllUser();
+            return await _userService.GetAllUser();
         }
-        [HttpPost("AddUser")]
+
+        [HttpPost("Add")]
         public async Task<User> AddUser(AddUserViewModel model)
         {
             var newUser = new User()
@@ -45,32 +39,25 @@ namespace Backend.Controllers
             _db.Users.Add(newUser);
             await _db.SaveChangesAsync();
             return newUser;
-
         }
-        [HttpGet("GetOneUser")]
+
+        [HttpGet("GetUser")]
         public User GetOneUser(int id)
         {
-            var reuslt = _userService.GetOneUser(id);
-            return reuslt;
+            var oneUser = _userService.GetOneUser(id);
+            return oneUser;
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<bool> UpdateUser(User user)
-        [HttpPost("Remove User")]
+        {
+            return await _userService.UpdateUser(user: user);
+        }
+
+        [HttpPost("Remove")]
         public void RemoveGuest(string email)
         {
             _userService.RemoveUser(email);
-
         }
-
-        [HttpDelete("DeletUser")]
-        public void DeleteUser(string email)
-        {
-            return await _userService.UpdateUser(user: user);
-            var user = _db.Users.FirstOrDefault(x => x.Email == email);
-            _db.Users.Remove(user);
-            _db.SaveChanges();
-        }
-
     }
 }
