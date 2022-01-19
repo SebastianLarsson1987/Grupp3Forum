@@ -50,7 +50,5 @@ li {
 a {
   color: #FB8500;
 }
-#main-menu {
-  
-}
+
 </style>
