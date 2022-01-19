@@ -9,12 +9,12 @@
   <div>
     <nav id="main-menu">
       <ul>
-        <li><a href="#">Dator och IT</a></li>
-        <li><a href="#">Män</a></li>
+        <li v-for='categoryName in categoryNames' :key='categoryName'><a href="#">{{categoryName}}</a></li>
+        <!-- <li><a href="#">Män</a></li>
         <li><a href="#">Barn</a></li>
         <li><a href="#">Idrott</a></li>
         <li><a href="#">Beauty</a></li>
-        <li><a href="#">Home</a></li>        
+        <li><a href="#">Home</a></li>         -->
       </ul>
     </nav>
   </div>
@@ -23,10 +23,32 @@
 
 <script>
 export default {
-  name: 'Home',
-  props: {
-    msg: String
-  }
+   data(){
+      return{
+        categoryName: ""
+      }
+    },
+    methods:{
+      async submit(){
+        
+        await fetch("api/Thread/CreateThread", {
+          method: "POST",
+          headers:{
+            'Content-Type': "application/json"
+          },
+          body: JSON.stringify({categoryName: this.categoryName})
+
+        })
+      }
+    },
+    created(){
+      this.$store.dispatch('fetchCategories')
+    },
+    computed:{
+      categories(){
+        return this.$store.state.categories
+      }
+    }
 }
 </script>
 
