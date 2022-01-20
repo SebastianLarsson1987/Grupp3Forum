@@ -20,10 +20,12 @@ namespace Backend.Controllers
             _db = new grupp3forumContext();
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IEnumerable<User>> GetAllUser()
+        [HttpGet("Get")]
+        public async Task<IEnumerable<User>> Get(int? id)
         {
-            return await _userService.GetAllUser();
+            if(id== null) 
+                return await _userService.GetAllUser();
+            return new List<User>() { GetOneUser(id.Value) };
         }
 
         [HttpPost("Add")]
