@@ -11,11 +11,13 @@ const store = createStore({
   },
   actions:{
       async fetchCategories({commit}){
-          let response = await fetch("api/Thread/GetAllCategories")
+          let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")
           let data = await response.json()
           console.log(data)
           commit('setCategories', data)
-      }
+    },
+    
+    
   }
 })
 
