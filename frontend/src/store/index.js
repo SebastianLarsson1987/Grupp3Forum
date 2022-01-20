@@ -2,7 +2,8 @@ import { createStore } from "vuex"
 
 const store = createStore({
     state:{
-         categories: []
+         categories: [],
+         //categoryNames: null,
     },
     mutations:{
         setCategories(state, data){
@@ -11,9 +12,10 @@ const store = createStore({
     },
     actions:{
         async fetchCategories({commit}){
-            let response = await fetch("api/Thread/GetAllCategories")
+            let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")
             let data = await response.json()
-            console.log(data)
+            this.state.categories=data
+            console.log(this.state.categoryNames)
             commit('setCategories', data)
         }
     }

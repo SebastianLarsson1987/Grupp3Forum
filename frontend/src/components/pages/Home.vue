@@ -9,12 +9,7 @@
   <div>
     <nav id="main-menu">
       <ul>
-        <li v-for='categoryName in categoryNames' :key='categoryName'><a href="#">{{categoryName}}</a></li>
-        <!-- <li><a href="#">Män</a></li>
-        <li><a href="#">Barn</a></li>
-        <li><a href="#">Idrott</a></li>
-        <li><a href="#">Beauty</a></li>
-        <li><a href="#">Home</a></li>         -->
+        <li v-for='categoryName in categoryNames' :key='categoryName.id'><a href="#">{{categoryName}}</a></li>
       </ul>
     </nav>
   </div>
@@ -25,30 +20,36 @@
 export default {
    data(){
       return{
-        categoryName: ""
+        categoryNames: []
       }
     },
     methods:{
-      async submit(){
+      // async submit(){
         
-        await fetch("api/Thread/CreateThread", {
-          method: "POST",
-          headers:{
-            'Content-Type': "application/json"
-          },
-          body: JSON.stringify({categoryName: this.categoryName})
+      //   await fetch("api/Thread/", {
+      //     method: "POST",
+      //     headers:{
+      //       'Content-Type': "application/json"
+      //     },
+      //     body: JSON.stringify({categoryName: this.categoryName})
 
-        })
+      //   })
+      // },
+      async loadCategories(){
+        await this.$store.dispatch('fetchCategories')
+        this.categoryNames=this.$store.state.categories
+
       }
     },
-    created(){
-      this.$store.dispatch('fetchCategories')
+    async created(){
+      await this.loadCategories()
     },
     computed:{
       categories(){
         return this.$store.state.categories
       }
-    }
+     }
+    
 }
 </script>
 

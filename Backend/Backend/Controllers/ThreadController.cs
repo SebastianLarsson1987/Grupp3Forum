@@ -67,7 +67,7 @@ namespace BackEnd.Controllers
         [HttpGet("GetAllCategories")]
         public IEnumerable<Category> GetAllCategories()
         {
-            var result =_threadService.GetAllCategories();
+            var result =_threadService.GetAllCategories().ToList();
             return result;
         }
         [HttpGet("GetAllCategoriesAndThreads")]
