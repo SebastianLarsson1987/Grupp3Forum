@@ -9,7 +9,7 @@
   <div>
     <nav id="main-menu">
       <ul>
-        <li v-for='categoryName in categoryNames' :key='categoryName.id'><a href="#">{{categoryName}}</a></li>
+        <li v-for='categoryName in categoryNames' :key='categoryName'><a href="#">{{categoryName.categoryName}}</a></li>
       </ul>
     </nav>
   </div>
@@ -20,22 +20,12 @@
 export default {
    data(){
       return{
-        categoryNames: []
+        categoryNames: [],
       }
     },
     methods:{
-      // async submit(){
-        
-      //   await fetch("api/Thread/", {
-      //     method: "POST",
-      //     headers:{
-      //       'Content-Type': "application/json"
-      //     },
-      //     body: JSON.stringify({categoryName: this.categoryName})
 
-      //   })
-      // },
-      async loadCategories(){
+    async loadCategories(){
         await this.$store.dispatch('fetchCategories')
         this.categoryNames=this.$store.state.categories
 
@@ -48,8 +38,7 @@ export default {
       categories(){
         return this.$store.state.categories
       }
-     }
-    
+     },
 }
 </script>
 
