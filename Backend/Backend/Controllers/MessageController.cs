@@ -30,5 +30,11 @@ namespace Backend.Controllers
         {
             return await _messageService.GetUserMessages(id);
         }
+
+        [HttpPut("EditUserMessage/{id}")]
+        public async Task<ActionResult<Message>> EditUserMessage(int id, string message)
+        {
+            return await _messageService.EditMessage(id, message);
+        }
     }
 }

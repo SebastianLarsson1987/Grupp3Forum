@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services
 {
-    public class MessageService
+    public class MessageService : ControllerBase
     {
         private readonly grupp3forumContext _Db;
 
@@ -20,10 +20,11 @@ namespace Backend.Services
 
         public async Task<ActionResult<Message>> DeleteMessage(int id)
         {
-            var message = await _Db.Messages.FindAsync(id);
+            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
             _Db.Messages.Remove(message);
+            await _Db.SaveChangesAsync();
 
-            return message;
+            return NoContent();
 
         }
 
@@ -31,6 +32,18 @@ namespace Backend.Services
         {
             var result = await _Db.Messages.Where(message => message.UserId == id).ToListAsync();
             return result;
+        }
+
+        public async Task<ActionResult<Message>> EditMessage(int id, string text)
+        {
+            var msg = new Message() { Id = id, Text = text };
+            _Db.Messages.Attach(msg);
+            _Db.Entry(msg).Property(x => x.Text).IsModified = true;
+            await _Db.SaveChangesAsync();
+
+            return msg;
+
+            
         }
     }
 }

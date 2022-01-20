@@ -1,16 +1,21 @@
 import { createStore } from "vuex" 
 import axios from 'axios'
 
+
 const store = createStore({
   state:{
        name: "Vue",
-       userPosts: [],
-      
+       userPosts: {},
+        text: ""
        
   },
   mutations:{
       setName(state, x){
           state.name = x
+      },
+
+      ADD_POSTS(state, post){
+          state.userPosts.push(post)
       }
   },
   actions:{
@@ -31,7 +36,22 @@ const store = createStore({
             .catch(error => {
                 console.log(error)
             })
+       },
+
+       putMessageText(_, {id, text}){
+        axios
+        .put(`https://localhost:44362/api/Message/EditUserMessage/${id +'?message='+ text}`, {
+            
+        })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error)
+        })
        }
+
+       
   }
 })
 

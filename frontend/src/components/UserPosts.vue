@@ -23,12 +23,13 @@
                         <li class="userprofile-form-grid4-list">
                             <p>Inlägg skapat: {{post.createdAt}}</p>
                             <p>Inlägg uppdaterat: {{post.updatedAt}}</p>
-                            <textarea class="userprofile-form-grid4-textarea" rows="4" cols="50" v-model="post.text"></textarea>
+                            <p>{{post.id}}</p>
+                            <textarea v-bind:disabled="isDisabled" class="userprofile-form-grid4-textarea" rows="4" cols="50" v-model="post.text"></textarea>
                             <div>
                                 <button>Ta bort</button>
-                                <button>Redigera</button>
-                                <button>Spara</button>
-                                <button>Avbryt</button>
+                                <button type="button" @click="edit">Redigera</button>
+                                <button @click="putMessageText(post.id, post.text)">Spara</button>
+                                <button @click="cancel">Avbryt</button>
                             </div>
                         </li> 
                     </ul>
@@ -48,14 +49,14 @@ export default {
     },
     data(){
         return{
-            
+            isDisabled: true
         }
     },
     computed:{
         userPosts(){
             return this.$store.state.userPosts;
         },
-
+        
         
     },
     methods:{
@@ -64,21 +65,33 @@ export default {
             console.log(this.isReadOnly)
         },
 
-        save(){
-            this.isReadOnly = true
+        edit(){
+            this.isDisabled = !this.isDisabled;
+        },
+        
+        cancel(){
+            this.isDisabled = true;
         },
 
         getUserPosts(){
             return this.$store.dispatch('getUserPosts', this.$route.params.id)
 
-        }
+        },
         
+        putMessageText(id, text){
+            this.isDisabled = true;
+            return this.$store.dispatch('putMessageText', {id, text})
+            
+        }
+
+        
+
     },
     created(){
 
         this.getUserPosts();
         console.log(this.$route.params.id)
-        
+       
         
     }
     
