@@ -31,7 +31,6 @@ namespace Backend.Services
         {
             var result = await _Db.Messages.Where(message => message.UserId == id).ToListAsync();
             return result;
-            
         }
     }
 }

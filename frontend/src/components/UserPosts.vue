@@ -5,9 +5,6 @@
                 
             </div>
             <div class="userprofile-form-grid2">
-                <div class="userprofile-form-grid2-button">
-                    <button type="button" @click="toggleReadOnly">Redigera Profil</button>
-                </div>
                 <div class="userprofile-form-grid2-button-amountOfPosts">
                     <p>Antal inlägg:</p>
                 </div>
@@ -21,26 +18,22 @@
                 </nav>
             </div>
             <div class="userprofile-form-grid4">
-                <div class="userprofile-form-grid4-username">
-                    <p>Användarnamn</p>
-                    <input type="text" placeholder="Användarnamn" v-bind:disabled="isReadOnly">
+                <div class="userprofile-form-grid4-wrapperscroll">
+                    <ul class="userprofile-form-grid4-ul" v-for="post in userPosts" :key="post.userId">
+                        <li class="userprofile-form-grid4-list">
+                            <p>Inlägg skapat: {{post.createdAt}}</p>
+                            <p>Inlägg uppdaterat: {{post.updatedAt}}</p>
+                            <textarea class="userprofile-form-grid4-textarea" rows="4" cols="50" v-model="post.text"></textarea>
+                            <div>
+                                <button>Ta bort</button>
+                                <button>Redigera</button>
+                                <button>Spara</button>
+                                <button>Avbryt</button>
+                            </div>
+                        </li> 
+                    </ul>
                 </div>
-                <div class="userprofile-form-grid4-email">
-                    <p>Email</p>
-                    <input type="text" placeholder="Email" v-bind:disabled="isReadOnly">
-                </div>
-                <div class="userprofile-form-grid4-password">
-                    <p>Lösenord</p>
-                    <input type="password" placeholder="Lösenord" v-bind:disabled="isReadOnly">
-                </div>
-                <div class="userprofile-form-grid4-verify">
-                    <p>Bekräfta lösenord*</p>
-                    <input type="password" placeholder="Bekräfta lösenord" v-bind:disabled="isReadOnly">
-                </div>
-                <div class="userprofile-form-grid4-buttons">
-                    <button @click="save">Spara</button>
-                    <button>Avbryt</button>
-                </div>
+                
             </div>
         </form>
     </div>
@@ -48,18 +41,21 @@
 
 <script>
 
+
 export default {
     components: {
-      
+        
     },
     data(){
         return{
-            isReadOnly: true,
-            showPosts: false,
-            editProfile: false
+            
         }
     },
     computed:{
+        userPosts(){
+            return this.$store.state.userPosts;
+        },
+
         
     },
     methods:{
@@ -70,7 +66,19 @@ export default {
 
         save(){
             this.isReadOnly = true
+        },
+
+        getUserPosts(){
+            return this.$store.dispatch('getUserPosts', this.$route.params.id)
+
         }
+        
+    },
+    created(){
+
+        this.getUserPosts();
+        console.log(this.$route.params.id)
+        
         
     }
     
@@ -153,70 +161,31 @@ export default {
         grid-row: 2;
         border-left: 1px solid black;
         border-top: 1px solid black;
+        background-color: dodgerblue;
+        border-bottom-right-radius: 20px;
         
     }
 
-    .userprofile-form-grid4-username{
-        display:flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-bottom: 2vh;
-        margin-right: 2vw;
-        margin-left: 2vw;
-        margin-top: 2vh;
-    }
-    .userprofile-form-grid4-username>input{
-        width: 60%;
+    .userprofile-form-grid4-wrapperscroll{
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-align: justify;
+        height:53vh;
     }
 
-    .userprofile-form-grid4-email{
-        display:flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-bottom: 2vh;
-        margin-right: 2vw;
-        margin-left: 2vw;
+    .userprofile-form-grid4-list{
+        list-style: none;
+        padding: 2vw;
+        background-color: white;
+        border-radius: 10px;
     }
 
-    .userprofile-form-grid4-email>input{
-        width:60%;
-    }
-
-    .userprofile-form-grid4-password{
-        display:flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-bottom: 2vh;
-        margin-right: 2vw;
-        margin-left: 2vw;
-    }
-
-    .userprofile-form-grid4-password>input{
-        width: 60%;
-    }
-
-    .userprofile-form-grid4-verify{
-        display:flex;
-        flex-direction: row;
-        justify-content: space-between;
-        margin-bottom: 2vh;
-        margin-right: 2vw;
-        margin-left: 2vw;
-    }
-
-    .userprofile-form-grid4-verify>input{
-        width: 60%;
-    }
-
-    .userprofile-form-grid4-buttons{
-        display:flex;
-        flex-direction: row;
-        justify-content: center;
-        margin-top: 20vh;
+    .userprofile-form-grid4-textarea{
+        resize: none;
     }
     
-    .userprofile-form-grid4-buttons>button:nth-child(2){
-        margin-left: 1vw;
+    .userprofile-form-grid4-ul{
+        padding: 2vw;
     }
-   
+
 </style>

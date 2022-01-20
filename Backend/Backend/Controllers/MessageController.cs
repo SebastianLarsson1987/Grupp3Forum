@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models.Database;
 using Backend.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace Backend.Controllers
 {
@@ -24,7 +25,7 @@ namespace Backend.Controllers
             return await _messageService.DeleteMessage(id);
         }
 
-        [HttpGet("GetUserMessages")]
+        [HttpGet("GetUserMessages/{id}")]
         public async Task<IEnumerable<Message>> GetUserMessages(int id)
         {
             return await _messageService.GetUserMessages(id);
