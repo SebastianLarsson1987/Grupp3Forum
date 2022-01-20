@@ -1,5 +1,6 @@
 <template>
-  <WriteMessage/>
+  <WriteMessage />
+  <router-view />
 </template>
 
 <script>
