@@ -1,17 +1,23 @@
-// code from our Firebase console 
+// code from our Firebase console
 // Import the functions you need from the SDKs you need
 // https://firebase.google.com/docs/web/setup#available-libraries
-import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser, sendPasswordResetEmail } from "firebase/auth";
+import { initializeApp } from 'firebase/app';
+import {
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    deleteUser,
+    sendPasswordResetEmail,
+} from 'firebase/auth';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyBWnqs4fGVQ7b1h_3cIbmvq6jdCEAspW9E",
-    authDomain: "grupp3forum.firebaseapp.com",
-    projectId: "grupp3forum",
-    storageBucket: "grupp3forum.appspot.com",
-    messagingSenderId: "544976868582",
-    appId: "1:544976868582:web:c2742c1d0a63e0af0c9727"
+    apiKey: 'AIzaSyBWnqs4fGVQ7b1h_3cIbmvq6jdCEAspW9E',
+    authDomain: 'grupp3forum.firebaseapp.com',
+    projectId: 'grupp3forum',
+    storageBucket: 'grupp3forum.appspot.com',
+    messagingSenderId: '44976868582',
+    appId: '1:544976868582:web:c2742c1d0a63e0af0c9727',
 };
 
 // Initialize Firebase
@@ -30,7 +36,7 @@ const register = async (regEmail, username, password) => {
         //     method: "POST",
         //     body: JSON.stringify({ email: regEmail, userName: username })
         // }).then(r => console.log(r.json()));
-        alert("Successfully registered!");
+        alert('Successfully registered!');
     } catch (err) {
         console.error(err);
         alert(err);
@@ -38,18 +44,15 @@ const register = async (regEmail, username, password) => {
 };
 
 // Reset password
-const resetPassword = async (email) => {
+const resetPassword = async email => {
     try {
         await sendPasswordResetEmail(auth, email);
-        alert("Password reset link sent!");
-    }
-    catch (error) {
+        alert('Password reset link sent!');
+    } catch (error) {
         console.error(error);
         alert(error.message);
     }
-
-}
-
+};
 // Log in
 const logIn = async (newEmail, username, password) => {
     try {
@@ -62,15 +65,15 @@ const logIn = async (newEmail, username, password) => {
 
 // Log out
 const logOut = () => {
-    signOut(auth);
-}
+signOut(auth);
+} 
 
 // Remove
 const remove = async () => {
     try {
         const user = auth.currentUser;
         await deleteUser(user);
-        let url = new URL("/api/user/remove");
+        let url = new URL('/api/user/remove');
         let param = new URLSearchParams(`email=${user.email}`);
         url.searchParams = param;
         const removeFromDb = await fetch(url);
@@ -79,13 +82,13 @@ const remove = async () => {
         console.error(err);
         alert(err.message);
     }
-}
+};
 
 export {
     auth,
     register,
     remove,
     logIn,
-    logOut,
-    resetPassword
-}
+    /* logOut, */
+    resetPassword,
+};
