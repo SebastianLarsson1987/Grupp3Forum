@@ -1,6 +1,13 @@
 <template>
   <div>
   <div>
+    <nav id="register">
+      <!-- <i class=""></i> add some icons -->
+      <router-link :to="'/Register'">Bli medlem</router-link>
+      <router-link :to="'/LogIn'">Logga In</router-link>
+    </nav>
+  </div>
+  <div>
     <h1>Hej och välkommen till FORUM.3</h1>
     <p>
       The best communication platform connecting minds around the globe
@@ -61,6 +68,12 @@ li {
 }
 a {
   color: #FB8500;
+}
+nav {
+  display: block;
+}
+#register {
+    display: inline-block;
 }
 
 </style>
