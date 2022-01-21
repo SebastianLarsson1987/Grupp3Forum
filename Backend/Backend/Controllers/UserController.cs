@@ -20,14 +20,15 @@ namespace Backend.Controllers
             _db = new grupp3forumContext();
         }
 
+#nullable enable
         [HttpGet("Get")]
-        public async Task<IEnumerable<User>> Get(int? id)
+        public async Task<IEnumerable<User>> Get(string? id)
         {
             if(id== null) 
                 return await _userService.GetAllUser();
-            return new List<User>() { GetOneUser(id.Value) };
+            return new List<User>() { _userService.GetOneUser(id)};
         }
-
+#nullable disable
         [HttpPost("Add")]
         public async Task<User> AddUser(AddUserViewModel model)
         {
@@ -44,9 +45,9 @@ namespace Backend.Controllers
         }
 
         [HttpGet("GetUser")]
-        public User GetOneUser(int id)
+        public User GetOneUser(string email)
         {
-            var oneUser = _userService.GetOneUser(id);
+            var oneUser = _userService.GetOneUser(email);
             return oneUser;
         }
 

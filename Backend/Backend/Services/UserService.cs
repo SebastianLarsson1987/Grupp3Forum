@@ -22,8 +22,8 @@ namespace Backend.Services
             return await _Db.Users.ToListAsync();
         }
 
-        public User GetOneUser(int id)
-        { return _Db.Users.FirstOrDefault(x => x.Id == id); }
+        public User GetOneUser(string email)
+        { return _Db.Users.FirstOrDefault(x => x.Email == email); }
 
         public async Task<bool> UpdateUser(User user)
         {

@@ -18,9 +18,9 @@ const store = createStore({
             let name = 'Vue with vuex'
             commit('setName', name)
         },
-        async getUser({ commit }, id) {
+        async getUser({ commit }, email) {
             let url = new URL("/api/user/get")
-            let param = new URLSearchParams(`id=${id}`);
+            let param = new URLSearchParams(`email=${email}`);
             url.searchParams = param;
             const user = fetch(url);
             commit("setUser", user);
