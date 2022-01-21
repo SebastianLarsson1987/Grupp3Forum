@@ -2,7 +2,7 @@
     <div class="form">
         <form class="userprofile-form">
             <div class="userprofile-form-grid1">
-                
+                 <img src="../assets/emptyavatar2.png" alt="">
             </div>
             <div class="userprofile-form-grid2">
                 <div class="userprofile-form-grid2-button">
@@ -104,6 +104,15 @@ export default {
         grid-row: 1;
         border-right: 1px solid black;
 
+    }
+    
+    .userprofile-form-grid1>img{
+        width: 200px;
+        height: 200px;
+        display:block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2vh;
     }
 
     .userprofile-form-grid2{

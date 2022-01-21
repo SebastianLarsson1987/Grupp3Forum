@@ -2,7 +2,7 @@
     <div class="form">
         <form class="userprofile-form">
             <div class="userprofile-form-grid1">
-                
+                <img src="../assets/emptyavatar2.png" alt="">
             </div>
             <div class="userprofile-form-grid2">
                 <div class="userprofile-form-grid2-button-amountOfPosts">
@@ -23,7 +23,6 @@
                         <li class="userprofile-form-grid4-list">
                             <p>Inlägg skapat: {{post.createdAt}}</p>
                             <p>Inlägg uppdaterat: {{post.updatedAt}}</p>
-                            <p>{{post.id}}</p>
                             <textarea v-bind:disabled="isDisabled" class="userprofile-form-grid4-textarea" rows="4" cols="50" v-model="post.text"></textarea>
                             <div>
                                 <button>Ta bort</button>
@@ -127,6 +126,14 @@ export default {
 
     }
 
+    .userprofile-form-grid1>img{
+        width: 200px;
+        height: 200px;
+        display:block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 2vh;
+    }
     .userprofile-form-grid2{
         grid-column: 2;
         grid-row: 1;
