@@ -1,21 +1,16 @@
 <template>
-
-
-  <div class="card">
-    <h5 class="card-header">Dashboard</h5>
-    <br>
-    <div class="card-body">
-      <h5 class="card-title">
-        {{user.displayName
-              }}
-              </h5>
-            <p class="card-text">{{user.email}}</p>
-            <a href="#" class="btn btn-primary" @click="signOut()">Signout</a>
-        </div>
+    <div class="card">
+      <h5 class="card-header">Dashboard</h5>
+        <br>
+          <div class="card-body">
+            <h5 class="card-title">
+            {{user.displayName
+            }}
+            </h5>
+             <p class="card-text">{{user.email}}</p>
+              <a href="#" class="btn btn-primary" @click="signOut()">Signout</a>
+          </div>
     </div>
-
-
-
 </template>
 
 <script>

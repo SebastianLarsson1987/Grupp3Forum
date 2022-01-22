@@ -76,10 +76,12 @@ export default {
                                 email: '',
                                 password: '',
                             };
+                            this.$router.push('/dashboard')
                         });
                 })
                 .catch(err => {
                     console.log(err);
+                    alert(err);
                 });
         },
     },
