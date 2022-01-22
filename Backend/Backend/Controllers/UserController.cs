@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Backend.Models.Database;
 using Backend.Services;
 using Backend.Models.ViewModels;
@@ -50,17 +51,36 @@ namespace Backend.Controllers
             var oneUser = _userService.GetOneUser(email);
             return oneUser;
         }
-
+        // TODO: Create backing for FirebaseId in database.
         [HttpPut("Update")]
-        public async Task<bool> UpdateUser(User user)
+        public async Task<bool> UpdateUser(UserUpdateRequest userUpdateRequest)
         {
-            return await _userService.UpdateUser(user: user);
+            try
+            {
+                var user = await _userService.GetOneUserByUId(userUpdateRequest.FirebaseId);
+                user.Email = userUpdateRequest.Email;
+                user.UserName = userUpdateRequest.UserName;
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         [HttpPost("Remove")]
         public void RemoveGuest(string email)
         {
             _userService.RemoveUser(email);
+        }
+
+        public class UserUpdateRequest
+        {
+            public string FirebaseId { get; set; }
+            public string UserName { get; set; }
+            public string Email { get; set; }
+
         }
     }
 }

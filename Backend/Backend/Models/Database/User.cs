@@ -20,6 +20,11 @@ namespace Backend.Models.Database
         public bool Banned { get; set; }
         public int RoleId { get; set; }
 
+        /// <summary>
+        /// Unique user id from Firebase
+        /// </summary>
+        public string UniqueId { get; set; }
+
         public virtual Role Role { get; set; }
         public virtual ICollection<MessageReply> MessageReplies { get; set; }
         public virtual ICollection<Message> Messages { get; set; }

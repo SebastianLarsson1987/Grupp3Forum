@@ -139,6 +139,7 @@ namespace Backend.Models.Database
                 entity.Property(e => e.UserName)
                     .IsRequired()
                     .IsUnicode(false);
+                entity.Property(u => u.UniqueId).IsRequired();
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)

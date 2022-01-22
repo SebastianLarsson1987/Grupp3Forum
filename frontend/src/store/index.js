@@ -24,6 +24,13 @@ const store = createStore({
             url.searchParams = param;
             const user = fetch(url);
             commit("setUser", user);
+        },
+        async getUserById({ commit }, id) {
+            let url = new URL("/api/user/get")
+            let param = new URLSearchParams(`id=${id}`);
+            url.searchParams = param;
+            const user = fetch(url);
+            commit("setUser", user);
         }
     }
 })

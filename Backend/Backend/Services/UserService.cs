@@ -25,6 +25,16 @@ namespace Backend.Services
         public User GetOneUser(string email)
         { return _Db.Users.FirstOrDefault(x => x.Email == email); }
 
+        public User GetOneUser(int id)
+        {
+            return _Db.Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public async Task<User> GetOneUserByUId(string uid)
+        {
+            return await _Db.Users.SingleAsync(u => u.UniqueId == uid);
+        }
+
         public async Task<bool> UpdateUser(User user)
         {
             try
@@ -45,9 +55,12 @@ namespace Backend.Services
         {
             const string deleted = "deleted";
             var customer = _Db.Users.SingleOrDefault(x => x.Email == email);
-            customer.Banned = false;
-            customer.Email = deleted;
-            customer.UserName = deleted;
+            if (customer!=null)
+            {
+                customer.Banned = false;
+                customer.Email = deleted;
+                customer.UserName = deleted;
+            }
 
             _Db.SaveChanges();
                 
