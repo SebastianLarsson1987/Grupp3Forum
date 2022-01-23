@@ -105,7 +105,7 @@ export default {
         border-right: 1px solid black;
 
     }
-    
+
     .userprofile-form-grid1>img{
         width: 200px;
         height: 200px;
@@ -155,6 +155,11 @@ export default {
     .userprofile-form-grid3-contentNavbar{
         display:flex;
         flex-direction: column;
+    }
+
+    .userprofile-form-grid3-contentNavbar>a{
+        text-decoration: none;
+        font-size: 150%;
     }
 
     .userprofile-form-grid4{

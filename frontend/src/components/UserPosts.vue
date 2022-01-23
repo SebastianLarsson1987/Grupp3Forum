@@ -5,8 +5,11 @@
                 <img src="../assets/emptyavatar2.png" alt="">
             </div>
             <div class="userprofile-form-grid2">
+                <div class="userprofile-form-grid2-searchbar" >
+                    <input type="text" placeholder="Sök efter meddelande..." v-model="keyword">
+                </div>
                 <div class="userprofile-form-grid2-button-amountOfPosts">
-                    <p>Antal inlägg:</p>
+                    
                 </div>
             </div>
             <div class="userprofile-form-grid3">
@@ -19,16 +22,16 @@
             </div>
             <div class="userprofile-form-grid4">
                 <div class="userprofile-form-grid4-wrapperscroll">
-                    <ul class="userprofile-form-grid4-ul" v-for="post in userPosts" :key="post.userId">
+                    <ul class="userprofile-form-grid4-ul" v-for="(post, index) in localPosts" :key="index">
                         <li class="userprofile-form-grid4-list">
                             <p>Inlägg skapat: {{post.createdAt}}</p>
                             <p>Inlägg uppdaterat: {{post.updatedAt}}</p>
-                            <textarea v-bind:disabled="isDisabled" class="userprofile-form-grid4-textarea" rows="4" cols="50" v-model="post.text"></textarea>
-                            <div>
+                            <textarea v-bind:disabled="post.isDisabled" class="userprofile-form-grid4-textarea" rows="4" cols="50" v-model="post.text"></textarea>
+                            <div class="userprofile-form-grid4-buttons">
                                 <button>Ta bort</button>
-                                <button type="button" @click="edit">Redigera</button>
+                                <button type="button" @click="post.isDisabled = false">Redigera</button>
                                 <button @click="putMessageText(post.id, post.text)">Spara</button>
-                                <button @click="cancel">Avbryt</button>
+                                <button @click="post.isDisabled = true">Avbryt</button>
                             </div>
                         </li> 
                     </ul>
@@ -48,51 +51,57 @@ export default {
     },
     data(){
         return{
-            isDisabled: true
+            isDisabled: true,
+            keyword: ""
+            
         }
     },
     computed:{
         userPosts(){
             return this.$store.state.userPosts;
         },
-        
-        
-    },
-    methods:{
-        toggleReadOnly(){
-            this.isReadOnly = !this.isReadOnly
-            console.log(this.isReadOnly)
-        },
 
-        edit(){
-            this.isDisabled = !this.isDisabled;
-        },
-        
-        cancel(){
-            this.isDisabled = true;
-        },
-
-        getUserPosts(){
-            return this.$store.dispatch('getUserPosts', this.$route.params.id)
-
-        },
-        
-        putMessageText(id, text){
-            this.isDisabled = true;
-            return this.$store.dispatch('putMessageText', {id, text})
+        localPosts(){
+            if(this.keyword){
+                return this.$store.state.localPosts.filter(item => {
+                    return this.keyword
+                    .toLowerCase()
+                    .split(" ")
+                    .every(v => item.text.toLowerCase().includes(v));
+                })
+            }
+            else{
+                return this.$store.state.localPosts;
+            }
             
         }
 
+
+    },
+    methods:{
         
+        getUserPosts(){
+            return this.$store.dispatch('getUserPosts', this.$route.params.id)
+        },
+        
+        putMessageText(id, text){
+            return this.$store.dispatch('putMessageText', {id, text})
+        },
+
+       
 
     },
     created(){
 
         this.getUserPosts();
-        console.log(this.$route.params.id)
-       
+        
+    },
+
+    mounted(){
+        
         
     }
+   
     
 }
 
@@ -134,6 +143,7 @@ export default {
         margin-right: auto;
         margin-top: 2vh;
     }
+
     .userprofile-form-grid2{
         grid-column: 2;
         grid-row: 1;
@@ -141,15 +151,19 @@ export default {
        
     }
 
-    .userprofile-form-grid2-button{
-        float:right;
-        margin-right: 2vw;
-        margin-top: 2vh;
-    }
 
     .userprofile-form-grid2-button-amountOfPosts{
         margin-top: 15vh;
         margin-left: 2vw;
+    }
+
+    .userprofile-form-grid2-searchbar>input{
+        display:block;
+        margin: 0 auto;
+        margin-top: 2vh;
+        width:60%;
+        padding: 1vw;
+        border-radius: 20px;
     }
 
     .userprofile-form-grid3{
@@ -174,7 +188,22 @@ export default {
     .userprofile-form-grid3-contentNavbar{
         display:flex;
         flex-direction: column;
+        
+        
     }
+
+    .userprofile-form-grid3-contentNavbar>a{
+        text-decoration: none;
+        font-size: 150%;
+        
+        
+    }
+
+    .userprofile-form-grid3-contentNavbar>a:active{
+        color:dodgerblue;
+    }
+    
+
 
     .userprofile-form-grid4{
         grid-column: 2;
@@ -207,5 +236,49 @@ export default {
     .userprofile-form-grid4-ul{
         padding: 2vw;
     }
+
+    .userprofile-form-grid4-buttons>button{
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        border: 1px solid #7aa7c7;
+        box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #39739d;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+        margin-right: 1vw;
+    }
+
+    .userprofile-form-grid4-buttons>button:hover,
+    .userprofile-form-grid4-buttons>button:focus {
+        background-color: #b3d3ea;
+        color: #2c5777;
+    }
+
+    .userprofile-form-grid4-buttons>button:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    }
+
+    .userprofile-form-grid4-buttons>button:active {
+        background-color: #a0c7e4;
+        box-shadow: none;
+        color: #2c5777;
+    }
+    
 
 </style>

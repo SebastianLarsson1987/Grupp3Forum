@@ -5,7 +5,8 @@ import axios from 'axios'
 const store = createStore({
   state:{
        name: "Vue",
-       userPosts: {},
+       userPosts: [],
+       localPosts: [],
         text: ""
        
   },
@@ -14,9 +15,6 @@ const store = createStore({
           state.name = x
       },
 
-      ADD_POSTS(state, post){
-          state.userPosts.push(post)
-      }
   },
   actions:{
        async ({commit}){
@@ -31,7 +29,11 @@ const store = createStore({
             })
             .then(result => {
                 this.state.userPosts = result.data;
+                this.state.localPosts = this.state.userPosts.map(e=> {
+                    return {...e, isDisabled: true}
+                })
                 console.log(this.state.userPosts)
+                console.log(this.state.localPosts)
             })
             .catch(error => {
                 console.log(error)
