@@ -21,11 +21,19 @@ const router = new VueRouter({
       name: 'register-user',
       component: () => import('./components/RegisterComponent.vue')
     },    
+
+    { 
+      path: '/gdpr',
+      name: 'gdpr',
+      component: () => import('./components/GDPRComponent.vue')
+    }, 
+  
     { 
       path: '/signin',
       name: 'signin',
       component: () => import('./components/LoginComponent.vue')
     },
+
     { 
       path: '/forum',
       name: 'forum',
@@ -34,6 +42,7 @@ const router = new VueRouter({
         authRequired: true,
       },
     },
+
     { 
       path: '/dashboard',
       name: 'dashboard',

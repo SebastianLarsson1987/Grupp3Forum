@@ -22,6 +22,17 @@ Login</h5>
                     <input type="submit" class="btn btn-primary btn-lg btn-block" value="Login"/>
                 </div>
             </form>
+                <div style="position:absolute;"  >
+ 
+                <router-link style="color:black;"  class="nav-link link-light" to="/gdpr">
+                     <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDisabled" id="flexRadioCheckedDisabled" checked disabled>
+                    <label class="form-check-label" for="flexRadioCheckedDisabled">
+                    By clicking submit you agree to the privacy policy. Read more - GDPR
+                </label>
+                </div>
+                </router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -41,7 +52,7 @@ export default {
     onSubmit() {
       firebase.auth()
       .signInWithEmailAndPassword(this.user.email, this.user.password).then(() => {
-        this.$router.push('/dashboard')
+        this.$router.push('/forum')
        })
       .catch((err) => {
          console.log(err);

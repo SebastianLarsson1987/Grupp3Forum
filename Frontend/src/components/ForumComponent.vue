@@ -7,7 +7,7 @@
       Forum 
       </h5>
       <br>
-      <h6 style="text-align:center">Welcome to the forum  {{user.displayName}} ! If you see this page, then you are already logged in.</h6>
+      <h6 style="text-align:center">Välkommen till forumet {{user.displayName}}! Om du kan se den här sidan är du redan inloggad!</h6>
       <br>
       <br>
       <br>

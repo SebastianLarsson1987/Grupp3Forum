@@ -15,6 +15,7 @@
               <a href="#" class="btn btn-primary" @click="signOut()">Signout</a>
           </div>
     </div>
+    
 </template>
 
 <script>
