@@ -15,9 +15,15 @@
             <div class="userprofile-form-grid3">
                 <h2>Innehåll</h2>
                 <nav class="userprofile-form-grid3-contentNavbar">
-                    <router-link to="/userposts">Inlägg</router-link>
-                    <router-link to="#">Grupper</router-link>
-                    <router-link to="/profilesettings">Profilinställningar</router-link>
+                    <div>
+                        <router-link to="/userposts">Inlägg</router-link>
+                    </div>
+                    <div>
+                         <router-link to="#">Grupper</router-link>
+                    </div>
+                    <div>
+                        <router-link to="/profilesettings">Profilinställningar</router-link>
+                    </div>
                 </nav>
             </div>
             <div class="userprofile-form-grid4">
@@ -87,6 +93,9 @@ export default {
         putMessageText(id, text){
             return this.$store.dispatch('putMessageText', {id, text})
         },
+
+        
+
 
        
 
@@ -171,6 +180,10 @@ export default {
         grid-row: 2;
         border-right: 1px solid black;
         border-top: 1px solid black;
+        background-color: dodgerblue;
+        border-bottom-left-radius: 20px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
     }
 
     .userprofile-form-grid3>h2{
@@ -181,27 +194,35 @@ export default {
         
     }
 
-    .userprofile-form-grid3>nav>a{
-        margin-left: 2vw;
-    }
-
     .userprofile-form-grid3-contentNavbar{
         display:flex;
         flex-direction: column;
         
         
-    }
-
-    .userprofile-form-grid3-contentNavbar>a{
-        text-decoration: none;
-        font-size: 150%;
         
     }
 
+    .userprofile-form-grid3-contentNavbar>div>a{
+        text-decoration: none;
+        color: white;
+        font-size: 150%;
+        margin-left: 2vw;
+        
+    }
+
+    .userprofile-form-grid3>h2{
+        color:white;
+    }
+
     .userprofile-form-grid3-contentNavbar>a:active{
-        color:dodgerblue;
+        color:#7aa7c7;
     }
     
+    .userprofile-form-grid3-contentNavbar>div:hover    {
+        background-color:#7aa7c7;
+        border-radius: 20px;
+        width:100%;
+    }
 
 
     .userprofile-form-grid4{
@@ -211,6 +232,8 @@ export default {
         border-top: 1px solid black;
         background-color: dodgerblue;
         border-bottom-right-radius: 20px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
         
     }
 

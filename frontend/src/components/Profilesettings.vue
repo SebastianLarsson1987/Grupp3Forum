@@ -15,9 +15,15 @@
             <div class="userprofile-form-grid3">
                 <h2>Innehåll</h2>
                 <nav class="userprofile-form-grid3-contentNavbar">
-                    <router-link to="/userposts">Inlägg</router-link>
-                    <router-link to="#">Grupper</router-link>
-                    <router-link to="/profilesettings">Profilinställningar</router-link>
+                    <div>
+                        <router-link to="/userposts">Inlägg</router-link>
+                    </div>
+                    <div>
+                         <router-link to="#">Grupper</router-link>
+                    </div>
+                    <div>
+                        <router-link to="/profilesettings">Profilinställningar</router-link>
+                    </div>
                 </nav>
             </div>
             <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
@@ -156,6 +162,10 @@ export default {
         grid-row: 2;
         border-right: 1px solid black;
         border-top: 1px solid black;
+        background-color: dodgerblue;
+        border-bottom-left-radius: 20px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
     }
 
     .userprofile-form-grid3>h2{
@@ -163,10 +173,12 @@ export default {
         text-align: center;
         margin-top: 2vh;
         margin-bottom: 2vh;
+        color:white;
+        
         
     }
 
-    .userprofile-form-grid3>nav>a{
+    .userprofile-form-grid3>nav>div>a{
         margin-left: 2vw;
     }
 
@@ -175,9 +187,16 @@ export default {
         flex-direction: column;
     }
 
-    .userprofile-form-grid3-contentNavbar>a{
+    .userprofile-form-grid3-contentNavbar>div>a{
         text-decoration: none;
         font-size: 150%;
+        color:white;
+    }
+
+    .userprofile-form-grid3-contentNavbar>div:hover    {
+        background-color:#7aa7c7;
+        border-radius: 20px;
+        width:100%;
     }
 
     .userprofile-form-grid4{
@@ -185,6 +204,10 @@ export default {
         grid-row: 2;
         border-left: 1px solid black;
         border-top: 1px solid black;
+        background-color: dodgerblue;
+        border-bottom-right-radius: 20px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
         
     }
 
@@ -196,6 +219,8 @@ export default {
         margin-right: 2vw;
         margin-left: 2vw;
         margin-top: 2vh;
+        color:white;
+        font-size: 120%;
     }
     .userprofile-form-grid4-username>input{
         width: 60%;
@@ -208,6 +233,8 @@ export default {
         margin-bottom: 2vh;
         margin-right: 2vw;
         margin-left: 2vw;
+        color:white;
+        font-size: 120%;
     }
 
     .userprofile-form-grid4-email>input{
@@ -221,6 +248,8 @@ export default {
         margin-bottom: 2vh;
         margin-right: 2vw;
         margin-left: 2vw;
+        color:white;
+        font-size: 120%;
     }
 
     .userprofile-form-grid4-password>input{
@@ -234,6 +263,8 @@ export default {
         margin-bottom: 2vh;
         margin-right: 2vw;
         margin-left: 2vw;
+        color:white;
+        font-size: 120%;
     }
 
     .userprofile-form-grid4-verify>input{
@@ -244,11 +275,54 @@ export default {
         display:flex;
         flex-direction: row;
         justify-content: center;
-        margin-top: 20vh;
+        margin-top: 15vh;
     }
     
     .userprofile-form-grid4-buttons>button:nth-child(2){
         margin-left: 1vw;
+    }
+
+    .userprofile-form-grid4-buttons>button{
+        background-color: #e1ecf4;
+        border-radius: 3px;
+        border: 1px solid #7aa7c7;
+        box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+        box-sizing: border-box;
+        color: #39739d;
+        cursor: pointer;
+        display: inline-block;
+        font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.15385;
+        margin: 0;
+        outline: none;
+        padding: 8px .8em;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        vertical-align: baseline;
+        white-space: nowrap;
+        margin-right: 0.5vw;
+    }
+
+    .userprofile-form-grid4-buttons>button:hover,
+    .userprofile-form-grid4-buttons>button:focus {
+        background-color: #b3d3ea;
+        color: #2c5777;
+    }
+
+    .userprofile-form-grid4-buttons>button:focus {
+        box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+    }
+
+    .userprofile-form-grid4-buttons>button:active {
+        background-color: #a0c7e4;
+        box-shadow: none;
+        color: #2c5777;
     }
    
 </style>
