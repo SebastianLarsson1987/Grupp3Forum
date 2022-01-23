@@ -196,7 +196,6 @@ export default {
         text-decoration: none;
         font-size: 150%;
         
-        
     }
 
     .userprofile-form-grid3-contentNavbar>a:active{
@@ -261,7 +260,7 @@ export default {
         touch-action: manipulation;
         vertical-align: baseline;
         white-space: nowrap;
-        margin-right: 1vw;
+        margin-right: 0.5vw;
     }
 
     .userprofile-form-grid4-buttons>button:hover,

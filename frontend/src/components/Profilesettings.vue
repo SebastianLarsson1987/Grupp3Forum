@@ -6,10 +6,10 @@
             </div>
             <div class="userprofile-form-grid2">
                 <div class="userprofile-form-grid2-button">
-                    <button type="button" @click="toggleReadOnly">Redigera Profil</button>
+                    <button type="button" @click="edit">Redigera Profil</button>
                 </div>
                 <div class="userprofile-form-grid2-button-amountOfPosts">
-                    <p>Antal inlägg:</p>
+                    
                 </div>
             </div>
             <div class="userprofile-form-grid3">
@@ -20,26 +20,31 @@
                     <router-link to="/profilesettings">Profilinställningar</router-link>
                 </nav>
             </div>
-            <div class="userprofile-form-grid4">
-                <div class="userprofile-form-grid4-username">
-                    <p>Användarnamn</p>
-                    <input type="text" placeholder="Användarnamn" v-bind:disabled="isReadOnly">
+            <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
+                <div class="userprofile-form-grid4-banned" v-if="item.banned">
+                    <h2>This user is banned</h2>
                 </div>
-                <div class="userprofile-form-grid4-email">
-                    <p>Email</p>
-                    <input type="text" placeholder="Email" v-bind:disabled="isReadOnly">
-                </div>
-                <div class="userprofile-form-grid4-password">
-                    <p>Lösenord</p>
-                    <input type="password" placeholder="Lösenord" v-bind:disabled="isReadOnly">
-                </div>
-                <div class="userprofile-form-grid4-verify">
-                    <p>Bekräfta lösenord*</p>
-                    <input type="password" placeholder="Bekräfta lösenord" v-bind:disabled="isReadOnly">
-                </div>
-                <div class="userprofile-form-grid4-buttons">
-                    <button @click="save">Spara</button>
-                    <button>Avbryt</button>
+                <div v-else>
+                    <div class="userprofile-form-grid4-username">
+                        <p>Användarnamn</p>
+                        <input type="text" placeholder="Användarnamn" v-bind:disabled="isReadOnly" v-model="item.userName">
+                    </div>
+                    <div class="userprofile-form-grid4-email">
+                        <p>Email</p>
+                        <input type="text" placeholder="Email" v-bind:disabled="isReadOnly" v-model="item.email">
+                    </div>
+                    <div class="userprofile-form-grid4-password">
+                        <p>Lösenord</p>
+                        <input type="password" placeholder="Lösenord" v-bind:disabled="isReadOnly">
+                    </div>
+                    <div class="userprofile-form-grid4-verify">
+                        <p>Bekräfta lösenord*</p>
+                        <input type="password" placeholder="Bekräfta lösenord" v-bind:disabled="isReadOnly">
+                    </div>
+                    <div class="userprofile-form-grid4-buttons">
+                        <button  @click="putUser($route.params.id, item.email, item.userName)">Spara</button>
+                        <button @click="cancel">Avbryt</button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -60,18 +65,31 @@ export default {
         }
     },
     computed:{
-        
+            user(){
+                return this.$store.state.user;
+            }
     },
     methods:{
-        toggleReadOnly(){
-            this.isReadOnly = !this.isReadOnly
-            console.log(this.isReadOnly)
+        edit(){
+            this.isReadOnly = false
         },
 
-        save(){
+        cancel(){
+            this.isReadOnly = true;
+        },
+
+        getUser(){
+            return this.$store.dispatch('getOneUser', this.$route.params.id)
+        },
+
+        putUser(id, email, userName){
             this.isReadOnly = true
+            return this.$store.dispatch('editUser', {id, email, userName});
         }
-        
+    },
+
+    created(){
+        this.getUser();
     }
     
 }

@@ -7,7 +7,8 @@ const store = createStore({
        name: "Vue",
        userPosts: [],
        localPosts: [],
-        text: ""
+       user: [],
+        text: "",
        
   },
   mutations:{
@@ -51,6 +52,35 @@ const store = createStore({
         .catch(error => {
             console.log(error)
         })
+       },
+
+       getOneUser(_,id){
+           axios
+           .get(`https://localhost:44362/api/User/GetOneUser?id=`+ id, {
+
+           })
+           .then(result => {
+               this.state.user.push(result.data)
+               console.log(this.state.user)
+           })
+           .catch(error => {
+               console.log(error)
+           })
+
+       },
+
+       editUser(_, {id, email, userName}){
+           
+           axios
+           .put(`https://localhost:44362/api/User/EditUser/`+id +'?' +'email='+email + '&UserName='+userName, {
+               
+           })
+           .then(response =>{
+               console.log(response)
+           })
+           .catch(error => {
+               console.log(error)
+           })
        }
 
        

@@ -58,12 +58,18 @@ namespace BackEnd.Controllers
 
         }
 
-        [HttpDelete("DeletUser")]
+        [HttpDelete("DeleteUser")]
         public void DeleteUser(string email)
         {
             var user = _db.Users.FirstOrDefault(x => x.Email == email);
             _db.Users.Remove(user);
             _db.SaveChanges();
+        }
+
+        [HttpPut("EditUser/{id}")]
+        public async Task<ActionResult<User>> EditUserDetails(int id, string email, string UserName)
+        {
+            return await _userService.EditUserDetails(id, email, UserName);
         }
 
     }

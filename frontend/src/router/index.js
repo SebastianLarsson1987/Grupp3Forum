@@ -5,7 +5,7 @@ import Profilesettings from '../components/Profilesettings.vue'
 
 const routes = [
   {
-      path: '/profilesettings',
+      path: '/profilesettings/:id',
       name: 'Profilesettings',
       component: Profilesettings
   },

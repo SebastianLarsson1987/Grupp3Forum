@@ -39,6 +39,10 @@ namespace Backend.Services
             var msg = new Message() { Id = id, Text = text };
             _Db.Messages.Attach(msg);
             _Db.Entry(msg).Property(x => x.Text).IsModified = true;
+            if (_Db.Entry(msg).Property(x=> x.Text).IsModified)
+            {
+                msg.UpdatedAt = DateTime.Now;
+            }
             await _Db.SaveChangesAsync();
 
             return msg;
