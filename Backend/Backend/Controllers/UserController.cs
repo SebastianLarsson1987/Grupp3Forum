@@ -56,8 +56,17 @@ namespace Backend.Controllers
 
         [HttpPost("Remove")]
         public void RemoveGuest(string email)
+        [HttpDelete("DeleteUser")]
+        public void DeleteUser(string email)
         {
             _userService.RemoveUser(email);
         }
+
+        [HttpPut("EditUser/{id}")]
+        public async Task<ActionResult<User>> EditUserDetails(int id, string email, string UserName)
+        {
+            return await _userService.EditUserDetails(id, email, UserName);
+        }
+
     }
 }
