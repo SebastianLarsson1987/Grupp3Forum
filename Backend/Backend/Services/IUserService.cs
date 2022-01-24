@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BackEnd.Services
+namespace Backend.Services
 {
     public interface IUserService
     {
-        IEnumerable<User> GetAllUser();
+        Task<IEnumerable<User>> GetAllUser();
         User GetOneUser(int id);
         void RemoveUser(string email);
+        Task<bool> UpdateUser(User user);
     }
 }

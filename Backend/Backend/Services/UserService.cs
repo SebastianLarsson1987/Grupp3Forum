@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
-namespace BackEnd.Services
+namespace Backend.Services
 {
     public class UserService : IUserService
     {
+
         private readonly grupp3forumContext _Db;
 
         public UserService()
@@ -15,15 +17,30 @@ namespace BackEnd.Services
             _Db = new grupp3forumContext();
         }
 
-        public IEnumerable<User> GetAllUser()
+        public async Task<IEnumerable<User>> GetAllUser()
         {
-            return _Db.Users.Where(x => x.UserName == "Larzzons");
+            return await _Db.Users.ToListAsync();
         }
 
         public User GetOneUser(int id)
+        { return _Db.Users.FirstOrDefault(x => x.Id == id); }
+
+        public async Task<bool> UpdateUser(User user)
         {
-            return _Db.Users.FirstOrDefault(x => x.Id == id);
+            try
+            {
+                _Db.Entry(user).State = EntityState.Modified;
+                await _Db.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
+
         public void RemoveUser(string email)
         {
             const string deleted = "deleted";
@@ -33,7 +50,8 @@ namespace BackEnd.Services
             customer.UserName = deleted;
 
             _Db.SaveChanges();
-        }
-        
+                
+            }
+
     }
 }

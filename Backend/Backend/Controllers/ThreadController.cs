@@ -1,6 +1,6 @@
 ﻿using Backend.Models.Database;
-using BackEnd.Models.ViewModels;
-using BackEnd.Services;
+using Backend.Models.ViewModels;
+using Backend.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace BackEnd.Controllers
+namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
