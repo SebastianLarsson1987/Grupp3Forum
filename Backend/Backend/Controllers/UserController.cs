@@ -56,6 +56,10 @@ namespace Backend.Controllers
 
         [HttpPost("Remove")]
         public void RemoveGuest(string email)
+        {
+            _userService.RemoveUser(email);
+        }
+            
         [HttpDelete("DeleteUser")]
         public void DeleteUser(string email)
         {
