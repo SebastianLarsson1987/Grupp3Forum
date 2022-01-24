@@ -198,8 +198,6 @@ export default {
         display:flex;
         flex-direction: column;
         
-        
-        
     }
 
     .userprofile-form-grid3-contentNavbar>div>a{
