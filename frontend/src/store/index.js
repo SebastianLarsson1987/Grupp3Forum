@@ -18,14 +18,15 @@ const store = createStore({
           state.name = x
       },
 
-  },
+
       setCategories(state, data){
           state.categories = data
       },
       setAllCategoriesAndThreads(state, data){
         state.AllCategoriesAndThreads = data
       }
-  },
+    },
+  
   actions:{
        async ({commit}){
            let name = 'Vue with vuex'
@@ -90,7 +91,7 @@ const store = createStore({
            .catch(error => {
                console.log(error)
            })
-       }
+       },
 
        
       async fetchCategories({commit}){
