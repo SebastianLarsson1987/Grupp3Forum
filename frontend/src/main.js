@@ -1,79 +1,23 @@
-import Vue from 'vue';
+// import Vue from 'vue';
 import App from './App.vue';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import VueRouter from 'vue-router';
-Vue.use(VueRouter)
+import store from "./store/index"
+import router from "./router/index"
+import { createApp } from 'vue'
 
 
-// Routers
-const router = new VueRouter({
-  mode: 'history',
-  base: __dirname,
-  routes: [
-
-    { 
-      path: '/',
-      component: () => import('./components/HomeComponent.vue')
-    },  
-
-    { 
-      path: '/register-user',
-      name: 'register-user',
-      component: () => import('./components/RegisterComponent.vue')
-    },    
-
-    { 
-      path: '/gdpr',
-      name: 'gdpr',
-      component: () => import('./components/GDPRComponent.vue')
-    }, 
-  
-    { 
-      path: '/signin',
-      name: 'signin',
-      component: () => import('./components/LoginComponent.vue')
-    },
-
-    { 
-      path: '/forum',
-      name: 'forum',
-      component: () => import('./components/ForumComponent.vue'),
-      meta: {
-        authRequired: true,
-      },
-    },
-
-    { 
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('./components/DashboardComponent.vue'),
-      meta: {
-        authRequired: true,
-      },
-    }
-  ]
-});
-
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.authRequired)) {
-      if (firebase.auth().currentUser) {
-          next();
-      } else {
-          alert('You must be logged in to see this page');
-          next({
-              path: '/',
-          });
-      }
-  } else {
-      next();
-  }
-});
-
-export default router;
+// new Vue({
+//   router,
+//   render: h => h(App)
+// }).$mount('#app')
 
 
 
-// Database connection
+
+
+
+
+//Database connection
 import firebase from 'firebase/app';
 
 const firebaseConfig = {
@@ -87,8 +31,4 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 
-
-new Vue({
-  router,
-  render: h => h(App)
-}).$mount('#app')
+createApp(App).use(store).use(router).mount('#app')
