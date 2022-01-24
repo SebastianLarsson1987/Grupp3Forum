@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models.Database;
 using Backend.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace Backend.Controllers
 {
@@ -22,6 +23,18 @@ namespace Backend.Controllers
         public async Task<ActionResult<Message>> DeleteMessage(int id)
         {
             return await _messageService.DeleteMessage(id);
+        }
+
+        [HttpGet("GetUserMessages/{id}")]
+        public async Task<IEnumerable<Message>> GetUserMessages(int id)
+        {
+            return await _messageService.GetUserMessages(id);
+        }
+
+        [HttpPut("EditUserMessage/{id}")]
+        public async Task<ActionResult<Message>> EditUserMessage(int id, string message)
+        {
+            return await _messageService.EditMessage(id, message);
         }
     }
 }

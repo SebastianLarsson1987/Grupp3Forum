@@ -92,3 +92,9 @@ new Vue({
   router,
   render: h => h(App)
 }).$mount('#app')
+import { createApp } from 'vue'
+import App from './App.vue'
+import store from "./store/index"
+import router from "../src/router/index"
+
+createApp(App).use(store).use(router).mount('#app')
