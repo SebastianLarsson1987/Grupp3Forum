@@ -35,8 +35,16 @@
 
             </div>
 
-        </div>
-        
+<script>
+import Main from './components/Main.vue'
+
+export default {
+  name: 'App',
+  components: {
+    Main
+  }
+}
+</script>
 
         <div class="container">
             <router-view></router-view>

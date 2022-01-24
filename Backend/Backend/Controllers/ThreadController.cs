@@ -50,7 +50,7 @@ namespace Backend.Controllers
             var newMessage = new Message()
             {
                 Text = model.Text,
-                CreatedAt = DateTime.Now,
+                CreatedAt = default,
                 UpdatedAt = default,
                 ThreadId = model.ThreadId,
                 UserId = model.UserId

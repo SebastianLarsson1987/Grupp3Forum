@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 #nullable disable
 
@@ -19,7 +20,9 @@ namespace Backend.Models.Database
         public int ThreadId { get; set; }
         public int UserId { get; set; }
 
+        [JsonIgnore]
         public virtual NewThread Thread { get; set; }
+        [JsonIgnore]
         public virtual User User { get; set; }
         public virtual ICollection<MessageReply> MessageReplies { get; set; }
     }
