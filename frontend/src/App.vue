@@ -1,14 +1,15 @@
 <template>
-  <WriteMessage/>
+  <Main/>
+  <p>{title}</p>
 </template>
 
 <script>
-import WriteMessage from './components/WriteMessage.vue'
+import Main from './components/Main.vue'
 
 export default {
   name: 'App',
   components: {
-    WriteMessage
+    Main
   }
 }
 </script>
