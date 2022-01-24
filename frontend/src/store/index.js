@@ -17,8 +17,6 @@ const store = createStore({
       setName(state, x){
           state.name = x
       },
-
-
       setCategories(state, data){
           state.categories = data
       },
