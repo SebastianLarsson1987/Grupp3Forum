@@ -122,7 +122,7 @@ export default {
 <style scoped>
 
     .form{
-        padding-top: 10vh;
+        padding-top: 5vh;
     }
 
      .userprofile-form{

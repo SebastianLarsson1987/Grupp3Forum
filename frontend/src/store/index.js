@@ -64,9 +64,7 @@ const store = createStore({
 
        getOneUser(_,id){
            axios
-           .get(`https://localhost:44362/api/User/GetOneUser?id=`+ id, {
-
-           })
+           .get(`https://localhost:44362/api/User/GetUser?id=`+ id)
            .then(result => {
                this.state.user.push(result.data)
                console.log(this.state.user)
