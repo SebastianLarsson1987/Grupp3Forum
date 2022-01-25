@@ -49,7 +49,7 @@ Register</h5>
                 <router-link style="color:black;"  class="nav-link link-light" to="/gdpr">
                      <div class="form-check">
                     <input class="form-check-input" type="radio" name="flexRadioDisabled" id="flexRadioCheckedDisabled" checked disabled>
-                    <label class="form-check-label" for="flexRadioCheckedDisabled">
+                    <label  class="form-check-label" for="flexRadioCheckedDisabled">
                     By clicking submit you agree to the privacy policy. Read more - GDPR
                 </label>
                 </div>
@@ -62,6 +62,7 @@ Register</h5>
 
 <script>
 import firebase from 'firebase';
+// import store from '../../store';
 
 export default {
     data() {
@@ -70,23 +71,25 @@ export default {
                 name: '',
                 email: '',
                 password: '',
+                id: '',
             },
         };
     },
     methods: {
         onSubmit() {
+            let credential = {email: this.user.email, name: this.user.name};
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(
                     this.user.email,
                     this.user.password
-                    
-                  
                 )
                 .then(response => {
                     response.user
+                    
                         .updateProfile({
                             displayName: this.user.name,
+                            
                         })
                         .then(() => {
                             alert('User successfully registered!');
@@ -97,13 +100,31 @@ export default {
                                 password: '',
                             };
                             this.$router.push('/dashboard')
+                            
                         });
                 })
                 .catch(err => {
                     console.log(err);
                     alert(err);
                 });
+             
+                this.addNewUser(credential)
+               
         },
+        async addNewUser(credentials){
+        console.log(credentials)
+        await fetch("https://localhost:44362/api/User/AddUser", {
+            method: 'POST',
+            headers:{
+            'Accept': 'application/json',
+            'Content-Type': "application/json"
+          },
+            body: JSON.stringify({email: credentials.email, userName: credentials.name})
+        })
+
+    }
+        
     },
+    
 };
 </script>
