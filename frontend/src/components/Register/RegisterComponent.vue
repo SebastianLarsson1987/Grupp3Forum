@@ -5,11 +5,11 @@
     <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
     <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
     </svg>
-            Register</h5>
+            Bli medlem</h5>
             <br>
             <form @submit.prevent="onSubmit">
             <div class="form-group mb-3">
-            <label><strong>UserName</strong></label>
+            <label><strong>Användarnamn</strong></label>
             <input
             type="text"
             class="form-control form-control-lg"
@@ -18,7 +18,7 @@
             </div>
 
             <div class="form-group mb-3">
-            <label><strong>Email</strong></label>
+            <label><strong>EPost</strong></label>
             <input
             type="email"
             class="form-control form-control-lg"
@@ -27,7 +27,7 @@
             </div>
 
             <div class="form-group mb-3">
-            <label><strong>Password</strong></label>
+            <label><strong>Lösenord</strong></label>
             <input
             type="password"
             class="form-control form-control-lg"
@@ -39,7 +39,7 @@
             <input
             type="submit"
             class="btn btn-primary btn-lg btn-block"
-            value="Register User"
+            value="Bli medlem"
             />
             </div>
             </form>
