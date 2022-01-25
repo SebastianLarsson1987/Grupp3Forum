@@ -3,6 +3,10 @@ import {ref, computed} from 'vue'
 export default function handlePagination(results){
     let page = ref(1);
 
+    let array = []
+
+    results = array;
+
     results.map((item) => {
         return { index: item, value: `this_${item}` };
       });

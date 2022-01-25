@@ -1,16 +1,16 @@
 <template>
     <div>
         <form class="categorythreads-wrapper-form"
-        v-for="oneCategeoryPlusThreads in categoryAndThreads" :key="oneCategeoryPlusThreads.id">
+        v-for="oneCategeoryPlusThreads in categoryAndThreadsComputed" :key="oneCategeoryPlusThreads.id">
             <div class="categorythreads-wrapper-form-header">
                 <h1>{{oneCategeoryPlusThreads.categoryName}}</h1>
             </div>
             <div class="categorythreads-wrapper-form-scroll">
                 <div class="categorythreads-wrapper-form-threads" 
-                v-for="thread in paginatedData" :key="thread.id">
+                v-for="thread in oneCategeoryPlusThreads.newThreads" :key="thread.id">
                     <ul class="categorythreads-wrapper-form-threads-unordered-list">
                         <li class="categorythreads-wrapper-form-threads-list">
-                            <router-link to="#" >{{thread.topic}}</router-link>
+                            <router-link :to="`/threadmessages/${thread.id}`" >{{thread.topic}}</router-link>
                             <i>Senast uppdaterad: {{thread.updatedAt}}</i>
                             <p>{{thread.text}}</p>
                         </li>
@@ -23,7 +23,7 @@
 
 <script>
 
-import handlePagination from '../handlePagination.js'
+//import handlePagination from '../handlePagination.js'
 
 export default {
 
@@ -40,7 +40,9 @@ export default {
         }
     },
     computed: {
-        
+        categoryAndThreadsComputed() {
+            return this.$store.state.oneCategoryAndThreads
+        }
     },
 
     setup() {
@@ -49,10 +51,10 @@ export default {
 
     methods: {
         async getCategoryAndThreads(id){
-            this.categoryAndThreads = await this.$store.dispatch('getCategoryThreadsPerCategoryId', id);
-            this.handlePaginationValue = handlePagination(this.categoryAndThreads)
-
-            return {...this.handlePaginationValue}
+            this.categoryAndThreadsComputed = await this.$store.dispatch('getCategoryThreadsPerCategoryId', id);
+            //this.handlePaginationValue = handlePagination(this.oneCategoryAndThreads)
+            
+            return this.categoryAndThreadsComputed
         },
 
     

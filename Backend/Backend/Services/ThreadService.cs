@@ -67,5 +67,12 @@ namespace Backend.Services
                 .Include(threads => threads.NewThreads);
             return result;
         }
+
+        public async Task<IEnumerable<NewThread>> GetMessagesAndThreadById(int id)
+        {
+            var result = _db.NewThreads.Where(x => x.Id == id)
+                .Include(messages => messages.Messages);
+            return result;
+        }
     }
 }

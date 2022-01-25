@@ -12,7 +12,8 @@ const store = createStore({
        
        categories: [],
        AllCategoriesAndThreads: [],
-       OneCategoryAndThreads: []
+       oneCategoryAndThreads: [],
+       oneThreadAndMessages: []
   },
   mutations:{
       setName(state, x){
@@ -23,7 +24,12 @@ const store = createStore({
       },
       setAllCategoriesAndThreads(state, data){
         state.AllCategoriesAndThreads = data
+      },
+      setOneThreadAndMessages(state,data){
+          state.oneThreadAndMessages = data
       }
+      
+
     },
   
   actions:{
@@ -94,8 +100,20 @@ const store = createStore({
            axios
            .get(`https://localhost:44362/api/Thread/GetCategoryPerId?id=${id}`)
            .then(response => {
-               this.state.OneCategoryAndThreads = response.data;
-               console.log(this.state.OneCategoryAndThreads)
+               this.state.oneCategoryAndThreads = response.data;
+               console.log(this.state.oneCategoryAndThreads)
+           })
+           .catch(error => {
+               console.log(error)
+           })
+       },
+
+       async getThreadAndMessagesById(_,id){
+           axios
+           .get(`https://localhost:44362/api/Thread/GetMessagesAndThreadById?id=${id}`)
+           .then(response => {
+                this.state.oneThreadAndMessages = response.data
+                console.log(this.state.oneThreadAndMessages)
            })
            .catch(error => {
                console.log(error)
