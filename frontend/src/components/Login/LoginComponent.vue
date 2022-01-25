@@ -38,6 +38,7 @@ Login</h5>
 </template>
 
 <script>
+
 import firebase from "firebase";
 export default {
   data() {
@@ -61,4 +62,6 @@ export default {
     }
   }
 };
+
+
 </script>
