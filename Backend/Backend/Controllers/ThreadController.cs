@@ -83,5 +83,12 @@ namespace Backend.Controllers
             var result = _threadService.GetAllMessagesFromThread(id);
             return result;
         }
+
+        [HttpGet("GetCategoryPerId")]
+        public async Task<IEnumerable<Category>> GetCategoryPerId(int id)
+        {
+            var result = _threadService.GetCategoryAndThreadsPerCategoryId(id);
+            return await result;
+        }
     }
 }

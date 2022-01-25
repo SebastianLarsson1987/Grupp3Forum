@@ -11,7 +11,8 @@ const store = createStore({
         text: "",
        
        categories: [],
-       AllCategoriesAndThreads: []
+       AllCategoriesAndThreads: [],
+       OneCategoryAndThreads: []
   },
   mutations:{
       setName(state, x){
@@ -89,6 +90,17 @@ const store = createStore({
            })
        },
 
+      async getCategoryThreadsPerCategoryId(_, id){
+           axios
+           .get(`https://localhost:44362/api/Thread/GetCategoryPerId?id=${id}`)
+           .then(response => {
+               this.state.OneCategoryAndThreads = response.data;
+               console.log(this.state.OneCategoryAndThreads)
+           })
+           .catch(error => {
+               console.log(error)
+           })
+       },
        
       async fetchCategories({commit}){
           let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")
