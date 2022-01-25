@@ -28,6 +28,10 @@ namespace Backend.Controllers
         [HttpGet("GetUserMessages/{id}")]
         public async Task<IEnumerable<Message>> GetUserMessages(int id)
         {
+            
+
+
+
             return await _messageService.GetUserMessages(id);
         }
 

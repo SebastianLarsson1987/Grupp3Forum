@@ -1,14 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import firebase from 'firebase'
 
-import UserPosts from '../components/UserPosts.vue'
-import Profilesettings from '../components/Profilesettings.vue'
-import DashboardComponent from '../components/DashboardComponent.vue'
-import HomeComponent from '../components/HomeComponent.vue'
-import RegisterComponent from '../components/RegisterComponent.vue'
-import GDPRComponent from '../components/GDPRComponent.vue'
-import LoginComponent from '../components/LoginComponent.vue'
-import ForumComponent from '../components/ForumComponent.vue'
+import UserPosts from '../components/Profile/UserPosts.vue'
+import Profilesettings from '../components/Profile/Profilesettings.vue'
+import DashboardComponent from '../components/Navbar/DashboardComponent.vue'
+import RegisterComponent from '../components/Register/RegisterComponent.vue'
+import GDPRComponent from '../components/Pages/GDPRComponent.vue'
+import LoginComponent from '../components/Login/LoginComponent.vue'
+import ForumComponent from '../components/Forum/ForumComponent.vue'
+import Main from '../components/Homepage/Main.vue'
 
 const routes = [
   
@@ -24,9 +24,9 @@ const routes = [
   },
   { 
     path: '/',
-    name: 'Home',
+    name: 'Main',
     // component: () => import('./components/HomeComponent.vue')
-    component: HomeComponent
+    component: Main
   },  
 
   { 

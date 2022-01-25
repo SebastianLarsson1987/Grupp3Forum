@@ -80,6 +80,8 @@ export default {
                 .createUserWithEmailAndPassword(
                     this.user.email,
                     this.user.password
+                    
+                  
                 )
                 .then(response => {
                     response.user
@@ -88,6 +90,7 @@ export default {
                         })
                         .then(() => {
                             alert('User successfully registered!');
+                            
                             this.user = {
                                 name: '',
                                 email: '',
