@@ -119,7 +119,18 @@ const store = createStore({
                console.log(error)
            })
        },
-       
+
+       async postMessageInThread(_, {threadId, mtext, userId}){  
+           await fetch('https://localhost:44362/api/Thread/WriteMessage', {
+               method: "POST",
+               headers: {
+                'Accept': 'application/json',
+                'Content-Type': "application/json"
+               },
+               body: JSON.stringify({threadid: threadId, text: mtext, userid:userId})
+           });
+        },
+                
       async fetchCategories({commit}){
           let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")
           let data = await response.json()

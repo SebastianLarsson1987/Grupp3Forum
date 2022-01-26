@@ -32,7 +32,8 @@
                         <li class="userprofile-form-grid4-list">
                             <p>Inlägg skapat: {{post.createdAt}}</p>
                             <p>Inlägg uppdaterat: {{post.updatedAt}}</p>
-                            <textarea v-bind:disabled="post.isDisabled" class="userprofile-form-grid4-textarea" rows="4" cols="50" v-model="post.text"></textarea>
+                            <textarea v-bind:disabled="post.isDisabled" class="userprofile-form-grid4-textarea" 
+                            rows="4" cols="50" v-model="post.text"></textarea>
                             <div class="userprofile-form-grid4-buttons">
                                 <button>Ta bort</button>
                                 <button type="button" @click="post.isDisabled = false">Redigera</button>

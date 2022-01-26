@@ -15,6 +15,7 @@
     "jw-vue-pagination": "^1.0.3",
     "npm": "^8.3.1",
     "vue": "^3.2.29",
+    "vue-composable": "*",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2"
   },
