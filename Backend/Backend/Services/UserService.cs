@@ -1,4 +1,5 @@
 ﻿using Backend.Models.Database;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Services
 {
-    public class UserService : IUserService
+    public class UserService : ControllerBase, IUserService
     {
 
         private readonly grupp3forumContext _Db;
@@ -51,7 +52,36 @@ namespace Backend.Services
 
             _Db.SaveChanges();
                 
+            
+
+        }
+        
+        public async Task<ActionResult<User>> EditUserDetails(int id, string email, string UserName)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Not a valid model");
             }
 
+            var existingUser = _Db.Users.Where(u => u.Id == id)
+                .FirstOrDefault();
+
+            if (existingUser != null)
+            {
+                existingUser.Email = email;
+                existingUser.UserName = UserName;
+
+               await _Db.SaveChangesAsync();
+            }
+            else
+            {
+                return NotFound();
+            }
+
+            return Ok();
+
+
+        }
     }
 }

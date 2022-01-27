@@ -12,8 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Backend.Models.Database;
-using Microsoft.EntityFrameworkCore;
 
 namespace Backend
 {
@@ -36,10 +34,12 @@ namespace Backend
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Backend", Version = "v1" });
             });
-            services.AddCors();
-            services.AddDbContext<grupp3forumContext>(options =>
+            services.AddCors(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:8080/", "https://localhost:8080/").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                });
             });
         }
 
@@ -53,9 +53,15 @@ namespace Backend
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Backend v1"));
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors((x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()));
+                
 
             app.UseAuthorization();
 
@@ -63,10 +69,7 @@ namespace Backend
             {
                 endpoints.MapControllers();
             });
-            app.UseCors(policy => policy
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
         }
     }
 }
+
