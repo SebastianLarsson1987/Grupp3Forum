@@ -26,11 +26,12 @@ namespace Backend.Controllers
             return await _userService.GetAllUser();
         }
 
-        [HttpPost("Add")]
+        [HttpPost("AddUser")]
         public async Task<User> AddUser(AddUserViewModel model)
         {
             var newUser = new User()
             {
+                Uid = model.Uid,
                 UserName = model.UserName,
                 Email = model.Email,
                 Banned = false,

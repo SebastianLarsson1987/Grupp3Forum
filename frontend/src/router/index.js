@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import firebase from 'firebase'
+// import firebase from 'firebase'
 
 import UserPosts from '../components/Profile/UserPosts.vue'
 import Profilesettings from '../components/Profile/Profilesettings.vue'
@@ -75,20 +75,19 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.authRequired)) {
-      if (firebase.auth().currentUser) {
-          next();
-      } else {
-          alert('You must be logged in to see this page');
-          next({
-              path: '/',
-          });
-      }
-  } else {
-      next();
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.authRequired)) {
+//       if (firebase.auth().currentUser) {
+//           next();
+//       } else {
+//           alert('You must be logged in to see this page');
+//           next({
+//               path: '/',
+//           });
+//       }
+//   } else {
+//       next();
+//   }
+// });
 
 export default router
-

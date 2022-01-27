@@ -24,7 +24,7 @@ const register = async (regEmail, username, password) => {
         await createUserWithEmailAndPassword(auth, regEmail, password);
         const user = await updateUser({ displayName: username, photoURL: null })
         console.log("register.userResponse", user)
-        const body = JSON.stringify({ Email: user.email, UserName: user.displayName, FirebaseUid: user.uid })
+        const body = JSON.stringify({ email: user.email, userName: user.displayName, uid: user.uid })
         console.log("AddUserBody", body)
         fetch("https://localhost:44362/api/User/AddUser", {
             headers: {

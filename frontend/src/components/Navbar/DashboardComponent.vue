@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
+// import firebase from "firebase";
 
 export default {
   data() {
@@ -28,23 +28,22 @@ export default {
     };
   },
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.user = user;
-      } else {
-        this.user = '';
-      }
-    });
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     this.user = user;
+    //   } else {
+    //     this.user = '';
+    //   }
+    // });
   },
   methods: {
-    signOut() {
-      firebase.auth().signOut().then(() => {
-        firebase.auth().onAuthStateChanged(() => {
-          this.$router.push('/signin')
-        })
-      })
-    }
+    // signOut() {
+    //   firebase.auth().signOut().then(() => {
+    //     firebase.auth().onAuthStateChanged(() => {
+    //       this.$router.push('/signin')
+    //     })
+    //   })
+    // }
   }
 };
 </script>
-
