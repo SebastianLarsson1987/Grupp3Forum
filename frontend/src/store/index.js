@@ -14,7 +14,8 @@ const store = createStore({
        AllCategoriesAndThreads: [],
        oneCategoryAndThreads: [],
        oneThreadAndMessages: [],
-       messages: []
+       messages: [],
+       newThreads: []
   },
 
   getters: {
@@ -108,6 +109,9 @@ const store = createStore({
            .get(`https://localhost:44362/api/Thread/GetCategoryPerId?id=${id}`)
            .then(response => {
                this.state.oneCategoryAndThreads = response.data;
+               this.state.oneCategoryAndThreads.forEach((item) => {
+                   this.state.newThreads = [...item.newThreads]
+               })
                console.log(this.state.oneCategoryAndThreads)
            })
            .catch(error => {
@@ -121,7 +125,7 @@ const store = createStore({
            .then(response => {
                 this.state.oneThreadAndMessages = response.data
                 this.state.oneThreadAndMessages.forEach((item) => {
-                    this.state.messages = item.messages
+                    this.state.messages = [...item.messages]
                 })
                 console.log(this.state.messages)
                 console.log(this.state.oneThreadAndMessages)
@@ -129,7 +133,7 @@ const store = createStore({
            .catch(error => {
                console.log(error)
            })
-       },
+        },
 
        async postMessageInThread(_, {mtext, threadId, userId}){  
         await fetch(`https://localhost:44362/api/Thread/WriteMessage?text=${mtext}&threadId=${threadId}&userId=${userId}`, {

@@ -7,7 +7,7 @@
             </div>
             <div class="categorythreads-wrapper-form-scroll">
                 <div class="categorythreads-wrapper-form-threads" 
-                v-for="thread in oneCategeoryPlusThreads.newThreads" :key="thread.id">
+                v-for="thread in paginatedData" :key="thread.id">
                     <ul class="categorythreads-wrapper-form-threads-unordered-list">
                         <li class="categorythreads-wrapper-form-threads-list">
                             <router-link :to="`/threadmessages/${thread.id}`" >{{thread.topic}}</router-link>
@@ -16,6 +16,13 @@
                         </li>
                     </ul>
                 </div>
+                <div class="categorythreads-wrapper-form-scroll-buttons">
+                    <button type="button" @click="firstPage" :disabled="pageNumber === 0">Första sidan</button>
+                    <button type="button" @click="prevPage" :disabled="pageNumber === 0">Föregående</button>
+                    <p>sida {{pageNumber +1}} av {{pageCount}}</p>
+                    <button type="button" @click="nextPage" :disabled="pageNumber >= pageCount -1">Nästa</button>
+                    <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1">Sista sidan</button>
+                </div>
             </div>
         </form>
     </div>    
@@ -23,31 +30,41 @@
 
 <script>
 
-//import handlePagination from '../handlePagination.js'
 
 export default {
 
-    
-    components: {
-        
-        
+    props:{
+        size: {
+            type: Number,
+            required: false,
+            default: 1
+        }
     },
 
     data(){
         return{
            categoryAndThreads: [],
-           handlePaginationValue: []
+           handlePaginationValue: [],
+           pageNumber: 0
         }
     },
     computed: {
         categoryAndThreadsComputed() {
             return this.$store.state.oneCategoryAndThreads
+        },
+        pageCount(){
+            let length = this.$store.state.newThreads.length
+            let size = this.size;
+            
+            return Math.ceil(length/size);
+        },
+        paginatedData(){
+            const start = this.pageNumber * this.size,
+            end = start + this.size;
+            return this.$store.state.newThreads.slice(start,end);
         }
     },
 
-    setup() {
-        
-    },
 
     methods: {
         async getCategoryAndThreads(id){
@@ -57,6 +74,24 @@ export default {
             return this.categoryAndThreadsComputed
         },
 
+        nextPage(){
+            this.pageNumber++;
+        },
+        prevPage(){
+            this.pageNumber--;
+        },
+        lastPage(){
+            const start = this.pageNumber * this.size
+            let end = start + this.size;
+            this.pageNumber = end;
+            if(!this.pageNumber.length){
+                console.log("Endpage")
+            }
+            return end;
+        },
+        firstPage(){
+            this.pageNumber = 0;
+        }
     
 
     },
@@ -113,15 +148,21 @@ export default {
     min-height: 5vh;
 }
 
-.categorythreads-wrapper-form-threads{
-        
-}
-
 .categorythreads-wrapper-form-scroll{
         overflow-x: hidden;
         overflow-y: auto;
         text-align: justify;
         height:72vh;
+}
+
+.categorythreads-wrapper-form-scroll-buttons{
+    display:flex;
+    flex-direction: row;
+    
+}
+
+.categorythreads-wrapper-form-scroll-buttons>button{
+    margin: 0 auto;
 }
 
 </style>

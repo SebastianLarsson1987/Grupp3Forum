@@ -14,7 +14,7 @@
                 </div>
                 <div class="threadmessages-wrapper-form-messages-scroll"> 
                     <div class="threadmessages-wrapper-form-messages"
-                    v-for="message in item.messages" :key="message.id">
+                    v-for="message in paginatedData" :key="message.id">
                         <ul>
                             <li class="threadmessages-wrapper-form-messages-list">
                                 <div class="threadmessages-wrapper-form-messages-list-header">
@@ -27,7 +27,13 @@
                             </li>
                         </ul>
                     </div>
-                    
+                    <div class="threadmessages-wrapper-form-messages-scroll-buttons">
+                        <button type="button" @click="firstPage" :disabled="pageNumber === 0">Första sidan</button>
+                        <button type="button" @click="prevPage" :disabled="pageNumber === 0">Föregående</button>
+                        <p>sida {{pageNumber +1}} av {{pageCount}}</p>
+                        <button type="button" @click="nextPage" :disabled="pageNumber >= pageCount -1">Nästa</button>
+                        <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1">Sista sidan</button>
+                    </div>
                 </div>
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     <div>
@@ -40,25 +46,19 @@
             </div>
             
         </form>
-        <div>
-            <li v-for="n in result" :key="n">
-                {{n}}
-            </li>
-            <button @click="next">Next</button>
-            <button @click="prev">Prev</button>
-        </div>
-        
     </div>
 </template>
 
 <script>
-import {useArrayPagination} from 'vue-composable'
-
 
 export default {
 
     props:{
-        id: Number
+        size: {
+            type: Number,
+            required: false,
+            default: 1
+        }
     },
     data(){
         return{
@@ -66,17 +66,14 @@ export default {
                 mtext: "",
                 userId: 0
            },
-           messages: this.$store.getters.getMessages
-
+            messages: this.$store.getters.getMessages,
+            pageNumber: 0
            
            
         }
     },
 
     computed:{
-        // threadAndMessages(){
-        //     return this.$store.state.oneThreadAndMessages
-        // },
 
         oneThreadAndMessages2:{
             get(){
@@ -85,6 +82,17 @@ export default {
             set(value){
                 this.$store.commit('setOneThreadAndMessages', value)
             }
+        },
+
+        pageCount(){
+            let l = this.$store.state.messages.length,
+            s = this.size;
+            return Math.ceil(l/s);
+        },
+        paginatedData(){
+            const start = this.pageNumber * this.size,
+            end = start + this.size;
+            return this.$store.state.messages.slice(start,end);
         }
     },
 
@@ -103,30 +111,33 @@ export default {
             return this.$store.dispatch('postMessageInThread', payload)
         },
 
-     
+
+        nextPage(){
+            this.pageNumber++;
+        },
+        prevPage(){
+            this.pageNumber--;
+        },
+        lastPage(){
+            const start = this.pageNumber * this.size
+            let end = start + this.size;
+            this.pageNumber = end;
+
+            return end-1;
+        },
+        firstPage(){
+            this.pageNumber = 0;
+        }
             
             
     },
 
     created(){
-        //this.getOneThreadAndMessages(this.$route.params.id)
+        this.getOneThreadAndMessages(this.$route.params.id)
         console.log(this.oneThreadAndMessages2)
         console.log(this.messages)
         
     },
-
-    setup(){
-            const array = []
-            const {result, next, prev, currentPage, lastPage} = useArrayPagination(
-            array,
-            {
-                pageSize: 3
-            }
-        );
-            console.log(result);
-            return {result, next, prev, currentPage, lastPage}
-        
-    }
     
 }
 </script>
@@ -151,6 +162,15 @@ export default {
     overflow-y: auto;
     text-align: justify;
     height:50vh;
+}
+
+.threadmessages-wrapper-form-messages-scroll-buttons>button{
+    display:block;
+    margin: 0 auto;
+}
+.threadmessages-wrapper-form-messages-scroll-buttons{
+    display:flex;
+    flex-direction: row;
 }
 
 .threadmessages-wrapper-form-thread-list>i{
