@@ -34,7 +34,7 @@ namespace Backend.Controllers
                 Text = model.Content,
                 CreateadAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                UserId = model.UserId,
+                UserUid = model.UserId,
                 CategoryId = model.CategoryId
 
 
@@ -45,7 +45,7 @@ namespace Backend.Controllers
             return newThread;
         }
         [HttpPost("WriteMessage")]
-        public async Task<Message> WriteMessageInThread(string text, int threadId, int userId)
+        public async Task<Message> WriteMessageInThread(string text, int threadId, string userId)
         {
             var newMessage = new Message()
             {
@@ -53,7 +53,7 @@ namespace Backend.Controllers
                 CreatedAt = DateTime.Now,
                 UpdatedAt = default,
                 ThreadId = threadId,
-                UserId = userId
+                UserUid = userId
 
             };
             _db.Messages.Add(newMessage);
