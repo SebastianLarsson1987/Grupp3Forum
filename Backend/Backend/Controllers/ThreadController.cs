@@ -45,15 +45,15 @@ namespace Backend.Controllers
             return newThread;
         }
         [HttpPost("WriteMessage")]
-        public async Task<Message> WriteMessageInThread(NewMessageViewModel model)
+        public async Task<Message> WriteMessageInThread(string text, int threadId, int userId)
         {
             var newMessage = new Message()
             {
-                Text = model.Text,
-                CreatedAt = default,
+                Text = text,
+                CreatedAt = DateTime.Now,
                 UpdatedAt = default,
-                ThreadId = model.ThreadId,
-                UserId = model.UserId
+                ThreadId = threadId,
+                UserId = userId
 
             };
             _db.Messages.Add(newMessage);

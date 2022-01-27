@@ -1,7 +1,7 @@
 <template>
     <div>
         <form class="threadmessages-wrapper-form"
-        v-for="item in threadAndMessages" :key="item.id">
+        v-for="item in oneThreadAndMessages2" :key="item.id">
             <div class="threadmessages-wrapper-form-threadAndMessages">
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
@@ -27,37 +27,56 @@
                             </li>
                         </ul>
                     </div>
+                    
                 </div>
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     <div>
                         <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
-                        rows="5" cols="100" v-model="newMessage.text"></textarea>
-                        <button type="button" @click="postMessage($route.params.id,newMessage.text,newMessage.userId)">Skapa meddelande</button>
+                        rows="5" cols="100" v-model="newMessage.mtext"></textarea>
+                        <button type="button" @click="postMessage()">Skapa meddelande</button>
                         <input type="text" v-model="newMessage.userId">
                     </div>
                 </div>
             </div>
+            
         </form>
+        <div>
+            <li v-for="n in result" :key="n">
+                {{n}}
+            </li>
+            <button @click="next">Next</button>
+            <button @click="prev">Prev</button>
+        </div>
+        
     </div>
 </template>
 
 <script>
 import {useArrayPagination} from 'vue-composable'
 
+
 export default {
+
+    props:{
+        id: Number
+    },
     data(){
         return{
-           newMessage: {
-               text: '',
-               userId: 0
-           }
+           newMessage:{
+                mtext: "",
+                userId: 0
+           },
+           messages: this.$store.getters.getMessages
+
+           
+           
         }
     },
 
     computed:{
-        threadAndMessages(){
-            return this.$store.state.oneThreadAndMessages
-        },
+        // threadAndMessages(){
+        //     return this.$store.state.oneThreadAndMessages
+        // },
 
         oneThreadAndMessages2:{
             get(){
@@ -75,16 +94,24 @@ export default {
             return this.threadAndMessages;
         },
 
-        async postMessage(threadId, text, userId){
-            return this.$store.dispatch('postMessageInThread', threadId, text, userId)
-        }
+        async postMessage(){
+            let payload = {
+                mtext: this.newMessage.mtext,
+                threadId: this.$route.params.id,
+                userId: this.newMessage.userId
+            }
+            return this.$store.dispatch('postMessageInThread', payload)
+        },
+
+     
+            
+            
     },
 
-    async created(){
-        this.getOneThreadAndMessages(this.$route.params.id)
-        console.log(this.threadAndMessages)
-
-       
+    created(){
+        //this.getOneThreadAndMessages(this.$route.params.id)
+        console.log(this.oneThreadAndMessages2)
+        console.log(this.messages)
         
     },
 
@@ -96,9 +123,11 @@ export default {
                 pageSize: 3
             }
         );
-        console.log(result);
-        return {result, next, prev, currentPage, lastPage}
-    },
+            console.log(result);
+            return {result, next, prev, currentPage, lastPage}
+        
+    }
+    
 }
 </script>
 

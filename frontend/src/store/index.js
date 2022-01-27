@@ -13,7 +13,14 @@ const store = createStore({
        categories: [],
        AllCategoriesAndThreads: [],
        oneCategoryAndThreads: [],
-       oneThreadAndMessages: []
+       oneThreadAndMessages: [],
+       messages: []
+  },
+
+  getters: {
+      getMessages: state => {
+          return state.messages
+      }
   },
   mutations:{
       setName(state, x){
@@ -113,6 +120,10 @@ const store = createStore({
            .get(`https://localhost:44362/api/Thread/GetMessagesAndThreadById?id=${id}`)
            .then(response => {
                 this.state.oneThreadAndMessages = response.data
+                this.state.oneThreadAndMessages.forEach((item) => {
+                    this.state.messages = item.messages
+                })
+                console.log(this.state.messages)
                 console.log(this.state.oneThreadAndMessages)
            })
            .catch(error => {
@@ -120,16 +131,18 @@ const store = createStore({
            })
        },
 
-       async postMessageInThread(_, {threadId, mtext, userId}){  
-           await fetch('https://localhost:44362/api/Thread/WriteMessage', {
-               method: "POST",
-               headers: {
-                'Accept': 'application/json',
-                'Content-Type': "application/json"
-               },
-               body: JSON.stringify({threadid: threadId, text: mtext, userid:userId})
-           });
-        },
+       async postMessageInThread(_, {mtext, threadId, userId}){  
+        await fetch(`https://localhost:44362/api/Thread/WriteMessage?text=${mtext}&threadId=${threadId}&userId=${userId}`, {
+            method: "POST",
+            headers:{
+            'Accept': 'application/json',
+            'Content-Type': "application/json"
+            },
+            body: JSON.stringify({mthreadId: threadId, text: mtext, mUserId: userId})
+            })
+       },
+              
+        
                 
       async fetchCategories({commit}){
           let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")

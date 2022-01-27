@@ -33,7 +33,10 @@ const routes = [
   {
     path: '/threadmessages/:id',
     name: 'Thread-messages',
-    component: ThreadAndMessages
+    component: ThreadAndMessages,
+    props: {
+      default: true
+    }
 
   },
   { 
