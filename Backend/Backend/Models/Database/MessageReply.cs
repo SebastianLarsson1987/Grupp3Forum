@@ -12,8 +12,9 @@ namespace Backend.Models.Database
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int MessageId { get; set; }
-        public int UserId { get; set; }
+        public string UserUid { get; set; }
 
         public virtual Message Message { get; set; }
+        public virtual User UserU { get; set; }
     }
 }

@@ -17,8 +17,10 @@ namespace Backend.Models.Database
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public int ThreadId { get; set; }
-        public int UserId { get; set; }
+        public string UserUid { get; set; }
 
+        public virtual NewThread Thread { get; set; }
+        public virtual User UserU { get; set; }
         public virtual ICollection<MessageReply> MessageReplies { get; set; }
     }
 }

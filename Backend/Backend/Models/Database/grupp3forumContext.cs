@@ -48,32 +48,61 @@ namespace Backend.Models.Database
             {
                 entity.ToTable("Message");
 
-                entity.Property(e => e.CreatedAt).HasColumnType("date");
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
                 entity.Property(e => e.Text)
                     .IsRequired()
                     .IsUnicode(false);
 
-                entity.Property(e => e.UpdatedAt).HasColumnType("date");
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.UserUid)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("UserUId");
+
+                entity.HasOne(d => d.Thread)
+                    .WithMany(p => p.Messages)
+                    .HasForeignKey(d => d.ThreadId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_NewThread");
+
+                entity.HasOne(d => d.UserU)
+                    .WithMany(p => p.Messages)
+                    .HasForeignKey(d => d.UserUid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_Users");
             });
 
             modelBuilder.Entity<MessageReply>(entity =>
             {
                 entity.ToTable("Message_Reply");
 
-                entity.Property(e => e.CreatedAt).HasColumnType("date");
+                entity.Property(e => e.CreatedAt).HasColumnType("datetime");
 
                 entity.Property(e => e.Text)
                     .IsRequired()
                     .IsUnicode(false);
 
-                entity.Property(e => e.UpdatedAt).HasColumnType("date");
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.UserUid)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Message)
                     .WithMany(p => p.MessageReplies)
                     .HasForeignKey(d => d.MessageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Message_R__Messa__6B24EA82");
+                    .HasConstraintName("FK_Message_Reply_Message");
+
+                entity.HasOne(d => d.UserU)
+                    .WithMany(p => p.MessageReplies)
+                    .HasForeignKey(d => d.UserUid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_Reply_Users");
             });
 
             modelBuilder.Entity<NewThread>(entity =>
@@ -92,17 +121,22 @@ namespace Backend.Models.Database
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
+                entity.Property(e => e.UserUid)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.NewThreads)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Thread__Category__6477ECF3");
+                    .HasConstraintName("FK_NewThread_Category");
 
-                entity.HasOne(d => d.User)
+                entity.HasOne(d => d.UserU)
                     .WithMany(p => p.NewThreads)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.UserUid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Thread__UserId__6383C8BA");
+                    .HasConstraintName("FK_NewThread_Users");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -114,11 +148,24 @@ namespace Backend.Models.Database
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.HasKey(e => e.Uid)
+                    .HasName("PK_Users_1");
+
+                entity.Property(e => e.Uid)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .IsUnicode(false);
 
-                entity.Property(e => e.Uid).IsUnicode(false);
+                entity.Property(e => e.FirstName)
+                    .IsUnicode(false)
+                    .HasColumnName("firstName");
+
+                entity.Property(e => e.LastName)
+                    .IsUnicode(false)
+                    .HasColumnName("lastName");
 
                 entity.Property(e => e.UserName)
                     .IsRequired()
@@ -128,7 +175,7 @@ namespace Backend.Models.Database
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Users__RoleId__60A75C0F");
+                    .HasConstraintName("FK_Users_Role");
             });
 
             OnModelCreatingPartial(modelBuilder);
