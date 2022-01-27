@@ -34,7 +34,7 @@ namespace Backend.Controllers
                 Text = model.Content,
                 CreateadAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                UserUid = model.UserId,
+                UserId = model.UserId,
                 CategoryId = model.CategoryId
 
 
@@ -45,16 +45,15 @@ namespace Backend.Controllers
             return newThread;
         }
         [HttpPost("WriteMessage")]
-        public async Task<Message> WriteMessageInThread(NewMessageViewModel model)
+        public async Task<Message> WriteMessageInThread(string text, int threadId, int userId)
         {
             var newMessage = new Message()
             {
-                Text = model.Text,
-                CreatedAt = default,
+                Text = text,
+                CreatedAt = DateTime.Now,
                 UpdatedAt = default,
-                ThreadId = model.ThreadId,
-                UserUid = model.UserId
-                
+                ThreadId = threadId,
+                UserId = userId
 
             };
             _db.Messages.Add(newMessage);
@@ -83,6 +82,20 @@ namespace Backend.Controllers
         {
             var result = _threadService.GetAllMessagesFromThread(id);
             return result;
+        }
+
+        [HttpGet("GetCategoryPerId")]
+        public async Task<IEnumerable<Category>> GetCategoryPerId(int id)
+        {
+            var result = _threadService.GetCategoryAndThreadsPerCategoryId(id);
+            return await result;
+        }
+
+        [HttpGet("GetMessagesAndThreadById")]
+        public async Task<IEnumerable<NewThread>> GetMessagesAndThreadById(int id)
+        {
+            var result = _threadService.GetMessagesAndThreadById(id);
+            return await result;
         }
     }
 }

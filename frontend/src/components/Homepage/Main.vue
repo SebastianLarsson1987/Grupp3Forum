@@ -16,7 +16,7 @@
     <!-- <h1>Main</h1> -->
     <div v-for="item in AllCategoriesAndThreads" :key="item.id" class="content-item">
       <div class="name">
-         <h1 class="category-header">{{item.categoryName}}</h1>
+         <router-link :to="`/categorythreads/${item.id}`" class="category-header">{{item.categoryName}}</router-link>
          <p>Antal trådar: {{item.newThreads.length}}</p>
       </div>
       <div v-for="item2 in item.newThreads.slice(0,2) " :key="item2.id" class="threads">
@@ -143,5 +143,10 @@ a {
   display:flex;
   flex-direction:column;
   align-items:center;
+}
+
+.category-header{
+  font-size: 150%;
+  text-decoration: none;
 }
 </style>
