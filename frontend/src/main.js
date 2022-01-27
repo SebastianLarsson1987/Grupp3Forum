@@ -6,6 +6,11 @@ import router from "./router/index"
 import { createApp } from 'vue'
 
 
+
+
+
+
+
 // new Vue({
 //   router,
 //   render: h => h(App)
@@ -29,6 +34,9 @@ import { createApp } from 'vue'
 //     appId: "1:544976868582:web:c2742c1d0a63e0af0c9727"
 // }
 // firebase.initializeApp(firebaseConfig);
+
+
+
 
 
 createApp(App).use(store).use(router).mount('#app')

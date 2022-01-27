@@ -2,7 +2,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Backend.Models.Database;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 #endregion
@@ -55,6 +57,23 @@ namespace Backend.Services
         public IEnumerable<Message> GetAllMessagesFromThread(int id)
         {
             var result = _db.Messages.Where(x => x.ThreadId == id).AsEnumerable();
+            return result;
+        }
+
+        public async Task<IEnumerable<Category>> GetCategoryAndThreadsPerCategoryId(int id)
+        {
+            
+            var result = _db.Categories.Where(x => x.Id == id)
+                .Include(threads => threads.NewThreads);
+            return result;
+        }
+
+        public async Task<IEnumerable<NewThread>> GetMessagesAndThreadById(int id)
+        {
+
+            var result = _db.NewThreads.Where(x => x.Id == id)
+                .Include(thread => thread.Messages);
+              
             return result;
         }
     }

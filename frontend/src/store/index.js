@@ -11,7 +11,16 @@ const store = createStore({
         text: "",
        
        categories: [],
-       AllCategoriesAndThreads: []
+       AllCategoriesAndThreads: [],
+       oneCategoryAndThreads: [],
+       oneThreadAndMessages: [],
+       messages: []
+  },
+
+  getters: {
+      getMessages: state => {
+          return state.messages
+      }
   },
   mutations:{
       setName(state, x){
@@ -22,7 +31,12 @@ const store = createStore({
       },
       setAllCategoriesAndThreads(state, data){
         state.AllCategoriesAndThreads = data
+      },
+      setOneThreadAndMessages(state,data){
+          state.oneThreadAndMessages = data
       }
+      
+
     },
   
   actions:{
@@ -89,7 +103,47 @@ const store = createStore({
            })
        },
 
-       
+      async getCategoryThreadsPerCategoryId(_, id){
+           axios
+           .get(`https://localhost:44362/api/Thread/GetCategoryPerId?id=${id}`)
+           .then(response => {
+               this.state.oneCategoryAndThreads = response.data;
+               console.log(this.state.oneCategoryAndThreads)
+           })
+           .catch(error => {
+               console.log(error)
+           })
+       },
+
+       async getThreadAndMessagesById(_,id){
+           axios
+           .get(`https://localhost:44362/api/Thread/GetMessagesAndThreadById?id=${id}`)
+           .then(response => {
+                this.state.oneThreadAndMessages = response.data
+                this.state.oneThreadAndMessages.forEach((item) => {
+                    this.state.messages = item.messages
+                })
+                console.log(this.state.messages)
+                console.log(this.state.oneThreadAndMessages)
+           })
+           .catch(error => {
+               console.log(error)
+           })
+       },
+
+       async postMessageInThread(_, {mtext, threadId, userId}){  
+        await fetch(`https://localhost:44362/api/Thread/WriteMessage?text=${mtext}&threadId=${threadId}&userId=${userId}`, {
+            method: "POST",
+            headers:{
+            'Accept': 'application/json',
+            'Content-Type': "application/json"
+            },
+            body: JSON.stringify({mthreadId: threadId, text: mtext, mUserId: userId})
+            })
+       },
+              
+        
+                
       async fetchCategories({commit}){
           let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")
           let data = await response.json()

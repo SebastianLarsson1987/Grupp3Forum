@@ -9,6 +9,8 @@ import GDPRComponent from '../components/Pages/GDPRComponent.vue'
 import LoginComponent from '../components/Login/LoginComponent.vue'
 import ForumComponent from '../components/Forum/ForumComponent.vue'
 import Main from '../components/Homepage/Main.vue'
+import Categorythreads from '../components/Forum/Categorythreads.vue'
+import ThreadAndMessages from '../components/Forum/ThreadAndMessages.vue'
 
 const routes = [
   
@@ -21,6 +23,21 @@ const routes = [
     path: '/userposts/:id',
     name: 'User-posts',
     component: UserPosts
+  },
+  {
+    path: '/categorythreads/:id',
+    name: 'Category-Threads',
+    component: Categorythreads
+
+  },
+  {
+    path: '/threadmessages/:id',
+    name: 'Thread-messages',
+    component: ThreadAndMessages,
+    props: {
+      default: true
+    }
+
   },
   { 
     path: '/',
