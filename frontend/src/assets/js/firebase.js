@@ -2,7 +2,7 @@
 // Import the functions you need from the SDKs you need
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser, sendPasswordResetEmail, updateProfile } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -22,14 +22,18 @@ const auth = getAuth(firebaseApp);
 const register = async (regEmail, username, password) => {
     try {
         await createUserWithEmailAndPassword(auth, regEmail, password);
-        // fetch("/api/user/add", {
-        //     headers: {
-        //         "Accept": "application/json",
-        //         "Content-Type": "application/json"
-        //     },
-        //     method: "POST",
-        //     body: JSON.stringify({ email: regEmail, userName: username })
-        // }).then(r => console.log(r.json()));
+        const user = await updateUser({ displayName: username, photoURL: null })
+        console.log("register.userResponse", user)
+        const body = JSON.stringify({ Email: user.email, UserName: user.displayName, FirebaseUid: user.uid })
+        console.log("AddUserBody", body)
+        fetch("https://localhost:44362/api/User/AddUser", {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: body
+        }).then(r => console.log(r.json()));
         alert("Successfully registered!");
     } catch (err) {
         console.error(err);
@@ -80,12 +84,23 @@ const remove = async () => {
         alert(err.message);
     }
 }
+const updateUser = async (userInfo) => {
+    try {
+        const user = auth.currentUser;
+        await updateProfile(user, userInfo);
+        return auth.currentUser;
+    } catch (err) {
+        console.error(err);
+        alert(err.message);
+    }
 
+}
 export {
     auth,
     register,
     remove,
     logIn,
     logOut,
-    resetPassword
+    resetPassword,
+    updateUser
 }
