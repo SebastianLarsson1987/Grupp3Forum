@@ -62,65 +62,70 @@ Register</h5>
 
 <script>
 import firebase from 'firebase';
+import router from '../../router';
+import { register, resetPassword } from "../../assets/js/firebase";
 // import store from '../../store';
 
 export default {
     data() {
         return {
+            uid: "",
             user: {
                 name: '',
                 email: '',
                 password: '',
-                id: '',
+                
             },
+            
         };
     },
     methods: {
         onSubmit() {
+            
             let credential = {email: this.user.email, name: this.user.name};
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(
                     this.user.email,
-                    this.user.password
-                )
-                .then(response => {
-                    response.user
+                    this.user.password,
                     
-                        .updateProfile({
-                            displayName: this.user.name,
-                            
-                        })
-                        .then(() => {
-                            alert('User successfully registered!');
-                            
-                            this.user = {
-                                name: '',
-                                email: '',
-                                password: '',
-                            };
-                            this.$router.push('/dashboard')
-                            
-                        });
+                )
+                .then(function(data){
+                    let guid = data.user.uid
+                    this.uid = guid
+                    console.log("cred", credential)
+                    console.log("success")
+                    router.push('/dashboard')
+                    this.addNewUser(credential)
+                    
+                    
                 })
-                .catch(err => {
-                    console.log(err);
-                    alert(err);
-                });
-             
-                this.addNewUser(credential)
+                .catch((error)=>{
+                    console.log(error.code)
+                    alert(error.message)
+                })
+                
                
         },
+        registerUser() {
+      register(this.user.email, this.user.userName, this.user.password);
+    },
+    reset() {
+      resetPassword(this.passwordReset);
+    },
         async addNewUser(credentials){
-        console.log(credentials)
+        console.log("metod", credentials)
+        console.log('id', this.uid)
+        
         await fetch("https://localhost:44362/api/User/AddUser", {
             method: 'POST',
             headers:{
             'Accept': 'application/json',
             'Content-Type': "application/json"
           },
-            body: JSON.stringify({email: credentials.email, userName: credentials.name})
+            body: JSON.stringify({email: credentials.email, userName: credentials.name, Id:credentials.uid})
         })
+        
 
     }
         
