@@ -1,3 +1,4 @@
+
 <template>
   <div class="row d-flex justify-content-center">
     <div class="col-md-8 mt-5">
@@ -74,7 +75,70 @@ I det fall du nekar till användningen vill vi uppmärksamma dig på att vår we
 Det går att stänga av eller begränsa webbplatsens användning av cookies genom att justera dina Cookie-inställningar.</h6>
 <br>
 <br>
-    </div>
-    </div>
+
+ <router-link style="color:black;"  class="nav-link link-light" to="/gdpr">
+  <input type="checkbox"
+    :value="value"
+    :disabled="disabled || inProgress"
+    @click="clickAction">
+   Jag har läst & accepterar!
+            </router-link>
+   <br>
+   <br>
+
+    <span v-if="inProgress">
+            
+            <div class="d-grid">
+            <input
+            type="submit"
+            class="btn btn-primary btn-lg btn-block"
+            value="Bli medlem"
+            />
+            </div>
+            
+            </span>
   
+ 
+    </div>
+    </div>
+
 </template>
+
+<script>
+export default {
+
+  props: {
+
+    btnFinalState: {
+      type: String,
+      default: null,
+      validator: function (value) {
+        // The value must match one of these strings
+        return ['success', 'failure', ''].indexOf(value) !== -1
+      }
+    },
+    actionInProgress: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      
+      disabled: this.btnDisabled,
+      inProgress: this.actionInProgress
+    }
+  },
+
+  methods: {
+    clickAction () {
+      this.updateActionInProgress(true)
+      this.$emit('clicked')
+    },
+    updateActionInProgress (status) {
+      this.inProgress = status
+      this.$emit('update:actionInProgress', this.inProgress)
+    }
+  }
+}
+</script>

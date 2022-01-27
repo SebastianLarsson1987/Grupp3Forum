@@ -69,7 +69,6 @@
 <style>
   .nav-link-white-blue {
     font-family: Avenir, Helvetica, Arial, sans-serif;
-   
     font-size: larger;
     text-decoration: none;
     color: white;
