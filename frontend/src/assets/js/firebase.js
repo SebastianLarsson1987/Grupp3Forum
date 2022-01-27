@@ -55,7 +55,7 @@ const resetPassword = async (email) => {
 }
 
 // Log in
-const logIn = async (newEmail, username, password) => {
+const logIn = async (newEmail, password) => {
     try {
         await signInWithEmailAndPassword(auth, newEmail, password);
     } catch (err) {

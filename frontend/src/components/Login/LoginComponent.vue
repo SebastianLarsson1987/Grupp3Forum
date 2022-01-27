@@ -61,7 +61,7 @@
 </template>
 
 <script>
-// import firebase from "firebase";
+import { logIn } from "../../assets/js/firebase";
 export default {
   data() {
     return {
@@ -72,18 +72,10 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      //   firebase.auth()
-      //   .signInWithEmailAndPassword(this.user.email, this.user.password).then(() => {
-      //     this.$router.push('/forum')
-      //    })
-      //   .catch((err) => {
-      //      console.log(err);
-      //      alert(err);
-      //   });
-      // }
+    async onSubmit() {
+      await logIn(this.user.email, this.user.password);
+      this.$router.push("/forum");
     }
-
   }
 };
 </script>

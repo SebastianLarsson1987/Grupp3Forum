@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import firebase from 'firebase'
-
+import { auth } from '../assets/js/firebase'
 import UserPosts from '../components/Profile/UserPosts.vue'
 import Profilesettings from '../components/Profile/Profilesettings.vue'
 import DashboardComponent from '../components/Navbar/DashboardComponent.vue'
@@ -13,11 +12,11 @@ import Categorythreads from '../components/Forum/Categorythreads.vue'
 import ThreadAndMessages from '../components/Forum/ThreadAndMessages.vue'
 
 const routes = [
-  
+
   {
-      path: '/profilesettings/:id',
-      name: 'Profilesettings',
-      component: Profilesettings
+    path: '/profilesettings/:id',
+    name: 'Profilesettings',
+    component: Profilesettings
   },
   {
     path: '/userposts/:id',
@@ -39,35 +38,35 @@ const routes = [
     }
 
   },
-  { 
+  {
     path: '/',
     name: 'Main',
     // component: () => import('./components/HomeComponent.vue')
     component: Main
-  },  
+  },
 
-  { 
+  {
     path: '/register-user',
     name: 'register-user',
     // component: () => import('./components/RegisterComponent.vue')
     component: RegisterComponent
-  },    
+  },
 
-  { 
+  {
     path: '/gdpr',
     name: 'gdpr',
     // component: () => import('./components/GDPRComponent.vue')
     component: GDPRComponent
-  }, 
+  },
 
-  { 
+  {
     path: '/signin',
     name: 'signin',
     // component: () => import('./components/LoginComponent.vue')
     component: LoginComponent
   },
 
-  { 
+  {
     path: '/forum',
     name: 'forum',
     // component: () => import('./components/ForumComponent.vue'),
@@ -77,7 +76,7 @@ const routes = [
     },
   },
 
-  { 
+  {
     path: '/dashboard',
     name: 'dashboard',
     // component: () => import('./components/DashboardComponent.vue'),
@@ -92,19 +91,19 @@ const router = createRouter({
   routes,
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.matched.some(record => record.meta.authRequired)) {
-//       if (firebase.auth().currentUser) {
-//           next();
-//       } else {
-//           alert('You must be logged in to see this page');
-//           next({
-//               path: '/',
-//           });
-//       }
-//   } else {
-//       next();
-//   }
-// });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.authRequired)) {
+    if (auth.currentUser) {
+      next();
+    } else {
+      alert('You must be logged in to see this page');
+      next({
+        path: '/',
+      });
+    }
+  } else {
+    next();
+  }
+});
 
 export default router
