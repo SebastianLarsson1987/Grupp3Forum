@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 #nullable disable
 
@@ -20,7 +21,9 @@ namespace Backend.Models.Database
         public string UserUid { get; set; }
         public int CategoryId { get; set; }
 
+        [JsonIgnore]
         public virtual Category Category { get; set; }
+        [JsonIgnore]
         public virtual User UserU { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
     }

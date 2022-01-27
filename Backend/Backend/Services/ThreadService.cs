@@ -47,7 +47,7 @@ namespace Backend.Services
 
         public IEnumerable<Category> GetAllCategoriesAndThreads()
         {
-            var result = _db.Categories.Include(x => x.NewThreads);
+            var result = _db.Categories.Include(x => x.NewThreads).ThenInclude(x=>x.Messages);
             //var result = _db.Categories.Include(x => x.NewThreads);
             return result;
         }
