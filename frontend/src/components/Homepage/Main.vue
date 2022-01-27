@@ -9,14 +9,14 @@
   <div>
     <nav id="main-menu">
       <ul>
-        <li v-for='categoryName in categoryNames' :key='categoryName'><a href="#">{{categoryName.categoryName}}</a></li>
+        <li v-for='categoryName in categoryNames' :key='categoryName'><a :href="`#${categoryName.categoryName}`">{{categoryName.categoryName}}</a></li>
       </ul>
     </nav>
   </div>
     <!-- <h1>Main</h1> -->
     <div v-for="item in AllCategoriesAndThreads" :key="item.id" class="content-item">
       <div class="name">
-         <router-link :to="`/categorythreads/${item.id}`" class="category-header">{{item.categoryName}}</router-link>
+         <router-link :id="item.categoryName" :to="`/categorythreads/${item.id}`" class="category-header">{{item.categoryName}}</router-link>
          <p>Antal trådar: {{item.newThreads.length}}</p>
       </div>
       <div v-for="item2 in item.newThreads.slice(0,2) " :key="item2.id" class="threads">
@@ -48,9 +48,6 @@
       await this.loadCategories()
       await this.$store.dispatch('fetchCategoriesAndThreads')
     },
-    // async created(){
-    //   await this.loadCategories()
-    // },
     methods:{
     async loadCategories(){
         await this.$store.dispatch('fetchCategories')
