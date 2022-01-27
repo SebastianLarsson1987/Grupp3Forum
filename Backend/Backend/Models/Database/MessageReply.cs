@@ -15,6 +15,5 @@ namespace Backend.Models.Database
         public int UserId { get; set; }
 
         public virtual Message Message { get; set; }
-        public virtual User User { get; set; }
     }
 }

@@ -55,18 +55,6 @@ namespace Backend.Models.Database
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("date");
-
-                entity.HasOne(d => d.Thread)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.ThreadId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Message__ThreadI__6754599E");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Message__UserId__68487DD7");
             });
 
             modelBuilder.Entity<MessageReply>(entity =>
@@ -86,19 +74,13 @@ namespace Backend.Models.Database
                     .HasForeignKey(d => d.MessageId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Message_R__Messa__6B24EA82");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.MessageReplies)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Message_R__UserI__6C190EBB");
             });
 
             modelBuilder.Entity<NewThread>(entity =>
             {
                 entity.ToTable("NewThread");
 
-                entity.Property(e => e.CreateadAt).HasColumnType("date");
+                entity.Property(e => e.CreateadAt).HasColumnType("datetime");
 
                 entity.Property(e => e.Text)
                     .IsRequired()
@@ -108,7 +90,7 @@ namespace Backend.Models.Database
                     .IsRequired()
                     .IsUnicode(false);
 
-                entity.Property(e => e.UpdatedAt).HasColumnType("date");
+                entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.NewThreads)
@@ -135,6 +117,8 @@ namespace Backend.Models.Database
                 entity.Property(e => e.Email)
                     .IsRequired()
                     .IsUnicode(false);
+
+                entity.Property(e => e.Uid).IsUnicode(false);
 
                 entity.Property(e => e.UserName)
                     .IsRequired()
