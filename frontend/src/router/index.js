@@ -10,6 +10,7 @@ import ForumComponent from '../components/Forum/ForumComponent.vue'
 import Main from '../components/Homepage/Main.vue'
 import Categorythreads from '../components/Forum/Categorythreads.vue'
 import ThreadAndMessages from '../components/Forum/ThreadAndMessages.vue'
+import WriteMessage from "../components/Forum/CreateThread/WriteMessage";
 
 const routes = [
 
@@ -28,6 +29,11 @@ const routes = [
     name: 'Category-Threads',
     component: Categorythreads
 
+  },
+  {
+    path: "/newthread",
+    name: "NewThread",
+    component: WriteMessage
   },
   {
     path: '/threadmessages/:id',
