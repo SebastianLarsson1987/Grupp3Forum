@@ -23,8 +23,8 @@ namespace Backend.Services
             return await _Db.Users.ToListAsync();
         }
 
-        public User GetOneUser(int id)
-        { return _Db.Users.FirstOrDefault(x => x.Id == id); }
+        public User GetOneUser(string id)
+        { return _Db.Users.FirstOrDefault(x => x.Uid == id); }
 
         public async Task<bool> UpdateUser(User user)
         {
@@ -42,10 +42,10 @@ namespace Backend.Services
             }
         }
 
-        public void RemoveUser(string email)
+        public void RemoveUser(string id)
         {
             const string deleted = "deleted";
-            var customer = _Db.Users.SingleOrDefault(x => x.Email == email);
+            var customer = _Db.Users.SingleOrDefault(x => x.Uid == id);
             customer.Banned = false;
             customer.Email = deleted;
             customer.UserName = deleted;
@@ -56,7 +56,7 @@ namespace Backend.Services
 
         }
         
-        public async Task<ActionResult<User>> EditUserDetails(int id, string email, string UserName)
+        public async Task<ActionResult<User>> EditUserDetails(string id, string email, string UserName)
         {
 
             if (!ModelState.IsValid)
@@ -64,7 +64,7 @@ namespace Backend.Services
                 return BadRequest("Not a valid model");
             }
 
-            var existingUser = _Db.Users.Where(u => u.Id == id)
+            var existingUser = _Db.Users.Where(u => u.Uid == id)
                 .FirstOrDefault();
 
             if (existingUser != null)

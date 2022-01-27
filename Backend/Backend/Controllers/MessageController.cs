@@ -26,7 +26,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("GetUserMessages/{id}")]
-        public async Task<IEnumerable<Message>> GetUserMessages(int id)
+        public async Task<IEnumerable<Message>> GetUserMessages(string id)
         {
             
 

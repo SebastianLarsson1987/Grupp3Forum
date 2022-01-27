@@ -43,7 +43,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("GetUser")]
-        public User GetOneUser(int id)
+        public User GetOneUser(string id)
         {
             var oneUser = _userService.GetOneUser(id);
             return oneUser;
@@ -68,7 +68,7 @@ namespace Backend.Controllers
         }
 
         [HttpPut("EditUser/{id}")]
-        public async Task<ActionResult<User>> EditUserDetails(int id, string email, string UserName)
+        public async Task<ActionResult<User>> EditUserDetails(string id, string email, string UserName)
         {
             return await _userService.EditUserDetails(id, email, UserName);
         }

@@ -10,7 +10,7 @@ namespace Backend.Services
     public interface IUserService
     {
         Task<IEnumerable<User>> GetAllUser();
-        User GetOneUser(int id);
+        User GetOneUser(string id);
         void RemoveUser(string email);
         Task<bool> UpdateUser(User user);
     }

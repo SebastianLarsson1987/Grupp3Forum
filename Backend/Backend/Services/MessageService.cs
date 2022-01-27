@@ -27,10 +27,10 @@ namespace Backend.Services
 
         }
 
-        public async Task<IEnumerable<Message>> GetUserMessages(int id)
+        public async Task<IEnumerable<Message>> GetUserMessages(string id)
         {
             
-            var result = await _Db.Messages.Where(message => message.UserId == id).ToListAsync();
+            var result = await _Db.Messages.Where(message => message.UserUid == id).ToListAsync();
             return result;
         }
 

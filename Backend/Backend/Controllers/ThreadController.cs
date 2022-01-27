@@ -34,7 +34,7 @@ namespace Backend.Controllers
                 Text = model.Content,
                 CreateadAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
-                UserId = model.UserId,
+                UserUid = model.UserId,
                 CategoryId = model.CategoryId
 
 
@@ -53,7 +53,8 @@ namespace Backend.Controllers
                 CreatedAt = default,
                 UpdatedAt = default,
                 ThreadId = model.ThreadId,
-                UserId = model.UserId
+                UserUid = model.UserId
+                
 
             };
             _db.Messages.Add(newMessage);
