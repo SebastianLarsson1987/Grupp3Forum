@@ -37,7 +37,7 @@ export default {
         size: {
             type: Number,
             required: false,
-            default: 1
+            default: 2
         }
     },
 
@@ -81,13 +81,14 @@ export default {
             this.pageNumber--;
         },
         lastPage(){
-            const start = this.pageNumber * this.size
-            let end = start + this.size;
-            this.pageNumber = end;
-            if(!this.pageNumber.length){
-                console.log("Endpage")
-            }
-            return end;
+            let length = this.$store.state.newThreads.length
+            let size = this.size;
+            
+            let pageCount = Math.ceil(length/size);
+
+            this.pageNumber = pageCount-1;
+            return this.pageNumber;
+            
         },
         firstPage(){
             this.pageNumber = 0;
