@@ -19,6 +19,7 @@
                             <li class="threadmessages-wrapper-form-messages-list">
                                 <div class="threadmessages-wrapper-form-messages-list-header">
                                     <i>Skapad {{message.createdAt}}</i>
+                                    <i>Uppdaterad {{message.updatedAt}}</i>
                                     <i>#{{message.id}}</i>
                                 </div>
                                 <div class="threadmessages-wrapper-form-messages-list-content">
@@ -28,18 +29,18 @@
                         </ul>
                     </div>
                     <div class="threadmessages-wrapper-form-messages-scroll-buttons">
-                        <button type="button" @click="firstPage" :disabled="pageNumber === 0">Första sidan</button>
-                        <button type="button" @click="prevPage" :disabled="pageNumber === 0">Föregående</button>
+                        <button type="button" @click="firstPage" :disabled="pageNumber === 0"><i class="fas fa-angle-double-left"></i></button>
+                        <button type="button" @click="prevPage" :disabled="pageNumber === 0"><i class="fas fa-chevron-left"></i></button>
                         <p>sida {{pageNumber +1}} av {{pageCount}}</p>
-                        <button type="button" @click="nextPage" :disabled="pageNumber >= pageCount -1">Nästa</button>
-                        <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1">Sista sidan</button>
+                        <button type="button" @click="nextPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-chevron-right"></i></button>
+                        <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-angle-double-right"></i></button>
                     </div>
                 </div>
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     <div>
                         <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
                         rows="5" cols="100" v-model="newMessage.mtext"></textarea>
-                        <button type="button" @click="postMessage()">Skapa meddelande</button>
+                        <button @click="postMessage()">Skapa meddelande</button>
                         <input type="text" v-model="newMessage.userId">
                     </div>
                 </div>
@@ -57,7 +58,7 @@ export default {
         size: {
             type: Number,
             required: false,
-            default: 2
+            default: 5
         }
     },
     data(){
@@ -92,7 +93,11 @@ export default {
         paginatedData(){
             const start = this.pageNumber * this.size,
             end = start + this.size;
-            return this.$store.state.messages.slice(start,end);
+
+            let array = this.$store.state.messages.slice(start,end)
+            .sort((a, b)=> a.updatedAt - b.updatedAt);
+            console.log("paginateddata", array)
+            return array;
         }
     },
 
@@ -102,13 +107,14 @@ export default {
             return this.threadAndMessages;
         },
 
-        async postMessage(){
+        postMessage(){
             let payload = {
                 mtext: this.newMessage.mtext,
                 threadId: this.$route.params.id,
                 userId: this.newMessage.userId
             }
-            return this.$store.dispatch('postMessageInThread', payload)
+            var result = this.$store.dispatch('postMessageInThread', payload)
+            return result;
         },
 
 
@@ -119,11 +125,14 @@ export default {
             this.pageNumber--;
         },
         lastPage(){
-            const start = this.pageNumber * this.size
-            let end = start + this.size;
-            this.pageNumber = end;
+            let length = this.$store.state.messages.length
+            let size = this.size;
+            
+            let pageCount = Math.ceil(length/size);
 
-            return end-1;
+            this.pageNumber = pageCount-1;
+            return this.pageNumber;
+            
         },
         firstPage(){
             this.pageNumber = 0;

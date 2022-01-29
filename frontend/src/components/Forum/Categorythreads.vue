@@ -16,12 +16,12 @@
                         </li>
                     </ul>
                 </div>
-                <div class="categorythreads-wrapper-form-scroll-buttons">
-                    <button type="button" @click="firstPage" :disabled="pageNumber === 0">Första sidan</button>
-                    <button type="button" @click="prevPage" :disabled="pageNumber === 0">Föregående</button>
+                <div v-if="paginatedData.length != 0" class="categorythreads-wrapper-form-scroll-buttons">
+                    <button type="button" @click="firstPage" :disabled="pageNumber === 0"><i class="fas fa-angle-double-left"></i></button>
+                    <button type="button" @click="prevPage" :disabled="pageNumber === 0"><i class="fas fa-chevron-left"></i></button>
                     <p>sida {{pageNumber +1}} av {{pageCount}}</p>
-                    <button type="button" @click="nextPage" :disabled="pageNumber >= pageCount -1">Nästa</button>
-                    <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1">Sista sidan</button>
+                    <button type="button" @click="nextPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-chevron-right"></i></button>
+                    <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-angle-double-right"></i></button>
                 </div>
             </div>
         </form>

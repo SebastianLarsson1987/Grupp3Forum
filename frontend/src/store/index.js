@@ -111,7 +111,11 @@ const store = createStore({
                this.state.oneCategoryAndThreads = response.data;
                this.state.oneCategoryAndThreads.forEach((item) => {
                    this.state.newThreads = [...item.newThreads]
+                   this.state.newThreads.sort(function(a,b){
+                       return new Date(b.updatedAt) - new Date(a.updatedAt)
+                   })
                })
+               console.log(this.state.newThreads)
                console.log(this.state.oneCategoryAndThreads)
            })
            .catch(error => {
@@ -126,6 +130,9 @@ const store = createStore({
                 this.state.oneThreadAndMessages = response.data
                 this.state.oneThreadAndMessages.forEach((item) => {
                     this.state.messages = [...item.messages]
+                    this.state.messages.sort(function(a,b){
+                        return new Date(a.updatedAt) - new Date(b.updatedAt)
+                    })
                 })
                 console.log(this.state.messages)
                 console.log(this.state.oneThreadAndMessages)
