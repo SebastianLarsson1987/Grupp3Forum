@@ -39,18 +39,18 @@
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     <div>
                         <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
-                        rows="5" cols="100" v-model="newMessage.mtext"></textarea>
-                        <button @click="postMessage()">Skapa meddelande</button>
-                        <input type="text" v-model="newMessage.userId">
+                        rows="5" cols="100" v-model="newMessage.mtext" :disabled="writeMessageDisabled"></textarea>
+                        <button @click="postMessage()" :disabled="writeMessageDisabled">Skapa meddelande</button>
                     </div>
                 </div>
             </div>
-            
         </form>
     </div>
 </template>
 
 <script>
+
+import { auth } from "../../assets/js/firebase";
 
 export default {
 
@@ -65,11 +65,10 @@ export default {
         return{
            newMessage:{
                 mtext: "",
-                userId: 0
            },
             messages: this.$store.getters.getMessages,
-            pageNumber: 0
-           
+            pageNumber: 0,
+            writeMessageDisabled: false
            
         }
     },
@@ -108,12 +107,19 @@ export default {
         },
 
         postMessage(){
+            
             let payload = {
                 mtext: this.newMessage.mtext,
                 threadId: this.$route.params.id,
-                userId: this.newMessage.userId
+                userId: auth.currentUser.uid
             }
-            var result = this.$store.dispatch('postMessageInThread', payload)
+            if(payload.mtext == ""){
+                alert("Fältet får inte vara tomt")
+            }
+            else{
+                var result = this.$store.dispatch('postMessageInThread', payload)
+            }
+            
             return result;
         },
 
@@ -143,8 +149,10 @@ export default {
 
     created(){
         this.getOneThreadAndMessages(this.$route.params.id)
-        console.log(this.oneThreadAndMessages2)
-        console.log(this.messages)
+        
+        if(!auth.currentUser){
+            this.writeMessageDisabled = true;
+        }
         
     },
     
@@ -229,6 +237,16 @@ export default {
     display:block;
     margin: 0 auto;
     margin-top: 2vh;
+}
+
+.threadmessages-wrapper-form-messages-writeMessage>div{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.threadmessages-wrapper-form-messages-writeMessage>div>button{
+    width:55%;
 }
 
 

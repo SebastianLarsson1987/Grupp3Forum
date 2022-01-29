@@ -18,6 +18,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
 
+
 // Register
 const register = async (regEmail, username, password) => {
     try {
@@ -55,7 +56,7 @@ const resetPassword = async (email) => {
 }
 
 // Log in
-const logIn = async (newEmail, password) => {
+const logIn = async (newEmail, username, password) => {
     try {
         await signInWithEmailAndPassword(auth, newEmail, password);
     } catch (err) {
