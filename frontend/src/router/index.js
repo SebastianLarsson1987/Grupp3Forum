@@ -17,12 +17,18 @@ const routes = [
   {
     path: '/profilesettings/:id',
     name: 'Profilesettings',
-    component: Profilesettings
+    component: Profilesettings,
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: '/userposts/:id',
     name: 'User-posts',
-    component: UserPosts
+    component: UserPosts,
+    meta: {
+      authRequired: true,
+    },
   },
   {
     path: '/categorythreads/:id',

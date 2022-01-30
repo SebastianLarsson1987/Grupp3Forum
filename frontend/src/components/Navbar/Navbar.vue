@@ -51,7 +51,7 @@ import { auth } from "../../assets/js/firebase";
       data(){
         return{
           
-          
+          toggleProfileLink: false,
          
         }
       },
@@ -59,10 +59,23 @@ import { auth } from "../../assets/js/firebase";
       computed: {
             uid(){
             let user = auth.currentUser;
-
-            console.log(user.uid)
-            return user.uid
+            if(!user){
+              return console.log("not logged in")
+            }
+            else{
+              return user.uid
+            }
             
+            },
+
+            currentUser(){
+              let user = auth.currentUser;
+              if(user){
+                return false;
+              }
+              else{
+                return true;
+              }
             }
       },
       
