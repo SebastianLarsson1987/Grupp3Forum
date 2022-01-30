@@ -33,22 +33,27 @@
                 </router-link>
               </div>
 
-              <div>
-                <router-link class="nav-link link-light" :to="`/profilesettings/${authId}`">
-                    Profil
-                </router-link>
-              </div>
    </div>
 </template>
 
 <script>
-import { auth } from "../../assets/js/firebase";
+
 
   export default {
       data(){
         return{
-          authId: auth.currentUser.uid
+          
+         
         }
+      },
+
+      computed: {
+            
+      },
+      
+
+      created(){
+
       }
   }
 </script>
