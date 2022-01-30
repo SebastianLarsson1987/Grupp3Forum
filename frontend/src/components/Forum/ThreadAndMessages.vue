@@ -39,7 +39,7 @@
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     <div>
                         <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
-                        rows="5" cols="100" v-model="newMessage.mtext" :disabled="writeMessageDisabled"></textarea>
+                        rows="5" cols="100" placeholder="Skriv ditt meddelande här..." v-model="newMessage.mtext" :disabled="writeMessageDisabled"></textarea>
                         <button @click="postMessage()" :disabled="writeMessageDisabled">Skapa meddelande</button>
                     </div>
                 </div>
@@ -149,12 +149,15 @@ export default {
 
     created(){
         this.getOneThreadAndMessages(this.$route.params.id)
-        
         if(!auth.currentUser){
             this.writeMessageDisabled = true;
         }
         
     },
+
+    updated(){
+        //this.lastPage();
+    }
     
 }
 </script>

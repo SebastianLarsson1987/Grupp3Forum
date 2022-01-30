@@ -16,13 +16,13 @@
                 <h2>Innehåll</h2>
                 <nav class="userprofile-form-grid3-contentNavbar">
                     <div>
-                        <router-link :to="`/userposts/${authId}`">Inlägg</router-link>
+                        <router-link :to="`/userposts/${uid}`">Inlägg</router-link>
                     </div>
                     <div>
                          <router-link to="#">Grupper</router-link>
                     </div>
                     <div>
-                        <router-link :to="`/profilesettings/${authId}`">Profilinställningar</router-link>
+                        <router-link :to="`/profilesettings/${uid}`">Profilinställningar</router-link>
                     </div>
                 </nav>
             </div>
@@ -70,13 +70,21 @@ export default {
             isReadOnly: true,
             showPosts: false,
             editProfile: false,
-            authId: auth.currentUser.uid
+            authId: 0
         }
     },
     computed:{
             user(){
                 return this.$store.state.user;
-            }
+            },
+
+            uid(){
+            let user = auth.currentUser;
+
+            console.log(user.uid)
+            return user.uid
+            
+        }
     },
     methods:{
         edit(){
