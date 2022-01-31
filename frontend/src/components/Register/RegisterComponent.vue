@@ -18,27 +18,27 @@
                         d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"
                     />
                 </svg>
-                Register
+                Bli medlem
             </h5>
             <br />
             <form @submit.prevent="onSubmit">
                 <div class="form-group mb-3">
                     <label>
-                        <strong>UserName</strong>
+                        <strong>Användarnamn</strong>
                     </label>
                     <input type="text" class="form-control form-control-lg" v-model="user.name" />
                 </div>
 
                 <div class="form-group mb-3">
                     <label>
-                        <strong>Email</strong>
+                        <strong>E-post</strong>
                     </label>
                     <input type="email" class="form-control form-control-lg" v-model="user.email" />
                 </div>
 
                 <div class="form-group mb-3">
                     <label>
-                        <strong>Password</strong>
+                        <strong>Lösenord</strong>
                     </label>
                     <input
                         type="password"
@@ -47,33 +47,30 @@
                     />
                 </div>
 
-                <div class="d-grid">
-                    <input
-                        type="submit"
-                        class="btn btn-primary btn-lg btn-block"
-                        value="Register User"
-                    />
-                </div>
+            
             </form>
 
-            <div style="position:absolute;">
-                <router-link style="color:black;" class="nav-link link-light" to="/gdpr">
-                    <div class="form-check">
-                        <input
-                            class="form-check-input"
-                            type="radio"
-                            name="flexRadioDisabled"
-                            id="flexRadioCheckedDisabled"
-                            checked
-                            disabled
-                        />
-                        <label
-                            class="form-check-label"
-                            for="flexRadioCheckedDisabled"
-                        >By clicking submit you agree to the privacy policy. Read more - GDPR</label>
-                    </div>
-                </router-link>
-            </div>
+            <input type="checkbox"
+            :inProgress="inProgress"
+            @click="clickAction">
+            Jag har läst & accepterar alla villkor!
+            <router-link style="color:black;"  class="nav-link link-light" to="/gdpr">Läs om alla villkor här.
+            </router-link>
+            <br>
+            <br>
+
+            <span v-if="inProgress">
+            
+              <div class="d-grid">
+                    <input
+                        type="submit"
+                        @click="onSubmit"
+                        class="btn btn-primary btn-lg btn-block"
+                        value="Bli medlem"
+                    />
+                </div>
+            </span>
+
         </div>
     </div>
 </template>
@@ -89,13 +86,23 @@ export default {
                 email: '',
                 password: '',
             },
+            inProgress: this.actionInProgress
         };
     },
     methods: {
-        async onSubmit() {
-            await register(this.user.email, this.user.name, this.user.password);
-            this.$router.push('/dashboard')
-        },
+    async onSubmit() {
+    await register(this.user.email, this.user.name, this.user.password);
+    this.$router.push('/dashboard')
+    },
+
+      clickAction () {
+      this.updateActionInProgress(true)
+      this.$emit('clicked')
+    },
+      updateActionInProgress (status) {
+      this.inProgress = status
+      this.$emit('update:actionInProgress', this.inProgress)
+    }
     },
 };
 </script>

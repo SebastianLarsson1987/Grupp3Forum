@@ -16,46 +16,30 @@
           />
           <path d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
         </svg>
-        Login
+        Logga in
       </h5>
       <br />
       <form @submit.prevent="onSubmit">
         <div class="form-group mb-3">
           <label>
-            <strong>Email</strong>
+            <strong>E-post</strong>
           </label>
           <input type="email" class="form-control form-control-lg" v-model="user.email" />
         </div>
 
         <div class="form-group mb-3">
           <label>
-            <strong>Password</strong>
+            <strong>Lösenord</strong>
           </label>
           <input type="password" class="form-control form-control-lg" v-model="user.password" />
         </div>
 
         <div class="d-grid">
-          <input type="submit" class="btn btn-primary btn-lg btn-block" value="Login" />
+          <input type="submit" class="btn btn-primary btn-lg btn-block" value="Logga in" />
         </div>
       </form>
-      <div style="position:absolute;">
-        <router-link style="color:black;" class="nav-link link-light" to="/gdpr">
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDisabled"
-              id="flexRadioCheckedDisabled"
-              checked
-              disabled
-            />
-            <label
-              class="form-check-label"
-              for="flexRadioCheckedDisabled"
-            >By clicking submit you agree to the privacy policy. Read more - GDPR</label>
-          </div>
-        </router-link>
-      </div>
+     
+      
     </div>
   </div>
 </template>
