@@ -70,9 +70,8 @@ namespace Backend.Services
 
         public async Task<IEnumerable<NewThread>> GetMessagesAndThreadById(int id)
         {
-
             var result = _db.NewThreads.Where(x => x.Id == id)
-                .Include(thread => thread.Messages);
+                .Include(thread => thread.Messages).OrderByDescending(i => i);
               
             return result;
         }
