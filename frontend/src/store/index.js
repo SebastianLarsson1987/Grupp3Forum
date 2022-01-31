@@ -142,6 +142,17 @@ const store = createStore({
            })
         },
 
+        async deleteMessage(_, id){
+            axios
+            .delete(`https://localhost:44362/api/Message?id=${id}`)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        },
+
        async postMessageInThread(_, {mtext, threadId, userId}){  
         await fetch(`https://localhost:44362/api/Thread/WriteMessage?text=${mtext}&threadId=${threadId}&userId=${userId}`, {
             method: "POST",

@@ -16,13 +16,13 @@
                 <h2>Innehåll</h2>
                 <nav class="userprofile-form-grid3-contentNavbar">
                     <div>
-                        <router-link :to="`/userposts/${uid}`">Inlägg</router-link>
+                        <router-link :to="`/userposts/${$route.params.id}`">Inlägg</router-link>
                     </div>
                     <div>
                          <router-link to="#">Grupper</router-link>
                     </div>
                     <div>
-                        <router-link :to="`/profilesettings/${uid}`">Profilinställningar</router-link>
+                        <router-link :to="`/profilesettings/${$route.params.id}`">Profilinställningar</router-link>
                     </div>
                 </nav>
             </div>
@@ -35,7 +35,7 @@
                             <textarea v-bind:disabled="post.isDisabled" class="userprofile-form-grid4-textarea" 
                             rows="4" cols="50" v-model="post.text"></textarea>
                             <div class="userprofile-form-grid4-buttons">
-                                <button>Ta bort</button>
+                                <button @click="deleteMessage(post.id)">Ta bort</button>
                                 <button type="button" @click="post.isDisabled = false">Redigera</button>
                                 <button @click="putMessageText(post.id, post.text)">Spara</button>
                                 <button @click="post.isDisabled = true">Avbryt</button>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { auth } from "../../assets/js/firebase";
+//import { auth } from "../../assets/js/firebase";
 
 export default {
     components: {
@@ -83,13 +83,13 @@ export default {
             
         },
 
-        uid(){
-            let user = auth.currentUser;
+        // uid(){
+        //     let user = auth.currentUser;
 
-            console.log(user.uid)
-            return user.uid
+        //     console.log(user.uid)
+        //     return user.uid
             
-        }
+        // }
         
 
 
@@ -104,7 +104,15 @@ export default {
             return this.$store.dispatch('putMessageText', {id, text})
         },
 
-        
+        deleteMessage(id){
+            if(confirm('Är du säker på att du vill ta bort detta meddelande?')){
+                this.$store.dispatch('deleteMessage', id)
+                return true;
+            }
+            else{
+                return false
+            }
+        }
 
 
        

@@ -19,7 +19,7 @@ const routes = [
     name: 'Profilesettings',
     component: Profilesettings,
     meta: {
-      authRequired: true,
+      //authRequired: true,
     },
   },
   {
@@ -27,7 +27,7 @@ const routes = [
     name: 'User-posts',
     component: UserPosts,
     meta: {
-      authRequired: true,
+      //authRequired: true,
     },
   },
   {

@@ -5,8 +5,9 @@
                  <img src="../../assets/emptyavatar2.png" alt="">
             </div>
             <div class="userprofile-form-grid2">
-                <div class="userprofile-form-grid2-button">
+                <div class="userprofile-form-grid2-buttons">
                     <button type="button" @click="edit">Redigera Profil</button>
+                    <button type="button" >Ta bort Profil</button>
                 </div>
                 <div class="userprofile-form-grid2-button-amountOfPosts">
                     
@@ -16,13 +17,13 @@
                 <h2>Innehåll</h2>
                 <nav class="userprofile-form-grid3-contentNavbar">
                     <div>
-                        <router-link :to="`/userposts/${uid}`">Inlägg</router-link>
+                        <router-link :to="`/userposts/${$route.params.id}`">Inlägg</router-link>
                     </div>
                     <div>
                          <router-link to="#">Grupper</router-link>
                     </div>
                     <div>
-                        <router-link :to="`/profilesettings/${uid}`">Profilinställningar</router-link>
+                        <router-link :to="`/profilesettings/${$route.params.id}`">Profilinställningar</router-link>
                     </div>
                 </nav>
             </div>
@@ -84,7 +85,7 @@ export default {
             console.log(user.uid)
             return user.uid
             
-        }
+            }
     },
     methods:{
         edit(){
@@ -157,10 +158,17 @@ export default {
        
     }
 
-    .userprofile-form-grid2-button{
+    .userprofile-form-grid2-buttons{
         float:right;
         margin-right: 2vw;
         margin-top: 2vh;
+        display:flex;
+        flex-direction: column;
+        padding: 1vw;
+    }
+
+    .userprofile-form-grid2-buttons>button{
+        margin-bottom: 1vh;
     }
 
     .userprofile-form-grid2-button-amountOfPosts{
