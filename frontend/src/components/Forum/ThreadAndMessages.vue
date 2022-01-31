@@ -25,6 +25,9 @@
                                 <div class="threadmessages-wrapper-form-messages-list-content">
                                     <p>{{message.text}}</p>
                                 </div>
+                                <div v-if="item.userUid === uid">
+                                    <button>Ta bort innehåll</button>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -39,18 +42,18 @@
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     <div>
                         <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
-                        rows="5" cols="100" v-model="newMessage.mtext"></textarea>
-                        <button @click="postMessage()">Skapa meddelande</button>
-                        <input type="text" v-model="newMessage.userId">
+                        rows="5" cols="100" placeholder="Skriv ditt meddelande här..." v-model="newMessage.mtext" :disabled="writeMessageDisabled"></textarea>
+                        <button @click="postMessage()" :disabled="writeMessageDisabled">Skapa meddelande</button>
                     </div>
                 </div>
             </div>
-            
         </form>
     </div>
 </template>
 
 <script>
+
+import { auth } from "../../assets/js/firebase";
 
 export default {
 
@@ -65,11 +68,10 @@ export default {
         return{
            newMessage:{
                 mtext: "",
-                userId: 0
            },
             messages: this.$store.getters.getMessages,
-            pageNumber: 0
-           
+            pageNumber: 0,
+            writeMessageDisabled: false
            
         }
     },
@@ -98,7 +100,17 @@ export default {
             .sort((a, b)=> a.updatedAt - b.updatedAt);
             console.log("paginateddata", array)
             return array;
-        }
+        },
+        uid(){
+            let user = auth.currentUser;
+              if(!user){
+                return console.log("not logged in")
+              }
+              else{
+                return user.uid
+              }
+            
+            },
     },
 
     methods:{
@@ -108,13 +120,20 @@ export default {
         },
 
         postMessage(){
+            
             let payload = {
                 mtext: this.newMessage.mtext,
                 threadId: this.$route.params.id,
-                userId: this.newMessage.userId
+                userId: auth.currentUser.uid
             }
-            var result = this.$store.dispatch('postMessageInThread', payload)
-            return result;
+            if(payload.mtext == ""){
+                return alert("Fältet får inte vara tomt")
+            }
+            else{
+                return this.$store.dispatch('postMessageInThread', payload)
+            }
+            
+            
         },
 
 
@@ -143,10 +162,15 @@ export default {
 
     created(){
         this.getOneThreadAndMessages(this.$route.params.id)
-        console.log(this.oneThreadAndMessages2)
-        console.log(this.messages)
+        if(!auth.currentUser){
+            this.writeMessageDisabled = true;
+        }
         
     },
+
+    updated(){
+        //this.lastPage();
+    }
     
 }
 </script>
@@ -229,6 +253,16 @@ export default {
     display:block;
     margin: 0 auto;
     margin-top: 2vh;
+}
+
+.threadmessages-wrapper-form-messages-writeMessage>div{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.threadmessages-wrapper-form-messages-writeMessage>div>button{
+    width:55%;
 }
 
 

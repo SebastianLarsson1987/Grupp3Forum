@@ -16,13 +16,13 @@
                 <h2>Innehåll</h2>
                 <nav class="userprofile-form-grid3-contentNavbar">
                     <div>
-                        <router-link to="/userposts">Inlägg</router-link>
+                        <router-link :to="`/userposts/${uid}`">Inlägg</router-link>
                     </div>
                     <div>
                          <router-link to="#">Grupper</router-link>
                     </div>
                     <div>
-                        <router-link to="/profilesettings">Profilinställningar</router-link>
+                        <router-link :to="`/profilesettings/${uid}`">Profilinställningar</router-link>
                     </div>
                 </nav>
             </div>
@@ -59,6 +59,8 @@
 
 <script>
 
+import { auth } from "../../assets/js/firebase";
+
 export default {
     components: {
       
@@ -67,13 +69,22 @@ export default {
         return{
             isReadOnly: true,
             showPosts: false,
-            editProfile: false
+            editProfile: false,
+            authId: 0
         }
     },
     computed:{
             user(){
                 return this.$store.state.user;
-            }
+            },
+
+            uid(){
+            let user = auth.currentUser;
+
+            console.log(user.uid)
+            return user.uid
+            
+        }
     },
     methods:{
         edit(){
@@ -162,7 +173,7 @@ export default {
         grid-row: 2;
         border-right: 1px solid black;
         border-top: 1px solid black;
-        background-color: dodgerblue;
+        background-color:#eff0f1;
         border-bottom-left-radius: 20px;
         box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
@@ -173,7 +184,7 @@ export default {
         text-align: center;
         margin-top: 2vh;
         margin-bottom: 2vh;
-        color:white;
+        color:black;
         
         
     }
@@ -190,7 +201,7 @@ export default {
     .userprofile-form-grid3-contentNavbar>div>a{
         text-decoration: none;
         font-size: 150%;
-        color:white;
+        color:black;
     }
 
     .userprofile-form-grid3-contentNavbar>div:hover    {
@@ -204,9 +215,8 @@ export default {
         grid-row: 2;
         border-left: 1px solid black;
         border-top: 1px solid black;
-        background-color: dodgerblue;
+        background-color:#eff0f1;
         border-bottom-right-radius: 20px;
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
         
     }
@@ -219,7 +229,7 @@ export default {
         margin-right: 2vw;
         margin-left: 2vw;
         margin-top: 2vh;
-        color:white;
+        color:black;
         font-size: 120%;
     }
     .userprofile-form-grid4-username>input{
@@ -233,7 +243,7 @@ export default {
         margin-bottom: 2vh;
         margin-right: 2vw;
         margin-left: 2vw;
-        color:white;
+        color:black;
         font-size: 120%;
     }
 
@@ -248,7 +258,7 @@ export default {
         margin-bottom: 2vh;
         margin-right: 2vw;
         margin-left: 2vw;
-        color:white;
+        color:black;
         font-size: 120%;
     }
 
@@ -263,7 +273,7 @@ export default {
         margin-bottom: 2vh;
         margin-right: 2vw;
         margin-left: 2vw;
-        color:white;
+        color:black;
         font-size: 120%;
     }
 
