@@ -49,17 +49,20 @@ const resetPassword = async (email) => {
         alert("Password reset link sent!");
     }
     catch (error) {
-        console.error(error);
+        console.log(auth)
+        console.error(error.code);
         alert(error.message);
     }
 
 }
 
 // Log in
-const logIn = async (newEmail, username, password) => {
+const logIn = async (email, password) => {
     try {
-        await signInWithEmailAndPassword(auth, newEmail, password);
+        await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
+        console.log(auth)
+        console.error(err.code);
         console.error(err);
         alert(err.message);
     }
