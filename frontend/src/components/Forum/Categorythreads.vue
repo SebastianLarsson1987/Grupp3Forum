@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="div-wrapper">
         <form class="categorythreads-wrapper-form"
         v-for="oneCategeoryPlusThreads in categoryAndThreadsComputed" :key="oneCategeoryPlusThreads.id">
             <div class="categorythreads-wrapper-form-header">
@@ -24,14 +24,21 @@
                     <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-angle-double-right"></i></button>
                 </div>
             </div>
+            <div class="categorythreads-wrapper-form-writeMessage">
+                <WriteMessage/>
+            </div>
         </form>
     </div>    
 </template>
 
 <script>
 
+import WriteMessage from '../Forum/CreateThread/WriteMessage.vue'
 
 export default {
+    components:{
+        WriteMessage
+    },
 
     props:{
         size: {
@@ -105,11 +112,15 @@ export default {
 
 <style scoped>
 
+.div-wrapper{
+    margin-bottom: 5vh;
+}
+
 .categorythreads-wrapper-form{
     margin: 0 auto;
     border: 1px solid black;
     width: 80vw;
-    height: 80vh;
+    min-height: 80vh;
     border-radius: 20px;
 }
 
@@ -118,6 +129,11 @@ export default {
 }
 .categorythreads-wrapper-form-header>h1{
     text-align: center;
+}
+
+.categorythreads-wrapper-form-writeMessage{
+    border-top: 1px solid black;
+    padding-bottom: 2vh;
 }
 
 .categorythreads-wrapper-form-threads-unordered-list{

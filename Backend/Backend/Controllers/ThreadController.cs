@@ -51,7 +51,7 @@ namespace Backend.Controllers
             {
                 Text = text,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = default,
+                UpdatedAt = DateTime.Now,
                 ThreadId = threadId,
                 UserUid = userId
 

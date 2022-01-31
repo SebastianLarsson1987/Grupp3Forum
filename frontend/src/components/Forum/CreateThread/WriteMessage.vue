@@ -1,10 +1,10 @@
 <template>
   <div class="row d-flex justify-content-center">
-    <h1>Create Thread</h1>
+    <!-- <h1>Create Thread</h1> -->
     <div class="col-md-8 mt-5">
       <form @submit.stop.prevent="submit">
         <div class="form-group mb-3">
-          <label>Topic</label>
+          <label>Ämne</label>
           <input
             type="text"
             name="Topic"
@@ -13,7 +13,7 @@
           />
         </div>
         <div class="form-group mb-3">
-          <label>Content</label>
+          <label>Innehåll</label>
           <textarea
             type="text"
             class="form-control form-control-lg"
@@ -21,7 +21,7 @@
             v-model="thread.content"
           ></textarea>
         </div>
-        <div class="form-group mb-3">
+        <!-- <div class="form-group mb-3">
           <select v-model="thread.categoryId">
             <option>Välj kategori</option>
             <option
@@ -30,9 +30,9 @@
               :value="item.id"
             >{{ item.categoryName }}</option>
           </select>
-        </div>
+        </div> -->
         <div class="d-grid">
-          <input type="submit" class="btn btn-danger" value="Submit" />
+          <input type="submit" class="btn btn-danger" value="Skapa tråd" />
         </div>
       </form>
     </div>
@@ -41,7 +41,7 @@
 
 <script>
 import { auth } from "../../../assets/js/firebase"
-import router from "../../../router";
+//import router from "../../../router";
 export default {
   data() {
     return {
@@ -63,6 +63,7 @@ export default {
       this.thread.userId = auth.currentUser.uid;
       this.thread.createdAt = Date.now().toString();
       this.thread.updatedAt = Date.now().toString();
+      this.thread.categoryId = this.$route.params.id
       console.log("Thread: ", this.thread)
       await fetch("https://localhost:44362/api/Thread/CreateThread", {
         method: "POST",
@@ -73,7 +74,7 @@ export default {
         body: JSON.stringify(this.thread)
 
       });
-      router.push("/")
+      //router.push("/")
     }
   },
   async created() {
