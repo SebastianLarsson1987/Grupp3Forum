@@ -59,12 +59,12 @@ import { auth } from "../../assets/js/firebase";
       computed: {
             uid(){
             let user = auth.currentUser;
-            if(!user){
-              return console.log("not logged in")
-            }
-            else{
-              return user.uid
-            }
+              if(!user){
+                return console.log("not logged in")
+              }
+              else{
+                return user.uid
+              }
             
             },
 

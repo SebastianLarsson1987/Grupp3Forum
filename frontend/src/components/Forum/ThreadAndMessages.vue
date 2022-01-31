@@ -25,6 +25,9 @@
                                 <div class="threadmessages-wrapper-form-messages-list-content">
                                     <p>{{message.text}}</p>
                                 </div>
+                                <div v-if="item.userUid === uid">
+                                    <button>Ta bort innehåll</button>
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -97,7 +100,17 @@ export default {
             .sort((a, b)=> a.updatedAt - b.updatedAt);
             console.log("paginateddata", array)
             return array;
-        }
+        },
+        uid(){
+            let user = auth.currentUser;
+              if(!user){
+                return console.log("not logged in")
+              }
+              else{
+                return user.uid
+              }
+            
+            },
     },
 
     methods:{
@@ -114,13 +127,13 @@ export default {
                 userId: auth.currentUser.uid
             }
             if(payload.mtext == ""){
-                alert("Fältet får inte vara tomt")
+                return alert("Fältet får inte vara tomt")
             }
             else{
-                var result = this.$store.dispatch('postMessageInThread', payload)
+                return this.$store.dispatch('postMessageInThread', payload)
             }
             
-            return result;
+            
         },
 
 
