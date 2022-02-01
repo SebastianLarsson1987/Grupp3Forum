@@ -3,6 +3,7 @@ import { auth } from '../assets/js/firebase'
 import UserPosts from '../components/Profile/UserPosts.vue'
 import Profilesettings from '../components/Profile/Profilesettings.vue'
 import DashboardComponent from '../components/Navbar/DashboardComponent.vue'
+import FAQ from '../components/Pages/FAQ.vue'
 import RegisterComponent from '../components/Register/RegisterComponent.vue'
 import GDPRComponent from '../components/Pages/GDPRComponent.vue'
 import LoginComponent from '../components/Login/LoginComponent.vue'
@@ -65,7 +66,11 @@ const routes = [
     name: 'gdpr',
     component: GDPRComponent
   },
-
+  {
+    path: '/FAQ',
+    name: 'FAQ',
+    component: FAQ,
+  },
   {
     path: '/signin',
     name: 'signin',
@@ -89,6 +94,7 @@ const routes = [
       authRequired: true,
     },
   }
+
 ]
 const router = createRouter({
   history: createWebHistory(),
