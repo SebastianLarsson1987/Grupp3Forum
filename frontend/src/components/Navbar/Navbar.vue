@@ -1,6 +1,6 @@
 <template>
-  <div class="d-flex justify-content-center p-4 mb-3 bg-dark">
-    <div class="d-flex mx-auto">
+  <div class="d-flex justify-content-center p-4 mb-3 bg-dark" style="text-align-last: right;">
+    <div class="d-flex mx-auto" style="position:relative ; left: 3%;">
       <div>
         <router-link class="nav-link-white-blue pr-4" to="/">Hem |</router-link>|
       </div>
@@ -8,10 +8,6 @@
       <router-link class="nav-link-white-blue" to="/forum">Forum |</router-link>|
     </div>
 
-
-
-
-    
             <span v-if="isLoggedIn">
             
             <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil
@@ -30,10 +26,10 @@
       </div>
     </span>
   </div>
-  <div class="d-flex ms-auto">
+  
     <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
     <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
-  </div>  
+   
 </div>
   
 </template>
