@@ -164,7 +164,16 @@ const store = createStore({
             })
        },
               
-        
+        async deleteUser(_, id){
+            await fetch(`https://localhost:44362/api/User/Remove?id=${id}` , {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': "application/json"
+                }
+                
+            })
+        },
                 
       async fetchCategories({commit}){
           let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")

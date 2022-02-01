@@ -7,7 +7,7 @@
             <div class="userprofile-form-grid2">
                 <div class="userprofile-form-grid2-buttons">
                     <button type="button" @click="edit">Redigera Profil</button>
-                    <button type="button" >Ta bort Profil</button>
+                    <button type="button" @click="removeUser">Ta bort Profil</button>
                 </div>
                 <div class="userprofile-form-grid2-button-amountOfPosts">
                     
@@ -60,7 +60,8 @@
 
 <script>
 
-import { auth } from "../../assets/js/firebase";
+import { auth, updateUser, editEmail, logOut, remove} from "../../assets/js/firebase";
+//import { useRouter } from 'vue-router'
 
 export default {
     components: {
@@ -71,7 +72,8 @@ export default {
             isReadOnly: true,
             showPosts: false,
             editProfile: false,
-            authId: 0
+            authId: 0,
+            authUser: null
         }
     },
     computed:{
@@ -102,12 +104,37 @@ export default {
 
         putUser(id, email, userName){
             this.isReadOnly = true
-            return this.$store.dispatch('editUser', {id, email, userName});
+            updateUser({
+               displayName: userName
+           })
+           editEmail(email)
+            this.$store.dispatch('editUser', {id, email, userName});
+            alert("Du skickas nu till inloggningssidan för att logga in igen för att ändringarna ska ha effekt");
+            logOut();
+            this.$router.push("/signin")
+        },
+
+        removeUser(){
+            if(confirm("Är du säker på att du vill ta bort ditt konto? Det går inte att återställa sitt konto efter detta steg.")){
+                remove();
+                this.$store.dispatch('deleteUser', this.$route.params.id);
+                logOut();
+                this.$router.push("/signin")
+                return true;
+            } else {
+                return false;
+            }
+            
         }
+        
     },
 
     created(){
         this.getUser();
+        auth.onAuthStateChanged(user => {
+            console.log(user)
+        })
+        
     }
     
 }
