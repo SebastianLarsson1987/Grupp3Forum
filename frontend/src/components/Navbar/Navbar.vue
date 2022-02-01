@@ -15,8 +15,8 @@
     
             <span v-if="isLoggedIn">
             
-            <router-link class="nav-link-white-blue"  to="/dashboard">
-            Profilsida |
+            <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil
+            |
             </router-link>|
             
             <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
@@ -48,7 +48,6 @@
 <script setup>
   import { auth, logOut} from "../../assets/js/firebase";
   import { ref} from 'vue' // used for conditional rendering
-  
   import { useRouter } from 'vue-router'
   const router = useRouter()
   const isLoggedIn = ref(true)

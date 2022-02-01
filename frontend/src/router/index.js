@@ -51,35 +51,30 @@ const routes = [
   {
     path: '/',
     name: 'Main',
-    // component: () => import('./components/HomeComponent.vue')
     component: Main
   },
 
   {
     path: '/register-user',
     name: 'register-user',
-    // component: () => import('./components/RegisterComponent.vue')
     component: RegisterComponent
   },
 
   {
     path: '/gdpr',
     name: 'gdpr',
-    // component: () => import('./components/GDPRComponent.vue')
     component: GDPRComponent
   },
 
   {
     path: '/signin',
     name: 'signin',
-    // component: () => import('./components/LoginComponent.vue')
     component: LoginComponent
   },
 
   {
     path: '/forum',
     name: 'forum',
-    // component: () => import('./components/ForumComponent.vue'),
     component: ForumComponent,
     meta: {
       authRequired: true,
@@ -89,7 +84,6 @@ const routes = [
   {
     path: '/dashboard',
     name: 'dashboard',
-    // component: () => import('./components/DashboardComponent.vue'),
     component: DashboardComponent,
     meta: {
       authRequired: true,
