@@ -74,6 +74,7 @@ export default {
   methods: {
     async onSubmit() {
       await logIn(this.user.email, this.user.password);
+     
       this.$router.push("/forum");
     }
   }

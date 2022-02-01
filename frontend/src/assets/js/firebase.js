@@ -2,7 +2,8 @@
 // Import the functions you need from the SDKs you need
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser, sendPasswordResetEmail, updateProfile } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser, sendPasswordResetEmail, updateProfile, onAuthStateChanged, browserLocalPersistence, setPersistence} from "firebase/auth";
+import store from '../../store/index'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -17,6 +18,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 const auth = getAuth(firebaseApp);
+(async () => {
+    await setPersistence(auth, browserLocalPersistence);
+})();
 
 
 // Register
@@ -59,7 +63,12 @@ const resetPassword = async (email) => {
 // Log in
 const logIn = async (email, password) => {
     try {
-        await signInWithEmailAndPassword(auth, email, password);
+        
+            await signInWithEmailAndPassword(auth, email, password);
+            const user = auth.currentUser
+            store.commit('setUser', user)
+            setPersistence(auth, browserLocalPersistence)
+        
     } catch (err) {
         console.log(auth)
         console.error(err.code);
@@ -99,6 +108,14 @@ const updateUser = async (userInfo) => {
     }
 
 }
+
+onAuthStateChanged(auth, (user)=>{
+    if(user){
+        console.log(user)
+    }else{
+        console.log('hello world')
+    }
+})
 export {
     auth,
     register,
@@ -106,5 +123,6 @@ export {
     logIn,
     logOut,
     resetPassword,
-    updateUser
+    updateUser,
+    
 }

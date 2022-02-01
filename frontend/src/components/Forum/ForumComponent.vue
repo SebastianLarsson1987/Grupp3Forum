@@ -21,6 +21,7 @@
       <h6
         style="text-align:center"
       >Välkommen till forumet {{ user.displayName }}! Om du kan se den här sidan är du redan inloggad!</h6>
+      {{user.email}}
       <br />
       <br />
       <br />

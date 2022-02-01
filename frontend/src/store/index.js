@@ -35,6 +35,9 @@ const store = createStore({
       },
       setOneThreadAndMessages(state,data){
           state.oneThreadAndMessages = data
+      },
+      setUser(state, data){
+          state.user=data
       }
       
 

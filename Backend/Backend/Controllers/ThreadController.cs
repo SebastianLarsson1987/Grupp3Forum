@@ -46,12 +46,12 @@ namespace Backend.Controllers
         }
         [HttpPost("WriteMessage")]
         public async Task<Message> WriteMessageInThread(string text, int threadId, string userId)
-        {
+            {
             var newMessage = new Message()
             {
                 Text = text,
                 CreatedAt = DateTime.Now,
-                UpdatedAt = default,
+                UpdatedAt = DateTime.Now,
                 ThreadId = threadId,
                 UserUid = userId
 

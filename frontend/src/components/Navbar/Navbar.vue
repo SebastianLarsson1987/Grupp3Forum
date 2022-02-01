@@ -32,11 +32,17 @@
             Logga in </router-link>|
             </div>
             </span> 
+            {{user.email}}
   </div>
 </template>
 
 <script>
   export default {
+    computed:{
+      user(){
+        return this.$store.state.user
+      }
+    },
     
   }
 </script>
@@ -47,19 +53,13 @@
 
 <script setup>
   import { auth, logOut} from "../../assets/js/firebase";
-  import { ref} from 'vue' // used for conditional rendering
-  
   import { useRouter } from 'vue-router'
+
+  
   const router = useRouter()
-  const isLoggedIn = ref(true)
+ 
   // runs after firebase is initialized
-  auth.onAuthStateChanged(function(user) {
-      if (user) {
-        isLoggedIn.value = true // if we have a user
-      } else {
-        isLoggedIn.value = false // if we do not
-      }
-  })
+  
   const signOut = () => {
     logOut()
     router.push('/')

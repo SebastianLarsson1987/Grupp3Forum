@@ -41,6 +41,7 @@
                 </div>
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     <div>
+                        {{user.uid}}
                         <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
                         rows="5" cols="100" placeholder="Skriv ditt meddelande här..." v-model="newMessage.mtext" :disabled="writeMessageDisabled"></textarea>
                         <button @click="postMessage()" :disabled="writeMessageDisabled">Skapa meddelande</button>
@@ -54,9 +55,10 @@
 <script>
 
 import { auth } from "../../assets/js/firebase";
-
+  // runs after firebase is initialized
+  
 export default {
-
+    
     props:{
         size: {
             type: Number,
@@ -68,6 +70,7 @@ export default {
         return{
            newMessage:{
                 mtext: "",
+                user:{}
            },
             messages: this.$store.getters.getMessages,
             pageNumber: 0,
@@ -111,26 +114,31 @@ export default {
               }
             
             },
+            user(){
+                return this.$store.state.user
+            },
     },
 
     methods:{
         async getOneThreadAndMessages(id){
+            console.log(this.user)
             this.threadAndMessages = await this.$store.dispatch('getThreadAndMessagesById', id);
             return this.threadAndMessages;
         },
 
-        postMessage(){
+        async postMessage(){
             
             let payload = {
                 mtext: this.newMessage.mtext,
                 threadId: this.$route.params.id,
-                userId: auth.currentUser.uid
+                userId: this.user.uid
             }
             if(payload.mtext == ""){
                 return alert("Fältet får inte vara tomt")
             }
             else{
-                return this.$store.dispatch('postMessageInThread', payload)
+                this.$store.dispatch('postMessageInThread', payload)
+                
             }
             
             
@@ -161,12 +169,28 @@ export default {
     },
 
     created(){
-        this.getOneThreadAndMessages(this.$route.params.id)
-        if(!auth.currentUser){
-            this.writeMessageDisabled = true;
-        }
-        
-    },
+    //     auth.onAuthStateChanged(function(user) {
+    //   if (user) {
+    //     isLoggedIn.value = true // if we have a user
+    //   } else {
+    //     isLoggedIn.value = false // if we do not
+    //   }
+    // }),
+    //     this.getOneThreadAndMessages(this.$route.params.id)
+    //     if(!auth.currentUser){
+    //         this.writeMessageDisabled = true;
+    //     }
+     
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.user = user;
+        console.log(user)
+      } else {
+        this.user = '';
+      }
+    });
+  },   
+     
 
     updated(){
         //this.lastPage();

@@ -2,6 +2,8 @@
   <div class="content">
     <div>
       <h1>Hej och välkommen till FORUM.3</h1>
+      <p>{{user.email}}</p>
+      <p>{{user.uid}}</p>
       <p>
         The best communication platform connecting minds around the globe
       </p>   
@@ -31,7 +33,7 @@
       
       </div>
     </div>
-   
+    
   </div>
 </template>
 
@@ -61,6 +63,9 @@
 
       AllCategoriesAndThreads(){
         return this.$store.state.AllCategoriesAndThreads
+      },
+      user(){
+        return this.$store.state.user
       }
     }
   }
