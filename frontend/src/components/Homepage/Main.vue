@@ -13,7 +13,6 @@
       </ul>
     </nav>
   </div>
-    <!-- <h1>Main</h1> -->
     <div v-for="item in AllCategoriesAndThreads" :key="item.id" class="content-item">
       <div class="name">
          <router-link :id="item.categoryName" :to="`/categorythreads/${item.id}`" class="category-header">{{item.categoryName}}</router-link>
