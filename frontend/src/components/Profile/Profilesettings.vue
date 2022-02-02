@@ -20,7 +20,7 @@
                         <router-link :to="`/userposts/${$route.params.id}`">Inlägg</router-link>
                     </div>
                     <div>
-                         <router-link to="#">Grupper</router-link>
+                         <router-link :to="`/userthreads/${$route.params.id}`">Grupper</router-link>
                     </div>
                     <div>
                         <router-link :to="`/profilesettings/${$route.params.id}`">Profilinställningar</router-link>
@@ -83,7 +83,12 @@ export default {
 
             uid(){
             let user = auth.currentUser;
-
+            if(user.uid == null){
+                auth.onAuthStateChanged(user => {
+                this.$route.params.id = user.uid
+                })
+            }
+            
             console.log(user.uid)
             return user.uid
             
@@ -134,6 +139,18 @@ export default {
         auth.onAuthStateChanged(user => {
             console.log(user)
         })
+        
+            auth.onAuthStateChanged(user => {
+                if(user){
+                    this.$route.params.id = user.uid
+                }
+            })
+            
+        
+        
+    },
+
+    updated(){
         
     }
     

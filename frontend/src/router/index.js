@@ -11,6 +11,7 @@ import Main from '../components/Homepage/Main.vue'
 import Categorythreads from '../components/Forum/Categorythreads.vue'
 import ThreadAndMessages from '../components/Forum/ThreadAndMessages.vue'
 import WriteMessage from "../components/Forum/CreateThread/WriteMessage";
+import UserThreads from '../components/Profile/UserThreads.vue'
 
 const routes = [
 
@@ -30,6 +31,15 @@ const routes = [
       //authRequired: true,
     },
   },
+  {
+    path: '/userthreads/:id',
+    name: 'User-threads',
+    component: UserThreads,
+    meta: {
+      //authRequired: true,
+    },
+  },
+
   {
     path: '/categorythreads/:id',
     name: 'Category-Threads',

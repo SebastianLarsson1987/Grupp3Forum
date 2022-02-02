@@ -19,7 +19,7 @@
                         <router-link :to="`/userposts/${$route.params.id}`">Inlägg</router-link>
                     </div>
                     <div>
-                         <router-link to="#">Grupper</router-link>
+                         <router-link :to="`/userthreads/${$route.params.id}`">Grupper</router-link>
                     </div>
                     <div>
                         <router-link :to="`/profilesettings/${$route.params.id}`">Profilinställningar</router-link>
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-//import { auth } from "../../assets/js/firebase";
+import { auth } from "../../assets/js/firebase";
 
 export default {
     components: {
@@ -83,13 +83,18 @@ export default {
             
         },
 
-        // uid(){
-        //     let user = auth.currentUser;
-
-        //     console.log(user.uid)
-        //     return user.uid
+        uid(){
+            let user = auth.currentUser;
+            if(user.uid == null){
+                auth.onAuthStateChanged(user => {
+                this.$route.params.id = user.uid
+                })
+            }
             
-        // }
+            console.log(user.uid)
+            return user.uid
+            
+        }
         
 
 
@@ -121,11 +126,15 @@ export default {
     created(){
 
         this.getUserPosts();
-        console.log(this.uid)
+        auth.onAuthStateChanged(user => {
+                if(user){
+                    this.$route.params.id = user.uid
+                }
+            })
+        
     },
 
-    mounted(){
-        
+    updated(){
         
     }
    

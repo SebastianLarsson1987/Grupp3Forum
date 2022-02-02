@@ -75,5 +75,11 @@ namespace Backend.Services
               
             return result;
         }
+
+        public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)
+        {
+            var result = _db.NewThreads.Where(x => x.UserUid == id);
+            return result;
+        }
     }
 }

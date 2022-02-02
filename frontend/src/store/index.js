@@ -15,7 +15,8 @@ const store = createStore({
        oneCategoryAndThreads: [],
        oneThreadAndMessages: [],
        messages: [],
-       newThreads: []
+       newThreads: [],
+       userThreads: []
   },
 
   getters: {
@@ -174,6 +175,22 @@ const store = createStore({
                 
             })
         },
+        
+        async getThreadByUserId(_,id){
+            axios
+            .get(`https://localhost:44362/api/Thread/GetThreadsByUserId?id=${id}`)
+            .then(response => {
+                 this.state.userThreads = response.data
+                    //  this.state.userThreads.sort(function(a,b){
+                    //      return new Date(a.updatedAt) - new Date(b.updatedAt)
+                    //  })
+                    console.log(this.state.userThreads)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+         },
+    
                 
       async fetchCategories({commit}){
           let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")
