@@ -110,7 +110,7 @@ export default {
                 return user.uid
               }
             
-            },
+        },
     },
 
     methods:{
@@ -119,6 +119,7 @@ export default {
             return this.threadAndMessages;
         },
 
+        
         postMessage(){
             
             let payload = {
@@ -155,22 +156,28 @@ export default {
         },
         firstPage(){
             this.pageNumber = 0;
+        },
+        
+        stateChanged(){
+           auth.onAuthStateChanged(user => {
+                if(!user){
+                    this.writeMessageDisabled = true;
+                }
+            })
         }
-            
+        
             
     },
 
     created(){
-        this.getOneThreadAndMessages(this.$route.params.id)
-        if(!auth.currentUser){
-            this.writeMessageDisabled = true;
-        }
         
-    },
-
-    updated(){
-        //this.lastPage();
+        this.getOneThreadAndMessages(this.$route.params.id)
+        this.stateChanged();
+         
+        
     }
+
+
     
 }
 </script>
