@@ -74,6 +74,18 @@ namespace Backend.Models.Database
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("UserUId");
+
+                entity.HasOne(d => d.Thread)
+                    .WithMany(p => p.Messages)
+                    .HasForeignKey(d => d.ThreadId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_NewThread");
+
+                entity.HasOne(d => d.UserU)
+                    .WithMany(p => p.Messages)
+                    .HasForeignKey(d => d.UserUid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Message_Users");
             });
 
             modelBuilder.Entity<MessageReply>(entity =>
