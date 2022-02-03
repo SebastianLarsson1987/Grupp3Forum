@@ -44,7 +44,7 @@ export default {
         size: {
             type: Number,
             required: false,
-            default: 2
+            default: 10
         }
     },
 

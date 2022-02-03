@@ -2,7 +2,7 @@
 // Import the functions you need from the SDKs you need
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser, sendPasswordResetEmail, updateProfile } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser, sendPasswordResetEmail, updateProfile, updateEmail } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -78,11 +78,11 @@ const remove = async () => {
     try {
         const user = auth.currentUser;
         await deleteUser(user);
-        let url = new URL("/api/user/remove");
-        let param = new URLSearchParams(`email=${user.email}`);
-        url.searchParams = param;
-        const removeFromDb = await fetch(url);
-        console.log(removeFromDb.status);
+        // let url = new URL("/api/user/remove");
+        // let param = new URLSearchParams(`email=${user.email}`);
+        // url.searchParams = param;
+        // const removeFromDb = await fetch(url);
+        // console.log(removeFromDb.status);
     } catch (err) {
         console.error(err);
         alert(err.message);
@@ -99,6 +99,19 @@ const updateUser = async (userInfo) => {
     }
 
 }
+
+const editEmail = async (email) => {
+    try {
+        
+        const user = auth.currentUser;
+        await updateEmail(user, email);
+        return user;
+    } catch (err) {
+        console.log(err);
+        alert(err.message);
+    }
+}
+
 export {
     auth,
     register,
@@ -106,5 +119,6 @@ export {
     logIn,
     logOut,
     resetPassword,
-    updateUser
+    updateUser,
+    editEmail
 }
