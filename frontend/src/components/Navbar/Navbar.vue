@@ -35,8 +35,9 @@
 </template>
 
 <script>
-export default {
 
+export default {
+  
 }
 </script>
 
@@ -62,6 +63,9 @@ const signOut = () => {
   logOut()
   router.push('/')
 }
+
+
+
 </script>
 
 

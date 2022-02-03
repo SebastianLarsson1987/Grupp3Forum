@@ -15,6 +15,7 @@
                 <div class="threadmessages-wrapper-form-messages-scroll"> 
                     <div class="threadmessages-wrapper-form-messages"
                     v-for="message in paginatedData" :key="message.id">
+                    <div >
                         <ul>
                             <li class="threadmessages-wrapper-form-messages-list">
                                 <div class="threadmessages-wrapper-form-messages-list-header">
@@ -23,6 +24,7 @@
                                     <i>#{{message.id}}</i>
                                 </div>
                                 <div class="threadmessages-wrapper-form-messages-list-content">
+                                    <i>Medlem: {{message.userU.userName}}</i>
                                     <p>{{message.text}}</p>
                                 </div>
                                 <div v-if="item.userUid === uid">
@@ -30,6 +32,7 @@
                                 </div>
                             </li>
                         </ul>
+                    </div>
                     </div>
                     <div class="threadmessages-wrapper-form-messages-scroll-buttons">
                         <button type="button" @click="firstPage" :disabled="pageNumber === 0"><i class="fas fa-angle-double-left"></i></button>
@@ -40,10 +43,10 @@
                     </div>
                 </div>
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
-                    <div>
+                    <div v-if="!writeMessageDisabled">
                         <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
-                        rows="5" cols="100" placeholder="Skriv ditt meddelande här..." v-model="newMessage.mtext" :disabled="writeMessageDisabled"></textarea>
-                        <button @click="postMessage()" :disabled="writeMessageDisabled">Skapa meddelande</button>
+                        rows="5" cols="100" placeholder="Skriv ditt meddelande här..." v-model="newMessage.mtext"></textarea>
+                        <button @click="postMessage()">Skapa meddelande</button>
                     </div>
                 </div>
             </div>
@@ -111,6 +114,13 @@ export default {
               }
             
         },
+
+        banned(){
+            return this.$store.state.bannedUser
+        }
+
+        
+       
     },
 
     methods:{
@@ -162,9 +172,11 @@ export default {
            auth.onAuthStateChanged(user => {
                 if(!user){
                     this.writeMessageDisabled = true;
+                    this.uid == user.uid
                 }
             })
-        }
+        },
+        
         
             
     },
@@ -173,7 +185,6 @@ export default {
         
         this.getOneThreadAndMessages(this.$route.params.id)
         this.stateChanged();
-         
         
     }
 
@@ -240,9 +251,7 @@ export default {
 .threadmessages-wrapper-form-messages-list>div>i:nth-child(2){
     margin-right: 2vw;
 }
-.threadmessages-wrapper-form-messages-list>div>i:nth-child(1){
-    margin-left: 1vw;
-}
+
 
 .threadmessages-wrapper-form-messages-list-content>p{
     margin-left:1vw;
@@ -250,9 +259,12 @@ export default {
     overflow-wrap: break-word;
 }
 
-.threadmessages-wrapper-form-messages-list-content{
-    
+.threadmessages-wrapper-form-messages-list-content>i{
+    border-right: 1px solid black;
+    width: 10vw;
+    background-color: aliceblue;
 }
+
 
 .threadmessages-wrapper-form-messages-writeMessage{
     border: 1px solid black;

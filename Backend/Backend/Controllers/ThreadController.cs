@@ -56,6 +56,7 @@ namespace Backend.Controllers
                 UserUid = userId
 
             };
+            
             _db.Messages.Add(newMessage);
             await _db.SaveChangesAsync();
             return newMessage;
