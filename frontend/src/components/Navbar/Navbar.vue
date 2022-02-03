@@ -32,12 +32,32 @@
             Logga in </router-link>|
             </div>
             </span> 
+            <p class="nav-link-white-blue searchText" v-on:click="show = !show">| Sök</p>
+            <div class="searchBar" v-if="show">
+              <form @submit.prevent="searchThreads()">
+                <p>Sök efter en tråd</p>
+                <input type="text" v-model="searchString">
+                <input type="submit" value="Sök">
+              </form>
+            </div>
   </div>
 </template>
 
 <script>
+import router from "../../router/index"
   export default {
-    
+    data(){
+      return{ 
+        show:false,
+        searchString: ""
+      }
+    },
+    methods:{
+      searchThreads(){
+        this.$store.dispatch('getThreadsBySearch', this.searchString)
+        router.push("/searchResult")
+      }
+    }
   }
 </script>
 
@@ -73,5 +93,16 @@
     text-decoration: none;
     color: white;
     
+  }
+  .searchBar{
+    width:18%;
+    height:15%;
+    background-color: white;
+    position: absolute;
+    right:230px;
+    top:50px;
+  }
+  .searchText{
+    position:relative;
   }
 </style>

@@ -68,7 +68,7 @@ namespace Backend.Controllers
         [HttpGet("GetAllCategories")]
         public IEnumerable<Category> GetAllCategories()
         {
-            var result =_threadService.GetAllCategories().ToList();
+            var result = _threadService.GetAllCategories().ToList();
             return result;
         }
         [HttpGet("GetAllCategoriesAndThreads")]
@@ -97,5 +97,15 @@ namespace Backend.Controllers
             var result = _threadService.GetMessagesAndThreadById(id);
             return await result;
         }
+        [HttpGet("GetThreadsBySearch")]
+        public async Task<IEnumerable<NewThread>> GetThreadsBySearch(string input)
+        {
+            var result = _threadService.GetThreadsBySearchString(input);
+            return result;
+        }
+
+       
+        
+
     }
 }

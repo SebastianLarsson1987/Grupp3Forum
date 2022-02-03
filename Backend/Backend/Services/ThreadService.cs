@@ -75,5 +75,12 @@ namespace Backend.Services
               
             return result;
         }
+        
+        public IEnumerable<NewThread>GetThreadsBySearchString(string input)
+        {
+            var result = _db.NewThreads.Where(x => x.Topic.Contains(input)).AsEnumerable();
+            return result;
+
+        }
     }
 }
