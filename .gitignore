@@ -505,4 +505,6 @@ FodyWeavers.xsd
 # Additional files built by Visual Studio
 *.tlog
 
+# Visual Studio Code
+.vscode/
 # End of https://www.toptal.com/developers/gitignore/api/aspnetcore,visualstudio,vue
