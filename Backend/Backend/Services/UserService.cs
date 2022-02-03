@@ -42,21 +42,19 @@ namespace Backend.Services
             }
         }
 
-        public void RemoveUser(string id)
+        public async Task RemoveUser(string id)
         {
             const string deleted = "deleted";
-            var customer = _Db.Users.SingleOrDefault(x => x.Uid == id);
-            customer.Banned = false;
-            customer.Email = deleted;
-            customer.UserName = deleted;
-            
+            var delUser = _Db.Users.SingleOrDefault(x => x.Uid == id);
+            delUser.FirstName = deleted;
+            delUser.Banned = false;
+            delUser.UserName = deleted;
+            await _Db.DeletedUsers.AddAsync(new DeletedUser { UserUid = delUser.Uid, DeletionDate = DateTime.Now });
 
-            _Db.SaveChanges();
-                
-            
+            await _Db.SaveChangesAsync();
 
         }
-        
+
         public async Task<ActionResult<User>> EditUserDetails(string id, string email, string UserName)
         {
 
@@ -73,7 +71,7 @@ namespace Backend.Services
                 existingUser.Email = email;
                 existingUser.UserName = UserName;
 
-               await _Db.SaveChangesAsync();
+                await _Db.SaveChangesAsync();
             }
             else
             {
