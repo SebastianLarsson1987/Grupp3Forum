@@ -37,15 +37,35 @@
         <div class="d-grid">
           <input type="submit" class="btn btn-primary btn-lg btn-block" value="Logga in" />
         </div>
+        
       </form>
-     
-      
+      <div class="d-grid">
+        <router-link to="/forgetpassword">Glömt Lösenord?</router-link>
+      </div>
+      <div style="position:absolute;">
+        <router-link style="color:black;" class="nav-link link-light" to="/gdpr">
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="flexRadioDisabled"
+              id="flexRadioCheckedDisabled"
+              checked
+              disabled
+            />
+            <label
+              class="form-check-label"
+              for="flexRadioCheckedDisabled"
+            >By clicking submit you agree to the privacy policy. Read more - GDPR</label>
+          </div>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { logIn } from "../../assets/js/firebase";
+import { logIn, resetPassword } from "../../assets/js/firebase";
 export default {
   data() {
     return {
@@ -59,7 +79,11 @@ export default {
     async onSubmit() {
       await logIn(this.user.email, this.user.password);
       this.$router.push("/forum");
+    },
+    async forgetPassword(){
+    await resetPassword(this.user.email)
     }
-  }
+  },
+  
 };
 </script>
