@@ -18,9 +18,11 @@ namespace Backend.Models.Database
         }
 
         public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<DeletedUser> DeletedUsers { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<MessageReply> MessageReplies { get; set; }
         public virtual DbSet<NewThread> NewThreads { get; set; }
+        public virtual DbSet<ReportedMessage> ReportedMessages { get; set; }
         public virtual DbSet<Role> Roles { get; set; }
         public virtual DbSet<User> Users { get; set; }
 
@@ -44,6 +46,17 @@ namespace Backend.Models.Database
                 entity.Property(e => e.CategoryName).IsUnicode(false);
             });
 
+            modelBuilder.Entity<DeletedUser>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.DeletionDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UserUid)
+                    .IsRequired()
+                    .HasMaxLength(50);
+            });
+
             modelBuilder.Entity<Message>(entity =>
             {
                 entity.ToTable("Message");
@@ -61,18 +74,6 @@ namespace Backend.Models.Database
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("UserUId");
-
-                entity.HasOne(d => d.Thread)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.ThreadId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Message_NewThread");
-
-                entity.HasOne(d => d.UserU)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.UserUid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Message_Users");
             });
 
             modelBuilder.Entity<MessageReply>(entity =>
@@ -137,6 +138,25 @@ namespace Backend.Models.Database
                     .HasForeignKey(d => d.UserUid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_NewThread_Users");
+            });
+
+            modelBuilder.Entity<ReportedMessage>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.DelatedAt).HasColumnType("datetime");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Text)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Uid)
+                    .IsRequired()
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Role>(entity =>

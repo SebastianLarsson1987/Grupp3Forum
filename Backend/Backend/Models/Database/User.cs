@@ -10,7 +10,6 @@ namespace Backend.Models.Database
         public User()
         {
             MessageReplies = new HashSet<MessageReply>();
-            Messages = new HashSet<Message>();
             NewThreads = new HashSet<NewThread>();
         }
 
@@ -24,7 +23,6 @@ namespace Backend.Models.Database
 
         public virtual Role Role { get; set; }
         public virtual ICollection<MessageReply> MessageReplies { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<NewThread> NewThreads { get; set; }
     }
 }
