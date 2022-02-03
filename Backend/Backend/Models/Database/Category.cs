@@ -10,11 +10,13 @@ namespace Backend.Models.Database
         public Category()
         {
             NewThreads = new HashSet<NewThread>();
+            
         }
 
         public int Id { get; set; }
         public string CategoryName { get; set; }
 
         public virtual ICollection<NewThread> NewThreads { get; set; }
+       
     }
 }
