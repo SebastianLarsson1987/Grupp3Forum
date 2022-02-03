@@ -246,6 +246,12 @@ export default {
 
 .threadmessages-wrapper-form-messages-list-content>p{
     margin-left:1vw;
+    inline-size: 70vw;
+    overflow-wrap: break-word;
+}
+
+.threadmessages-wrapper-form-messages-list-content{
+    
 }
 
 .threadmessages-wrapper-form-messages-writeMessage{

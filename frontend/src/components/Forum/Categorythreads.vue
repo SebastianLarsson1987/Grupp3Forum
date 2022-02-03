@@ -163,6 +163,8 @@ export default {
     margin-top: 2vh;
     border:1px solid black;
     min-height: 5vh;
+    inline-size: 40vw;
+    overflow-wrap: break-word
 }
 
 .categorythreads-wrapper-form-scroll{
