@@ -49,7 +49,7 @@ namespace Backend.Services
 
         public IEnumerable<Category> GetAllCategoriesAndThreads()
         {
-            var result = _db.Categories.Include(x => x.NewThreads).ThenInclude(x=>x.Messages);
+            var result = _db.Categories.Include(x => x.NewThreads).ThenInclude(x => x.Messages);
             //var result = _db.Categories.Include(x => x.NewThreads);
             return result;
         }
@@ -62,9 +62,9 @@ namespace Backend.Services
 
         public async Task<IEnumerable<Category>> GetCategoryAndThreadsPerCategoryId(int id)
         {
-            
-            var result = _db.Categories.Where(x => x.Id == id)
-                .Include(threads => threads.NewThreads);
+
+            var result = await _db.Categories.Where(x => x.Id == id)
+                .Include(threads => threads.NewThreads).ToListAsync();
             return result;
         }
 
@@ -82,7 +82,7 @@ namespace Backend.Services
 
         public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)
         {
-            var result = _db.NewThreads.Where(x => x.UserUid == id);
+            var result = await _db.NewThreads.Where(u => u.UserUid == id).ToListAsync();
             return result;
         }
         

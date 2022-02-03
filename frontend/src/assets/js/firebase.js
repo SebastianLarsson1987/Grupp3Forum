@@ -77,12 +77,17 @@ const logOut = () => {
 const remove = async () => {
     try {
         const user = auth.currentUser;
+        const id = user.uid;
         await deleteUser(user);
-        // let url = new URL("/api/user/remove");
-        // let param = new URLSearchParams(`email=${user.email}`);
-        // url.searchParams = param;
-        // const removeFromDb = await fetch(url);
-        // console.log(removeFromDb.status);
+        await fetch(`https://localhost:44362/api/User/DeleteUser?id=${id}`, {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': "application/json"
+            }
+
+        });
+        logOut();
     } catch (err) {
         console.error(err);
         alert(err.message);
@@ -102,7 +107,7 @@ const updateUser = async (userInfo) => {
 
 const editEmail = async (email) => {
     try {
-        
+
         const user = auth.currentUser;
         await updateEmail(user, email);
         return user;
