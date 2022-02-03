@@ -12,6 +12,7 @@ import Main from '../components/Homepage/Main.vue'
 import Categorythreads from '../components/Forum/Categorythreads.vue'
 import ThreadAndMessages from '../components/Forum/ThreadAndMessages.vue'
 import WriteMessage from "../components/Forum/CreateThread/WriteMessage";
+import ForgetPassword from "../components/Login/ForgetPassword"
 
 const routes = [
 
@@ -93,6 +94,11 @@ const routes = [
     meta: {
       authRequired: true,
     },
+  },
+  {
+    path: '/forgetpassword',
+    name: 'forgetpassword',
+    component: ForgetPassword
   }
 
 ]
