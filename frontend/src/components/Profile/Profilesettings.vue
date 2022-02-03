@@ -5,8 +5,9 @@
                  <img src="../../assets/emptyavatar2.png" alt="">
             </div>
             <div class="userprofile-form-grid2">
-                <div class="userprofile-form-grid2-button">
+                <div class="userprofile-form-grid2-buttons">
                     <button type="button" @click="edit">Redigera Profil</button>
+                    <button type="button" @click="removeUser">Ta bort Profil</button>
                 </div>
                 <div class="userprofile-form-grid2-button-amountOfPosts">
                     
@@ -16,13 +17,13 @@
                 <h2>Innehåll</h2>
                 <nav class="userprofile-form-grid3-contentNavbar">
                     <div>
-                        <router-link :to="`/userposts/${uid}`">Inlägg</router-link>
+                        <router-link :to="`/userposts/${$route.params.id}`">Inlägg</router-link>
                     </div>
                     <div>
-                         <router-link to="#">Grupper</router-link>
+                         <router-link :to="`/userthreads/${$route.params.id}`">Grupper</router-link>
                     </div>
                     <div>
-                        <router-link :to="`/profilesettings/${uid}`">Profilinställningar</router-link>
+                        <router-link :to="`/profilesettings/${$route.params.id}`">Profilinställningar</router-link>
                     </div>
                 </nav>
             </div>
@@ -59,7 +60,8 @@
 
 <script>
 
-import { auth } from "../../assets/js/firebase";
+import { auth, updateUser, editEmail, logOut, remove} from "../../assets/js/firebase";
+//import { useRouter } from 'vue-router'
 
 export default {
     components: {
@@ -70,7 +72,8 @@ export default {
             isReadOnly: true,
             showPosts: false,
             editProfile: false,
-            authId: 0
+            authId: 0,
+            authUser: null
         }
     },
     computed:{
@@ -80,11 +83,16 @@ export default {
 
             uid(){
             let user = auth.currentUser;
-
+            if(user.uid == null){
+                auth.onAuthStateChanged(user => {
+                this.$route.params.id = user.uid
+                })
+            }
+            
             console.log(user.uid)
             return user.uid
             
-        }
+            }
     },
     methods:{
         edit(){
@@ -101,12 +109,49 @@ export default {
 
         putUser(id, email, userName){
             this.isReadOnly = true
-            return this.$store.dispatch('editUser', {id, email, userName});
+            updateUser({
+               displayName: userName
+           })
+           editEmail(email)
+            this.$store.dispatch('editUser', {id, email, userName});
+            alert("Du skickas nu till inloggningssidan för att logga in igen för att ändringarna ska ha effekt");
+            logOut();
+            this.$router.push("/signin")
+        },
+
+        removeUser(){
+            if(confirm("Är du säker på att du vill ta bort ditt konto? Det går inte att återställa sitt konto efter detta steg.")){
+                remove();
+                this.$store.dispatch('deleteUser', this.$route.params.id);
+                logOut();
+                this.$router.push("/signin")
+                return true;
+            } else {
+                return false;
+            }
+            
         }
+        
     },
 
     created(){
         this.getUser();
+        auth.onAuthStateChanged(user => {
+            console.log(user)
+        })
+        
+            auth.onAuthStateChanged(user => {
+                if(user){
+                    this.$route.params.id = user.uid
+                }
+            })
+            
+        
+        
+    },
+
+    updated(){
+        
     }
     
 }
@@ -157,10 +202,17 @@ export default {
        
     }
 
-    .userprofile-form-grid2-button{
+    .userprofile-form-grid2-buttons{
         float:right;
         margin-right: 2vw;
         margin-top: 2vh;
+        display:flex;
+        flex-direction: column;
+        padding: 1vw;
+    }
+
+    .userprofile-form-grid2-buttons>button{
+        margin-bottom: 1vh;
     }
 
     .userprofile-form-grid2-button-amountOfPosts{

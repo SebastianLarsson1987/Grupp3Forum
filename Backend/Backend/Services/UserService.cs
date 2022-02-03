@@ -49,6 +49,7 @@ namespace Backend.Services
             customer.Banned = false;
             customer.Email = deleted;
             customer.UserName = deleted;
+            
 
             _Db.SaveChanges();
                 

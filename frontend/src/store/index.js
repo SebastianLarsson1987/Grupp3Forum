@@ -15,7 +15,8 @@ const store = createStore({
        oneCategoryAndThreads: [],
        oneThreadAndMessages: [],
        messages: [],
-       newThreads: []
+       newThreads: [],
+       userThreads: []
   },
 
   getters: {
@@ -142,6 +143,17 @@ const store = createStore({
            })
         },
 
+        async deleteMessage(_, id){
+            axios
+            .delete(`https://localhost:44362/api/Message?id=${id}`)
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        },
+
        async postMessageInThread(_, {mtext, threadId, userId}){  
         await fetch(`https://localhost:44362/api/Thread/WriteMessage?text=${mtext}&threadId=${threadId}&userId=${userId}`, {
             method: "POST",
@@ -153,7 +165,32 @@ const store = createStore({
             })
        },
               
+        async deleteUser(_, id){
+            await fetch(`https://localhost:44362/api/User/Remove?id=${id}` , {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': "application/json"
+                }
+                
+            })
+        },
         
+        async getThreadByUserId(_,id){
+            axios
+            .get(`https://localhost:44362/api/Thread/GetThreadsByUserId?id=${id}`)
+            .then(response => {
+                 this.state.userThreads = response.data
+                    //  this.state.userThreads.sort(function(a,b){
+                    //      return new Date(a.updatedAt) - new Date(b.updatedAt)
+                    //  })
+                    console.log(this.state.userThreads)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+         },
+    
                 
       async fetchCategories({commit}){
           let response = await fetch("https://localhost:44362/api/Thread/GetAllCategories")

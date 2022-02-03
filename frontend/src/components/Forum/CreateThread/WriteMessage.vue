@@ -10,6 +10,7 @@
             name="Topic"
             class="form-control form-control-lg"
             v-model="thread.topic"
+            :disabled="disableWriteThread"
           />
         </div>
         <div class="form-group mb-3">
@@ -19,6 +20,7 @@
             class="form-control form-control-lg"
             name="Content"
             v-model="thread.content"
+            :disabled="disableWriteThread"
           ></textarea>
         </div>
         <!-- <div class="form-group mb-3">
@@ -32,7 +34,7 @@
           </select>
         </div> -->
         <div class="d-grid">
-          <input type="submit" class="btn btn-danger" value="Skapa tråd" />
+          <input type="submit" class="btn btn-danger" value="Skapa tråd" :disabled="disableWriteThread" />
         </div>
       </form>
     </div>
@@ -54,7 +56,8 @@ export default {
         "userId": "",
         "categoryId": 0
       },
-      categories: []
+      categories: [],
+      disableWriteThread: false,
     }
   },
   methods: {
@@ -75,11 +78,23 @@ export default {
 
       });
       //router.push("/")
+    },
+
+    onStateChanged(){
+      auth.onAuthStateChanged(user => {
+          if(!user){
+            this.disableWriteThread = true
+          }
+          else {
+            this.disableWriteThread = false
+          }
+      })
     }
   },
   async created() {
     await this.$store.dispatch('fetchCategories')
     this.categories = this.$store.state.categories
+    this.onStateChanged();
   },
   computed: {
     // categories() {
