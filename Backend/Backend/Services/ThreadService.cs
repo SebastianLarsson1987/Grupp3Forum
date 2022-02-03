@@ -72,7 +72,7 @@ namespace Backend.Services
         {
             var result = _db.NewThreads.Where(x => x.Id == id)
                 .Include(thread => thread.Messages)
-                .ThenInclude(u => u.UserUid);
+                .ThenInclude(u => u.UserU);
               
             return result;
         }
