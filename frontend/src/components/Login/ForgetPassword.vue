@@ -1,11 +1,15 @@
 <template>
-  <div>
-    <h1>Glömt lösenord?</h1>
-    <form @click.prevent="forgetPassword()">
-      <p>Skriv in din email så får du en länk på mailen där du kan skriva in nytt lösenord</p>
-      <input type="email" placeholder="email" v-model="user.email"> 
-      <input type="submit">
-    </form>
+  <div class="d-flex flex-column">
+    <h1 class="d-flex justify-content-center">Glömt lösenord?</h1>
+    <div class="d-flex justify-content-center">
+      <form @click.prevent="forgetPassword()">
+        <p>Skriv in din email så får du en länk på mailen där du kan skriva in nytt lösenord</p>
+        <div class="d-flex justify-content-center">
+          <input type="email" placeholder="email" v-model="user.email"> 
+          <input type="submit">
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -30,6 +34,6 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style>
 
 </style>
