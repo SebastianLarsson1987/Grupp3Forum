@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column">
+  <div class="d-flex flex-column p-4 mb-3">
     <h1 class="d-flex justify-content-center">Glömt lösenord?</h1>
     <div class="d-flex justify-content-center">
       <form @click.prevent="forgetPassword()">
