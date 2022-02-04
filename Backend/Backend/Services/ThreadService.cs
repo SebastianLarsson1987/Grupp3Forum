@@ -71,7 +71,7 @@ namespace Backend.Services
         public async Task<IEnumerable<NewThread>> GetMessagesAndThreadById(int id)
         {
             var result = _db.NewThreads.Where(x => x.Id == id)
-                .Include(thread => thread.Messages)
+                .Include(thread => thread.Messages.Where(x => x.IsDeleated == false && x.IsReported == false))
                 .ThenInclude(message => message.UserU)
                 .AsNoTracking()
                 .ToListAsync();
