@@ -126,16 +126,16 @@ export default {
     created(){
 
         this.getUserPosts();
-        auth.onAuthStateChanged(user => {
-                if(user){
-                    this.$route.params.id = user.uid
-                }
-            })
+        
         
     },
 
-    updated(){
-        
+    beforeMount(){
+        auth.onAuthStateChanged(user => {
+            if(user){
+                this.$route.params.id = user.uid
+            }
+        })
     }
    
     

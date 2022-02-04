@@ -52,7 +52,7 @@ export default {
   methods: {
     signOut() {
       logOut();
-      auth.onAuthStateChanged(this.$router.push("/"))
+      this.$router.push("/")
     }
   }
 };

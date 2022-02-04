@@ -40,14 +40,14 @@
                         <p>Email</p>
                         <input type="text" placeholder="Email" v-bind:disabled="isReadOnly" v-model="item.email">
                     </div>
-                    <div class="userprofile-form-grid4-password">
+                    <!-- <div class="userprofile-form-grid4-password">
                         <p>Lösenord</p>
                         <input type="password" placeholder="Lösenord" v-bind:disabled="isReadOnly">
                     </div>
                     <div class="userprofile-form-grid4-verify">
                         <p>Bekräfta lösenord*</p>
                         <input type="password" placeholder="Bekräfta lösenord" v-bind:disabled="isReadOnly">
-                    </div>
+                    </div> -->
                     <div class="userprofile-form-grid4-buttons">
                         <button  @click="putUser($route.params.id, item.email, item.userName)">Spara</button>
                         <button @click="cancel">Avbryt</button>
@@ -140,12 +140,12 @@ export default {
             console.log(user)
         })
         
-            auth.onAuthStateChanged(user => {
-                if(user){
-                    this.$route.params.id = user.uid
-                }
-            })
-            
+        auth.onAuthStateChanged(user => {
+            if(user){
+                this.$route.params.id = user.uid
+            }
+        })
+        
         
         
     },
@@ -337,7 +337,7 @@ export default {
         display:flex;
         flex-direction: row;
         justify-content: center;
-        margin-top: 15vh;
+        margin-top: 30vh;
     }
     
     .userprofile-form-grid4-buttons>button:nth-child(2){

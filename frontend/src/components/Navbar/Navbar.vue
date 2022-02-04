@@ -14,7 +14,7 @@
             |
             </router-link>|
             
-            <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
+            <a class="nav-link-white-blue" @click="signOut">Logga ut</a>|
             
             </span>
 
@@ -34,35 +34,64 @@
   
 </template>
 
-<script>
-
-export default {
-  
-}
-</script>
-
 <!-- <style lang="scss" scoped>
 </style> -->
 
-<script setup>
+<script>
 import { auth, logOut } from "../../assets/js/firebase";
-import { ref } from 'vue' // used for conditional rendering
+//import { ref } from 'vue' // used for conditional rendering
 
-import { useRouter } from 'vue-router'
-const router = useRouter()
-const isLoggedIn = ref(true)
-// runs after firebase is initialized
-auth.onAuthStateChanged(function (user) {
-  if (user) {
-    isLoggedIn.value = true // if we have a user
-  } else {
-    isLoggedIn.value = false // if we do not
-  }
-})
-const signOut = () => {
-  logOut()
-  router.push('/')
+//import { useRouter } from 'vue-router'
+
+export default {
+    data(){
+      return{
+        uid: 0,
+        isLoggedIn: false
+      }
+    },
+
+
+    methods:{
+      signOut(){
+        //const router = useRouter()
+        logOut()
+        this.$router.push('/')
+      },
+
+      loggedIn(){
+        auth.onAuthStateChanged(user => {
+        if (user) {
+          this.isLoggedIn = true // if we have a user
+        } else {
+          this.isLoggedIn = false // if we do not
+        }
+        console.log(this.isLoggedIn)
+      })
+      },
+
+      getUid(){
+        auth.onAuthStateChanged(user => {
+            if(user){
+              this.uid = user.uid
+            }
+        })
+      }
+    },
+
+    
+    created(){
+      
+        this.loggedIn()
+        this.getUid();
+        //console.log(this.isLoggedIn)
+        
+    },
 }
+
+// runs after firebase is initialized
+
+
 
 
 
