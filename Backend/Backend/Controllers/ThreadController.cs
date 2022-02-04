@@ -53,9 +53,12 @@ namespace Backend.Controllers
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
                 ThreadId = threadId,
-                UserUid = userId
+                UserUid = userId,
+                IsDeleated = false,
+                IsReported = false
 
             };
+            
             _db.Messages.Add(newMessage);
             await _db.SaveChangesAsync();
             return newMessage;

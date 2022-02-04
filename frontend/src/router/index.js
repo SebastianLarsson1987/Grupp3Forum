@@ -23,7 +23,7 @@ const routes = [
     name: 'Profilesettings',
     component: Profilesettings,
     meta: {
-      //authRequired: true,
+      authRequired: true,
     },
   },
   {
@@ -31,7 +31,7 @@ const routes = [
     name: 'User-posts',
     component: UserPosts,
     meta: {
-      //authRequired: true,
+      authRequired: true,
     },
   },
   {
@@ -39,7 +39,7 @@ const routes = [
     name: 'User-threads',
     component: UserThreads,
     meta: {
-      //authRequired: true,
+      authRequired: true,
     },
   },
 
@@ -125,15 +125,17 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authRequired)) {
-    if (auth.currentUser) {
-      next();
-    } else {
-      alert('You must be logged in to see this page');
-      next({
-        path: '/',
-      });
-    }
-  } else {
+    auth.onAuthStateChanged(user => {
+      if(user){
+        next();
+      } else{
+        alert('You must be logged in to see this page');
+        next({
+          path: '/',
+        });
+      } 
+    })
+  }else{
     next();
   }
 });

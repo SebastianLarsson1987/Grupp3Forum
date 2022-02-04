@@ -71,10 +71,13 @@ namespace Backend.Services
         public async Task<IEnumerable<NewThread>> GetMessagesAndThreadById(int id)
         {
             var result = _db.NewThreads.Where(x => x.Id == id)
-                .Include(thread => thread.Messages)
-                .ThenInclude(u => u.UserU);
+                .Include(thread => thread.Messages.Where(x => x.IsDeleated == false && x.IsReported == false))
+                .ThenInclude(message => message.UserU)
+                .AsNoTracking()
+                .ToListAsync();
+                
               
-            return result;
+            return await result;
         }
 
         public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)

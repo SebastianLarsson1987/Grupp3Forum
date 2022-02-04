@@ -1,5 +1,5 @@
 <template>
-  <div class="row d-flex justify-content-center">
+  <div v-if="disableWriteThread" class="row d-flex justify-content-center">
     <!-- <h1>Create Thread</h1> -->
     <div class="col-md-8 mt-5">
       <form @submit.stop.prevent="submit">
@@ -10,7 +10,6 @@
             name="Topic"
             class="form-control form-control-lg"
             v-model="thread.topic"
-            :disabled="disableWriteThread"
           />
         </div>
         <div class="form-group mb-3">
@@ -20,7 +19,6 @@
             class="form-control form-control-lg"
             name="Content"
             v-model="thread.content"
-            :disabled="disableWriteThread"
           ></textarea>
         </div>
         <!-- <div class="form-group mb-3">
@@ -34,7 +32,7 @@
           </select>
         </div> -->
         <div class="d-grid">
-          <input type="submit" class="btn btn-danger" value="Skapa tråd" :disabled="disableWriteThread" />
+          <input type="submit" class="btn btn-danger" value="Skapa tråd"/>
         </div>
       </form>
     </div>
@@ -82,7 +80,7 @@ export default {
 
     onStateChanged(){
       auth.onAuthStateChanged(user => {
-          if(!user){
+          if(user){
             this.disableWriteThread = true
           }
           else {

@@ -26,12 +26,15 @@
                     </div>
                 </nav>
             </div>
-            <div class="userprofile-form-grid4">
-                <div class="userprofile-form-grid4-no-threads-message" v-if="localThreads.length == 0">
+            <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
+                <div class="userprofile-form-grid4-no-threads-message" v-if="localThreads.length == 0 && !item.banned">
                         <p>Inga trådar att visa</p>
                 </div>
-                <div class="userprofile-form-grid4-wrapperscroll">
-                    <div v-for="thread in localThreads" :key="thread">
+                <div class="userprofile-form-grid4-banned" v-if="item.banned">
+                    <h2>Användaren är blockerad</h2>
+                </div>
+                <div v-else class="userprofile-form-grid4-wrapperscroll">
+                    <div  v-for="thread in localThreads" :key="thread">
                         <ul class="userprofile-form-grid4-wrapperscroll-unordered-list">
                             <li class="userprofile-form-grid4-wrapperscroll-list">
                                 <router-link :to="`/threadmessages/${thread.id}`" >{{thread.topic}}</router-link>
@@ -62,6 +65,9 @@ export default {
 
 
     computed: {
+        user(){
+                return this.$store.state.user;
+        },
         uid(){
             let user = auth.currentUser;
             

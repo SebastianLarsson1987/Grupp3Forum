@@ -23,7 +23,7 @@ namespace Backend.Models.Database
         public bool? IsDeleated { get; set; }
         [JsonIgnore]
         public virtual NewThread Thread { get; set; }
-        [JsonIgnore]
+       // [JsonIgnore]
         public virtual User UserU { get; set; }
 
         public virtual ICollection<MessageReply> MessageReplies { get; set; }

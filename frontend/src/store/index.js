@@ -18,7 +18,9 @@ const store = createStore({
        newThreads: [],
        threadsBySearch:[],
        
-       userThreads: []
+       userThreads: [],
+       messageUser: [],
+       bannedUser: false
   },
 
   getters: {
@@ -135,11 +137,19 @@ const store = createStore({
            .then(response => {
                 this.state.oneThreadAndMessages = response.data
                 this.state.oneThreadAndMessages.forEach((item) => {
+                    
                     this.state.messages = [...item.messages]
                     this.state.messages.sort(function(a,b){
                         return new Date(a.updatedAt) - new Date(b.updatedAt)
                     })
+                    item.messages.forEach(item => {
+                        this.state.messageUser = item.userU
+                    })
+                    
                 })
+                this.state.bannedUser = this.state.messageUser.banned
+                console.log(this.state.bannedUser)
+                console.log(this.state.messageUser)
                 console.log(this.state.messages)
                 console.log(this.state.oneThreadAndMessages)
            })

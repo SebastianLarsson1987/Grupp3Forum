@@ -14,7 +14,7 @@
             |
             </router-link>|
             
-            <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
+            <a class="nav-link-white-blue" @click="signOut">Logga ut</a>|
             
             </span>
 
@@ -26,14 +26,7 @@
       </div>
     </span>
   </div>
-  <p class="nav-link-white-blue searchText" v-on:click="show = !show">| Sök tråd |</p>
-            <div class="searchBar" v-if="show">
-              <form @submit.prevent="searchThreads()">
-                <p>Sök efter en tråd</p>
-                <input type="text" v-model="searchString">
-                <input type="submit" value="Sök">
-              </form>
-            </div>
+  
     <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
     <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
    
@@ -41,66 +34,78 @@
   
 </template>
 
-<script>
-import routers from "../../router/index"
-  export default {
-    data(){
-      return{ 
-        show:false,
-        searchString: ""
-      }
-    },
-    methods:{
-      searchThreads(){
-        this.$store.dispatch('getThreadsBySearch', this.searchString)
-        routers.push("/searchResult")
-      }
-    }
-  }
-</script>
-
 <!-- <style lang="scss" scoped>
 </style> -->
 
-<script setup>
+<script>
 import { auth, logOut } from "../../assets/js/firebase";
-import { ref } from 'vue' // used for conditional rendering
+//import { ref } from 'vue' // used for conditional rendering
 
-import { useRouter } from 'vue-router'
-const router = useRouter()
-const isLoggedIn = ref(true)
-// runs after firebase is initialized
-auth.onAuthStateChanged(function (user) {
-  if (user) {
-    isLoggedIn.value = true // if we have a user
-  } else {
-    isLoggedIn.value = false // if we do not
-  }
-})
-const signOut = () => {
-  logOut()
-  router.push('/')
+//import { useRouter } from 'vue-router'
+
+export default {
+    data(){
+      return{
+        uid: 0,
+        isLoggedIn: false
+      }
+    },
+
+
+    methods:{
+      signOut(){
+        //const router = useRouter()
+        logOut()
+        this.$router.push('/')
+      },
+
+      loggedIn(){
+        auth.onAuthStateChanged(user => {
+        if (user) {
+          this.isLoggedIn = true // if we have a user
+        } else {
+          this.isLoggedIn = false // if we do not
+        }
+        console.log(this.isLoggedIn)
+      })
+      },
+
+      getUid(){
+        auth.onAuthStateChanged(user => {
+            if(user){
+              this.uid = user.uid
+            }
+        })
+      }
+    },
+
+    
+    created(){
+      
+        this.loggedIn()
+        this.getUid();
+        //console.log(this.isLoggedIn)
+        
+    },
 }
+
+// runs after firebase is initialized
+
+
+
+
+
 </script>
 
 
 <style>
-  .nav-link-white-blue {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    font-size: larger;
-    text-decoration: none;
-    color: white;
-    
-  }
-  .searchBar{
-    width:18%;
-    height:15%;
-    background-color: white;
-    position: absolute;
-    right:230px;
-    top:50px;
-  }
-  .searchText{
-    position:relative;
-  }
+
+.nav-link-white-blue {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-size: larger;
+  text-decoration: none;
+  color: white;
+
+}
+
 </style>
