@@ -7,36 +7,29 @@
     <div>
       <router-link class="nav-link-white-blue" to="/forum">Forum |</router-link>|
     </div>
-
-            <span v-if="isLoggedIn">
-            
-            <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil
-            |
-            </router-link>|
-            
-            <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
-            
-            </span>
-
-    <span v-else>
-      <div>
-        <router-link class="nav-link-white-blue" to="/register-user">Bli medlem |</router-link>
-|
-        <router-link class="nav-link-white-blue" to="/signin">Logga in</router-link>|
+      <span v-if="isLoggedIn">
+        <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil |</router-link>|
+          <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
+      </span>
+      <span v-else>
+        <div>
+          <router-link class="nav-link-white-blue" to="/register-user">Bli medlem |</router-link>
+          <router-link class="nav-link-white-blue" to="/signin">Logga in</router-link>|
+        </div>
+      </span>
+    </div>
+    <div>
+      <p class="nav-link-white-blue searchText" v-on:click="show = !show">Sök tråd |</p>
+        <div class="searchBar" v-if="show">
+          <form @submit.prevent="searchThreads()">
+            <p>Sök efter en tråd</p>
+            <input type="text" v-model="searchString">
+            <input type="submit" value="Sök">
+          </form>
+        <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
+        <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
       </div>
-    </span>
-  </div>
-  <p class="nav-link-white-blue searchText" v-on:click="show = !show">| Sök tråd |</p>
-            <div class="searchBar" v-if="show">
-              <form @submit.prevent="searchThreads()">
-                <p>Sök efter en tråd</p>
-                <input type="text" v-model="searchString">
-                <input type="submit" value="Sök">
-              </form>
-            </div>
-    <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
-    <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
-   
+   </div>
 </div>
   
 </template>
