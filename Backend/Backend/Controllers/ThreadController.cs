@@ -97,6 +97,12 @@ namespace Backend.Controllers
             var result = _threadService.GetMessagesAndThreadById(id);
             return await result;
         }
+        [HttpGet("GetThreadsBySearch")]
+        public async Task<IEnumerable<NewThread>> GetThreadsBySearch(string input)
+        {
+            var result = _threadService.GetThreadsBySearchString(input);
+            return result;
+        }
 
         [HttpGet("GetThreadsByUserId")]
         public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)

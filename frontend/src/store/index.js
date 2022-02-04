@@ -16,8 +16,8 @@ const store = createStore({
        oneThreadAndMessages: [],
        messages: [],
        newThreads: [],
-       threadsBySearch:[]
-       newThreads: [],
+       threadsBySearch:[],
+       
        userThreads: []
   },
 
@@ -211,6 +211,7 @@ const store = createStore({
       },
    
     async getThreadsBySearch({commit}, searchString){
+        console.log(searchString)
          let response = await fetch(`https://localhost:44362/api/Thread/GetThreadsBySearch?input=${searchString}`)
          let data = await response.json()
          console.log(data)

@@ -26,7 +26,14 @@
       </div>
     </span>
   </div>
-  
+  <p class="nav-link-white-blue searchText" v-on:click="show = !show">| Sök tråd |</p>
+            <div class="searchBar" v-if="show">
+              <form @submit.prevent="searchThreads()">
+                <p>Sök efter en tråd</p>
+                <input type="text" v-model="searchString">
+                <input type="submit" value="Sök">
+              </form>
+            </div>
     <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
     <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
    
@@ -35,7 +42,7 @@
 </template>
 
 <script>
-import router from "../../router/index"
+import routers from "../../router/index"
   export default {
     data(){
       return{ 
@@ -46,7 +53,7 @@ import router from "../../router/index"
     methods:{
       searchThreads(){
         this.$store.dispatch('getThreadsBySearch', this.searchString)
-        router.push("/searchResult")
+        routers.push("/searchResult")
       }
     }
   }
