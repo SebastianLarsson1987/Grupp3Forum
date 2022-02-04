@@ -14,6 +14,7 @@ import ThreadAndMessages from '../components/Forum/ThreadAndMessages.vue'
 import WriteMessage from "../components/Forum/CreateThread/WriteMessage";
 import UserThreads from '../components/Profile/UserThreads.vue'
 import ForgetPassword from "../components/Login/ForgetPassword"
+import SearchComponent from "../components/SearchResult/SearchComponent"
 
 const routes = [
 
@@ -104,6 +105,11 @@ const routes = [
     meta: {
       authRequired: true,
     },
+  },
+  {
+    path:"/searchResult",
+    name: "searchResult",
+    component: SearchComponent
   },
   {
     path: '/forgetpassword',

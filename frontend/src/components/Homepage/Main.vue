@@ -21,7 +21,7 @@
       <div v-for="item2 in item.newThreads.slice(0,2) " :key="item2.id" class="threads">
         <div class="left">
           <h4 class="thread-name">{{item2.topic}}</h4>
-          <p>Antal svar i tråd:{{item2.messages.length}}</p>a
+          <p>Antal svar i tråd:{{item2.messages.length}}</p>
         </div>
         <div v-for="item3 in item2.messages.slice(0,1)" :key="item3.id" class="right">
           <h4>{{item3.text}}</h4>

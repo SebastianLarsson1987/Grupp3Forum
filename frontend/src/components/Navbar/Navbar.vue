@@ -35,9 +35,21 @@
 </template>
 
 <script>
-export default {
-
-}
+import router from "../../router/index"
+  export default {
+    data(){
+      return{ 
+        show:false,
+        searchString: ""
+      }
+    },
+    methods:{
+      searchThreads(){
+        this.$store.dispatch('getThreadsBySearch', this.searchString)
+        router.push("/searchResult")
+      }
+    }
+  }
 </script>
 
 <!-- <style lang="scss" scoped>
@@ -66,13 +78,22 @@ const signOut = () => {
 
 
 <style>
-
-.nav-link-white-blue {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  font-size: larger;
-  text-decoration: none;
-  color: white;
-
-}
-
+  .nav-link-white-blue {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    font-size: larger;
+    text-decoration: none;
+    color: white;
+    
+  }
+  .searchBar{
+    width:18%;
+    height:15%;
+    background-color: white;
+    position: absolute;
+    right:230px;
+    top:50px;
+  }
+  .searchText{
+    position:relative;
+  }
 </style>

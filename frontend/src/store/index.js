@@ -16,6 +16,8 @@ const store = createStore({
        oneThreadAndMessages: [],
        messages: [],
        newThreads: [],
+       threadsBySearch:[]
+       newThreads: [],
        userThreads: []
   },
 
@@ -36,6 +38,9 @@ const store = createStore({
       },
       setOneThreadAndMessages(state,data){
           state.oneThreadAndMessages = data
+      },
+      setSearchResult(state, data){
+        state.threadsBySearch = data
       }
       
 
@@ -203,7 +208,15 @@ const store = createStore({
         let data = await response.json()
         console.log(data)
         commit('setAllCategoriesAndThreads', data)
-      }
+      },
+   
+    async getThreadsBySearch({commit}, searchString){
+         let response = await fetch(`https://localhost:44362/api/Thread/GetThreadsBySearch?input=${searchString}`)
+         let data = await response.json()
+         console.log(data)
+         commit('setSearchResult', data)
+  
+    }
     
     
   }
