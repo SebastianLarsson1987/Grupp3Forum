@@ -71,7 +71,11 @@ export default {
            },
             messages: this.$store.getters.getMessages,
             pageNumber: 0,
-            writeMessageDisabled: false
+            writeMessageDisabled: false,
+            items:{
+                updatedAt: Date,
+                createdAt: Date
+            }
            
         }
     },
