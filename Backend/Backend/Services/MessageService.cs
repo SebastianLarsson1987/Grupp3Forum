@@ -49,5 +49,12 @@ namespace Backend.Services
 
             
         }
+        public void ReportMessage(int id)
+        {
+            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
+            message.IsReported = true;
+            _Db.SaveChangesAsync();
+           
+        }
     }
 }

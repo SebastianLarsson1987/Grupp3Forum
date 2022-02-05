@@ -5,6 +5,10 @@
             <div class="threadmessages-wrapper-form-threadAndMessages">
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
+                    <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid">
+                        <i class="far fa-trash-alt"></i>
+                        
+                    </div>
                         <li class="threadmessages-wrapper-form-thread-list">
                             <h1>{{item.topic}}</h1>
                             <i>Tråd Skapad {{item.createadAt}}</i>
@@ -20,14 +24,22 @@
                                 <div class="threadmessages-wrapper-form-messages-list-header">
                                     <i>Skapad {{message.createdAt}}</i>
                                     <i>Uppdaterad {{message.updatedAt}}</i>
+                                    <div v-if="item.userUid === uid">
+                                        <div class="buttons">
+                                            <i class="fas fa-ban"></i>
                                     <i>#{{message.id}}</i>
+                                        </div>
+                                </div>
+                                            
                                 </div>
                                 <div class="threadmessages-wrapper-form-messages-list-content">
                                     <p>{{message.text}}</p>
+                                    <div class="buttons-for-all">
+                                        <i class="far fa-hand-paper" @click="reportMessage(message.id)"></i>
+                                        
+                                    </div>
                                 </div>
-                                <div v-if="item.userUid === uid">
-                                    <button>Ta bort innehåll</button>
-                                </div>
+                                
                             </li>
                         </ul>
                     </div>
@@ -53,8 +65,8 @@
 
 <script>
 
+import axios from "axios";
 import { auth } from "../../assets/js/firebase";
-
 export default {
 
     props:{
@@ -63,6 +75,9 @@ export default {
             required: false,
             default: 10
         }
+    },
+    components: {
+        
     },
     data(){
         return{
@@ -118,7 +133,21 @@ export default {
             this.threadAndMessages = await this.$store.dispatch('getThreadAndMessagesById', id);
             return this.threadAndMessages;
         },
-
+        async reportMessage(id){  
+            
+            console.log(id)  
+            
+            axios
+            .put(`https://localhost:44362/api/Message/ReportMessage?id=`+id)
+            .then(response=>[
+                console.log(response)
+            ])
+            .then(error=>{
+                console.log(error)
+            })
+            
+           
+        },
         
         postMessage(){
             
@@ -195,6 +224,7 @@ export default {
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     height: 10vh;
+    position:relative;
 }
 
 .threadmessages-wrapper-form-messages-scroll{
@@ -229,7 +259,7 @@ export default {
     display:flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 77vw;
+    width: 76vw;
     border: 1px solid black;
 }
 
@@ -251,7 +281,7 @@ export default {
 }
 
 .threadmessages-wrapper-form-messages-list-content{
-    
+    position:relative;
 }
 
 .threadmessages-wrapper-form-messages-writeMessage{
@@ -277,6 +307,26 @@ export default {
 .threadmessages-wrapper-form-messages-writeMessage>div>button{
     width:55%;
 }
+.group-admin-buttons-remove-thread{
+    float:right;
+}
 
+.remove-thread-button{
+   cursor:pointer;
+}
+.bicons{
+    width:25%;
+    
+}
+.threadmessages-wrapper-form-messages-list-header{
+    display:flex;
+    flex-direction: row;
+}
+.far{
+    font-size: 1.5em;
+    margin-right: 0.5em;
+    margin-top: 0.3em;
+    cursor:pointer;
+}
 
 </style>

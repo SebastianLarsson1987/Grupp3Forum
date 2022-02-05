@@ -40,5 +40,10 @@ namespace Backend.Controllers
         {
             return await _messageService.EditMessage(id, message);
         }
+        [HttpPut("ReportMessage")]
+        public void ReportMessage(int id)
+        {
+            _messageService.ReportMessage(id);
+        }
     }
 }
