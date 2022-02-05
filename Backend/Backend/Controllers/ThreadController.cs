@@ -19,10 +19,10 @@ namespace Backend.Controllers
         private readonly ThreadService _threadService;
         private readonly grupp3forumContext _db;
 
-        public ThreadController(IThreadService threadService)
+        public ThreadController(IThreadService threadService, grupp3forumContext db)
         {
             _threadService = threadService as ThreadService;
-            _db = new grupp3forumContext();
+            _db = db;
         }
 
         [HttpPost("CreateThread")]
@@ -58,7 +58,7 @@ namespace Backend.Controllers
                 IsReported = false
 
             };
-            
+
             _db.Messages.Add(newMessage);
             await _db.SaveChangesAsync();
             return newMessage;

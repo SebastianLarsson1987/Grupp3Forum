@@ -19,7 +19,7 @@ namespace Backend.Services.BackgroundServices
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation($"{0} is starting", nameof(FlushDeletedUsersService));
+            _logger.LogInformation($"{nameof(FlushDeletedUsersService)} is starting");
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogDebug("Starting flush task");

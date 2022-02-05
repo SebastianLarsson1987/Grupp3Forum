@@ -11,27 +11,27 @@ namespace Backend.Services
     public class UserService : ControllerBase, IUserService
     {
 
-        private readonly grupp3forumContext _Db;
+        private readonly grupp3forumContext _db;
 
-        public UserService()
+        public UserService(grupp3forumContext db)
         {
-            _Db = new grupp3forumContext();
+            _db = db;
         }
 
         public async Task<IEnumerable<User>> GetAllUser()
         {
-            return await _Db.Users.ToListAsync();
+            return await _db.Users.ToListAsync();
         }
 
         public User GetOneUser(string id)
-        { return _Db.Users.FirstOrDefault(x => x.Uid == id); }
+        { return _db.Users.FirstOrDefault(x => x.Uid == id); }
 
         public async Task<bool> UpdateUser(User user)
         {
             try
             {
-                _Db.Entry(user).State = EntityState.Modified;
-                await _Db.SaveChangesAsync();
+                _db.Entry(user).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
                 return true;
 
             }
@@ -45,13 +45,13 @@ namespace Backend.Services
         public async Task RemoveUser(string id)
         {
             const string deleted = "deleted";
-            var delUser = _Db.Users.SingleOrDefault(x => x.Uid == id);
+            var delUser = _db.Users.SingleOrDefault(x => x.Uid == id);
             delUser.FirstName = deleted;
             delUser.Banned = false;
             delUser.UserName = deleted;
-            await _Db.DeletedUsers.AddAsync(new DeletedUser { UserUid = delUser.Uid, DeletionDate = DateTime.Now });
+            await _db.DeletedUsers.AddAsync(new DeletedUser { UserUid = delUser.Uid, DeletionDate = DateTime.Now });
 
-            await _Db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
         }
 
@@ -63,7 +63,7 @@ namespace Backend.Services
                 return BadRequest("Not a valid model");
             }
 
-            var existingUser = _Db.Users.Where(u => u.Uid == id)
+            var existingUser = _db.Users.Where(u => u.Uid == id)
                 .FirstOrDefault();
 
             if (existingUser != null)
@@ -71,7 +71,7 @@ namespace Backend.Services
                 existingUser.Email = email;
                 existingUser.UserName = UserName;
 
-                await _Db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             else
             {

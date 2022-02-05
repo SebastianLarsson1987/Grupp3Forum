@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Backend.Models.Database;
 
 namespace Backend
 {
@@ -32,6 +33,7 @@ namespace Backend
             services.AddTransient<IThreadService, ThreadService>();
             services.AddTransient<IUserService, UserService>();
             services.AddControllers();
+            services.AddDbContext<grupp3forumContext>(ServiceLifetime.Singleton);
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

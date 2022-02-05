@@ -15,9 +15,9 @@ namespace Backend.Services
     {
         private readonly grupp3forumContext _db;
 
-        public ThreadService()
+        public ThreadService(grupp3forumContext db)
         {
-            _db = new grupp3forumContext();
+            _db = db;
         }
 
         public void RemoveThreadAndMessages(int id)
@@ -75,8 +75,8 @@ namespace Backend.Services
                 .ThenInclude(message => message.UserU)
                 .AsNoTracking()
                 .ToListAsync();
-                
-              
+
+
             return await result;
         }
 
@@ -85,8 +85,8 @@ namespace Backend.Services
             var result = await _db.NewThreads.Where(u => u.UserUid == id).ToListAsync();
             return result;
         }
-        
-        public IEnumerable<NewThread>GetThreadsBySearchString(string input)
+
+        public IEnumerable<NewThread> GetThreadsBySearchString(string input)
         {
             var result = _db.NewThreads.Where(x => x.Topic.Contains(input)).AsEnumerable();
             return result;

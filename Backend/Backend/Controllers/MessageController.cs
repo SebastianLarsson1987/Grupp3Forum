@@ -14,9 +14,9 @@ namespace Backend.Controllers
     {
         private readonly MessageService _messageService;
 
-        public MessageController()
+        public MessageController(grupp3forumContext ctx)
         {
-            _messageService = new MessageService();
+            _messageService = new MessageService(ctx);
         }
 
         [HttpDelete]
@@ -28,7 +28,7 @@ namespace Backend.Controllers
         [HttpGet("GetUserMessages/{id}")]
         public async Task<IEnumerable<Message>> GetUserMessages(string id)
         {
-            
+
 
 
 
