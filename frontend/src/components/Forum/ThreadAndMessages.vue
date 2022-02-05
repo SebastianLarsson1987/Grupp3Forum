@@ -6,7 +6,7 @@
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
                     <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid">
-                        <i class="far fa-trash-alt"></i>
+                        <i class="far fa-trash-alt" @click="removeThread(item.id)"></i>
                         
                     </div>
                         <li class="threadmessages-wrapper-form-thread-list">
@@ -26,7 +26,7 @@
                                     <i>Uppdaterad {{message.updatedAt}}</i>
                                     <div v-if="item.userUid === uid">
                                         <div class="buttons">
-                                            <i class="fas fa-ban"></i>
+                                            <i class="fas fa-ban" @click.prevent="deleteMessage(message.id)"></i>
                                     <i>#{{message.id}}</i>
                                         </div>
                                 </div>
@@ -66,6 +66,7 @@
 <script>
 
 import axios from "axios";
+import router from '../../router/index'
 import { auth } from "../../assets/js/firebase";
 export default {
 
@@ -139,14 +140,39 @@ export default {
             
             axios
             .put(`https://localhost:44362/api/Message/ReportMessage?id=`+id)
-            .then(response=>[
+            .then(response=>{
                 console.log(response)
-            ])
+            })
             .then(error=>{
                 console.log(error)
             })
             
            
+        },
+        async removeThread(id){
+            console.log(id)
+            axios
+            .delete(`https://localhost:44362/api/Thread/RemoveThread?id=`+id)
+            .then(response=>{
+                console.log(response)
+            })
+            .then(error=>{
+                console.log(error)
+            })
+            router.push("/main")
+        },
+        async deleteMessage(id){
+            console.log(id)
+            axios
+            .delete(`https://localhost:44362/api/Message/DeleteMessage?id=`+id)
+            .then(response=>{
+                console.log(response)
+            })
+            .then(error=>{
+                console.log(error)
+            })
+
+            router.push("/forum")
         },
         
         postMessage(){
@@ -322,7 +348,7 @@ export default {
     display:flex;
     flex-direction: row;
 }
-.far{
+.far, .fas{
     font-size: 1.5em;
     margin-right: 0.5em;
     margin-top: 0.3em;

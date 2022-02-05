@@ -23,15 +23,15 @@ namespace Backend.Services
         public void RemoveThreadAndMessages(int id)
         {
             //var resutl = _db.NewThreads.Include(x => x.Messages.Where(x=>x.ThreadId==id)).SingleOrDefault(x => x.Id == id);
-            var threadResult = _db.NewThreads.SingleOrDefault(x => x.Id == id);
-
-            var messagesResult = _db.Messages.Where(x => x.ThreadId == id);
-
-            _db.NewThreads.Remove(threadResult);
-            foreach (var item in messagesResult)
+            var threadResult = _db.NewThreads.FirstOrDefault(x => x.Id == id);
+            var messages = _db.Messages.Where(x => x.ThreadId == id);
+            foreach (var item in messages)
             {
                 _db.Messages.Remove(item);
             }
+            _db.NewThreads.Remove(threadResult);
+
+                       
 
             _db.SaveChanges();
         }

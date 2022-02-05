@@ -19,7 +19,7 @@ namespace Backend.Controllers
             _messageService = new MessageService();
         }
 
-        [HttpDelete]
+        [HttpDelete("DeleteMessage")]
         public async Task<ActionResult<Message>> DeleteMessage(int id)
         {
             return await _messageService.DeleteMessage(id);
@@ -45,5 +45,7 @@ namespace Backend.Controllers
         {
             _messageService.ReportMessage(id);
         }
+        
+        
     }
 }
