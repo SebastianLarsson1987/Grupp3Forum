@@ -33,7 +33,7 @@
                                         <i>Medlem: {{ message.userU.userName }}</i>
                                         <p>{{ message.text }}</p>
                                     </div>
-                                    <div v-if="item.userUid === uid">
+                                    <div v-if="item.userUid === uid ||| user.role.name === 'admin'">
                                         <button @click="removeMessage(message.id)">Ta bort innehåll</button>
                                     </div>
                                 </li>
@@ -101,8 +101,8 @@ export default {
             },
             messages: this.$store.getters.getMessages,
             pageNumber: 0,
-            writeMessageDisabled: false
-
+            writeMessageDisabled: false,
+            user: []
         }
     },
 
@@ -145,9 +145,6 @@ export default {
         banned() {
             return this.$store.state.bannedUser
         }
-
-
-
     },
 
     methods: {
@@ -155,10 +152,7 @@ export default {
             this.threadAndMessages = await this.$store.dispatch('getThreadAndMessagesById', id);
             return this.threadAndMessages;
         },
-
-
         postMessage() {
-
             let payload = {
                 mtext: this.newMessage.mtext,
                 threadId: this.$route.params.id,
@@ -173,8 +167,6 @@ export default {
 
 
         },
-
-
         nextPage() {
             this.pageNumber++;
         },
@@ -194,7 +186,6 @@ export default {
         firstPage() {
             this.pageNumber = 0;
         },
-
         stateChanged() {
             auth.onAuthStateChanged(user => {
                 if (!user) {
@@ -206,17 +197,15 @@ export default {
         async removeMessage(id) {
             await this.$store.dispatch("deleteMessage", id);
             messages = messages.filter(m => m.id != id);
+        },
+        async GetUser() {
+            return await fetch(`https://localhost:44362/GetOneUser?id=${this.uid}`);
         }
-
-
-
     },
-
-    created() {
-
-        this.getOneThreadAndMessages(this.$route.params.id);
+    async created() {
+        await this.getOneThreadAndMessages(this.$route.params.id);
         this.stateChanged();
-
+        await this.GetUser();
     }
 
 
