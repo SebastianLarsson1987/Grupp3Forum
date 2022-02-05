@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import axios from 'axios';
-import { remove } from "firebase";
+import { remove } from "../assets/js/firebase";
 
 
 const store = createStore({
