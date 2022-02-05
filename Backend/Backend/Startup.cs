@@ -1,4 +1,5 @@
 using Backend.Services;
+using Backend.Services.BackgroundServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +31,7 @@ namespace Backend
             services.AddTransient<IThreadService, ThreadService>();
             services.AddTransient<IUserService, UserService>();
             services.AddControllers();
+            services.AddHostedService<FlushDeletedUsersService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Backend", Version = "v1" });
@@ -61,7 +63,7 @@ namespace Backend
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()));
-                
+
 
             app.UseAuthorization();
 
@@ -72,4 +74,3 @@ namespace Backend
         }
     }
 }
-
