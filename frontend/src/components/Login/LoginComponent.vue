@@ -66,6 +66,7 @@
 
 <script>
 import { logIn, resetPassword } from "../../assets/js/firebase";
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -77,13 +78,25 @@ export default {
   },
   methods: {
     async onSubmit() {
-      await logIn(this.user.email, this.user.password);
-      this.$router.push("/forum");
+      axios
+      .get(`https://localhost:44362/api/User/GetUserStatus?email=${this.user.email}`)
+      .then(response => {
+        if(response.data[0] === false){
+          console.log(response.data)
+          logIn(this.user.email, this.user.password);
+          this.$router.push("/forum");
+        } 
+        else{
+          alert("Ditt konto är avstängt");
+          this.$router.push('/')
+        }
+      })
     },
     async forgetPassword(){
     await resetPassword(this.user.email)
     }
   },
+  
   
 };
 </script>
