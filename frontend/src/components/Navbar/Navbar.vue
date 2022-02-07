@@ -17,13 +17,13 @@
           </div>
           <div class="col col-lg-4"> 
             <div class="d-flex flex-row">
-              <div class="">
+              <div class="justify-content-end">
                 <form @submit.prevent="searchThreads()">
                   <input type="search" id="searchForm" class="form-control" v-model="searchString"/>
                   <input type="submit" value="Sök" class="btn btn-primary">
                 </form>
               </div>
-              <div style="margin-left:15%">
+              <div class="align-items-center">
                 <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
                 <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
               </div>
