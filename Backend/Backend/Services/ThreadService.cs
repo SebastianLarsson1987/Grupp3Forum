@@ -92,5 +92,18 @@ namespace Backend.Services
             return result;
 
         }
+        public void BlockThread(int id)
+        {
+            var thread = _db.NewThreads.FirstOrDefault(x => x.Id == id);
+            if (thread.Blocked==false)
+            {
+                thread.Blocked = true;
+            }
+            else
+            {
+                thread.Blocked = false;
+            }
+            _db.SaveChanges();
+        }
     }
 }

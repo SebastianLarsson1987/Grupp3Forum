@@ -1,11 +1,21 @@
 <template>
     <div>
+    
         <form class="threadmessages-wrapper-form"
         v-for="item in oneThreadAndMessages2" :key="item.id">
             <div class="threadmessages-wrapper-form-threadAndMessages">
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
                     <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid">
+                        
+                        <div v-if="item.blocked==false">
+                             <i class="fas fa-lock" @click.prevent="blockThread(item.id)"></i>
+                        </div>
+                        <div v-if="item.blocked==true">
+                             <i class="fas fa-lock-open" @click="blockThread(item.id)"></i>
+
+                        </div>
+                        
                         <i class="far fa-trash-alt" @click="removeThread(item.id)"></i>
                         
                     </div>
@@ -54,12 +64,16 @@
                         <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-angle-double-right"></i></button>
                     </div>
                 </div>
-                <div class="threadmessages-wrapper-form-messages-writeMessage">
+                <div class="threadmessages-wrapper-form-messages-writeMessage" v-if="item.blocked==false">
+                    
                     <div v-if="!writeMessageDisabled">
                         <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
                         rows="5" cols="100" placeholder="Skriv ditt meddelande här..." v-model="newMessage.mtext"></textarea>
                         <button @click="postMessage()">Skapa meddelande</button>
                     </div>
+                </div>
+                <div v-else>
+                    <h4>Tråden är blockad av gruppadmin</h4>
                 </div>
             </div>
         </form>
@@ -231,6 +245,16 @@ export default {
                 }
             })
         },
+        blockThread(id){
+            axios
+            .put("https://localhost:44362/api/Thread/BlockThread?id=" +id)
+            .then(response => {
+                console.log(response)
+            })
+            .then(error => {
+                console.log(error)
+            })
+        }
         
         
             
