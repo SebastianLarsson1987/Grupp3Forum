@@ -82,7 +82,8 @@ namespace Backend.Services
 
         public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)
         {
-            var result = _db.NewThreads.Where(x => x.UserUid == id);
+            var result = _db.NewThreads.Where(x => x.UserUid == id)
+                .Include(x => x.Messages.Where(x=> x.IsDeleated == false));
             return result;
         }
         

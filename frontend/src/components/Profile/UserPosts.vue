@@ -115,7 +115,7 @@ export default {
 
         deleteMessage(id){
             if(confirm('Är du säker på att du vill ta bort detta meddelande?')){
-                this.$store.dispatch('deleteMessage', id)
+                this.$store.dispatch('putDeleteMessage', id)
                 return true;
             }
             else{

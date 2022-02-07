@@ -20,6 +20,7 @@ const store = createStore({
        
        userThreads: [],
        messageUser: [],
+       reportedMessagesStatusInThread: [],
        bannedUser: false
   },
 
@@ -43,6 +44,14 @@ const store = createStore({
       },
       setSearchResult(state, data){
         state.threadsBySearch = data
+      },
+      setMessagesReportedStatus(state){
+        if(state.reportedMessagesStatusInThread[1]){
+            return true;
+        }
+        else{
+            return false;
+        }
       }
       
 
@@ -70,6 +79,32 @@ const store = createStore({
             .catch(error => {
                 console.log(error)
             })
+       },
+
+       putDeleteMessage(_, id){
+        axios
+        .put(`https://localhost:44362/api/Message/SetMessageAsDeleted?id=${id}`, {
+
+        })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+       },
+
+       putMessageAsNotReported(_, id){
+        axios
+        .put(`https://localhost:44362/api/Message/SetMessageToNotReported?id=${id}`, {
+
+        })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error)
+        })
        },
 
        putMessageText(_, {id, text}){
@@ -196,9 +231,13 @@ const store = createStore({
             .get(`https://localhost:44362/api/Thread/GetThreadsByUserId?id=${id}`)
             .then(response => {
                  this.state.userThreads = response.data
-                    //  this.state.userThreads.sort(function(a,b){
-                    //      return new Date(a.updatedAt) - new Date(b.updatedAt)
-                    //  })
+                 this.state.reportedMessagesStatusInThread = this.state.userThreads.map(x => {
+                        return x.messages.map(msg => {
+                         return msg.isReported
+                     })
+                 })
+                
+                    console.log(this.state.reportedMessagesStatusInThread)
                     console.log(this.state.userThreads)
             })
             .catch(error => {
