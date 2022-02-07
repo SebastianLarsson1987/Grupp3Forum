@@ -42,8 +42,11 @@
                         <ul class="userprofile-form-grid4-wrapperscroll-unordered-list-reportedmessages" v-for="msg in thread.messages" :key="msg">
                             <li class="userprofile-form-grid4-wrapperscroll-list-reportedmessages" v-if="msg.isReported">
                                 <h1>Anmält innehåll</h1>
+                                <button class="fas fa-ban" @click="deleteMessage(msg.id)"></button>
                                 <p>{{msg.text}}</p>
-                                <button @click="restoreMessage(msg.id)">Återställ meddelande</button>
+                                <button 
+                                class="btn btn-primary btn-lg btn-block" 
+                                @click="restoreMessage(msg.id)">Återställ meddelande</button>
                             </li>
                         </ul>
                    </div>
@@ -110,6 +113,10 @@ export default {
 
         restoreMessage(id){
             return this.$store.dispatch('putMessageAsNotReported', id)
+        },
+
+        deleteMessage(id){
+            return this.$store.dispatch('putDeleteMessage', id)
         }
     },
 
@@ -301,6 +308,7 @@ export default {
         padding: 2vw;
         width: 60%;
         margin-left: 10vw;
+        
     }
 
     .userprofile-form-grid4-wrapperscroll-list-reportedmessages>p{
@@ -312,6 +320,13 @@ export default {
     .userprofile-form-grid4-wrapperscroll-list-reportedmessages>h1{
         color:red;
         font-size: 100%;
+        display: inline-block;
+    }
+
+    .fa-ban{
+        float:right;
+        background-color: red;
+        color: white;
     }
 
     .userprofile-form-grid4-no-threads-message>p{
