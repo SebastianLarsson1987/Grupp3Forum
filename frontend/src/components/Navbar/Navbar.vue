@@ -14,7 +14,7 @@
             |
             </router-link>|
             
-            <a class="nav-link-white-blue" @click="signOut">Logga ut</a>|
+            <a class="nav-link-white-blue" @click.prevent="signOut">Logga ut</a>|
             
             </span>
 

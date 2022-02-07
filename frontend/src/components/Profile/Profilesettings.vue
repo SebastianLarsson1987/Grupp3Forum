@@ -28,10 +28,7 @@
                 </nav>
             </div>
             <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
-                <div class="userprofile-form-grid4-banned" v-if="item.banned">
-                    <h2>Användaren är blockerad</h2>
-                </div>
-                <div v-else>
+                <div>
                     <div class="userprofile-form-grid4-username">
                         <p>Användarnamn</p>
                         <input type="text" placeholder="Användarnamn" v-bind:disabled="isReadOnly" v-model="item.userName">

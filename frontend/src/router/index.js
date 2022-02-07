@@ -126,13 +126,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authRequired)) {
     auth.onAuthStateChanged(user => {
-      if(user){
+      if(user || auth.currentUser){
         next();
       } else{
         alert('You must be logged in to see this page');
-        next({
-          path: '/',
-        });
+        // next({
+        //   path: '/',
+        // });
       } 
     })
   }else{

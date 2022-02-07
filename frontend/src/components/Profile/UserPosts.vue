@@ -26,11 +26,8 @@
                     </div>
                 </nav>
             </div>
-            <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
-                <div class="userprofile-form-grid4-banned" v-if="item.banned">
-                    <h2>Användaren är blockerad</h2>
-                </div>
-                <div v-else class="userprofile-form-grid4-wrapperscroll">
+            <div class="userprofile-form-grid4" >
+                <div class="userprofile-form-grid4-wrapperscroll">
                     <ul class="userprofile-form-grid4-ul" v-for="(post, index) in localPosts" :key="index">
                         <li class="userprofile-form-grid4-list">
                             <p>Inlägg skapat: {{post.createdAt}}</p>
@@ -124,7 +121,9 @@ export default {
             else{
                 return false
             }
-        }
+        },
+      
+      
 
 
        
@@ -133,16 +132,16 @@ export default {
     created(){
 
         this.getUserPosts();
-        
-        
-    },
-
-    beforeMount(){
         auth.onAuthStateChanged(user => {
             if(user){
                 this.$route.params.id = user.uid
             }
         })
+        
+    },
+
+    beforeMount(){
+        
     }
    
     

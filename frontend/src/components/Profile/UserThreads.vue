@@ -26,12 +26,9 @@
                     </div>
                 </nav>
             </div>
-            <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
-                <div class="userprofile-form-grid4-no-threads-message" v-if="localThreads.length == 0 && !item.banned">
+            <div class="userprofile-form-grid4">
+                <div class="userprofile-form-grid4-no-threads-message" v-if="localThreads.length == 0">
                         <p>Inga trådar att visa</p>
-                </div>
-                <div class="userprofile-form-grid4-banned" v-if="item.banned">
-                    <h2>Användaren är blockerad</h2>
                 </div>
                 <div v-else class="userprofile-form-grid4-wrapperscroll">
                     <div  v-for="thread in localThreads" :key="thread">
