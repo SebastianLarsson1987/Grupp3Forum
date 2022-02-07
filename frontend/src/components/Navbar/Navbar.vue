@@ -1,37 +1,37 @@
 <template>
-  <div class="d-flex justify-content-center p-4 mb-3 bg-dark" style="text-align-last: right;">
-    <div class="d-flex mx-auto" style="position:relative ; left: 3%;">
-      <div>
-        <router-link class="nav-link-white-blue pr-4" to="/">Hem |</router-link>|
-      </div>
-    <div>
-      <router-link class="nav-link-white-blue" to="/forum">Forum |</router-link>|
-    </div>
-      <span v-if="isLoggedIn">
-        <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil |</router-link>|
-          <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
-      </span>
-      <span v-else>
-        <div>
-          <router-link class="nav-link-white-blue" to="/register-user">Bli medlem |</router-link>
-          <router-link class="nav-link-white-blue" to="/signin">Logga in</router-link>|
+  <nav class="bg-dark">
+    <div class="container-fluid">
+      <div class="row justify-content-md-center align-items-center">
+        <div class="col col-lg-4"> </div>
+          <div class="col-md-auto">
+            <router-link class="nav-link-white-blue" to="/">Hem |</router-link>|
+            <router-link class="nav-link-white-blue" to="/forum">Forum |</router-link>|
+            <span v-if="isLoggedIn">
+              <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil |</router-link>|
+              <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
+            </span>
+            <span v-else>
+              <router-link class="nav-link-white-blue" to="/register-user">Bli medlem |</router-link>
+              <router-link class="nav-link-white-blue" to="/signin">Logga in</router-link>|
+            </span>
+          </div>
+          <div class="col col-lg-4"> 
+            <div class="d-flex flex-row">
+              <div class="">
+                <form @submit.prevent="searchThreads()">
+                  <input type="search" id="searchForm" class="form-control" v-model="searchString"/>
+                  <input type="submit" value="Sök" class="btn btn-primary">
+                </form>
+              </div>
+              <div style="margin-left:15%">
+                <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
+                <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
+              </div>
+            </div>
+          </div>
         </div>
-      </span>
-    </div>
-    <div>
-      <p class="nav-link-white-blue searchText" v-on:click="show = !show">Sök tråd |</p>
-        <div class="searchBar" v-if="show">
-          <form @submit.prevent="searchThreads()">
-            <p>Sök efter en tråd</p>
-            <input type="text" v-model="searchString">
-            <input type="submit" value="Sök">
-          </form>
-        <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
-        <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
       </div>
-   </div>
-</div>
-  
+  </nav>  
 </template>
 
 <script>
@@ -85,7 +85,7 @@ const signOut = () => {
     color: white;
     
   }
-  .searchBar{
+  /* .searchBar{
     width:18%;
     height:15%;
     background-color: white;
@@ -95,5 +95,5 @@ const signOut = () => {
   }
   .searchText{
     position:relative;
-  }
+  } */
 </style>
