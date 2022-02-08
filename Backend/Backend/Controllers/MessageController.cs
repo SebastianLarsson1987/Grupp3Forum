@@ -46,6 +46,18 @@ namespace Backend.Controllers
             _messageService.ReportMessage(id);
         }
         
-        
+        [HttpPut("SetMessageAsDeleted")]
+        public void SetMessageAsDeleted(int id)
+        {
+            _messageService.SetMessageToDeleted(id);
+        }
+
+        [HttpPut("SetMessageToNotReported")]
+        public void SetMessageToNotReported(int id)
+        {
+            _messageService.SetMessageToNotReported(id);
+        }
+
+
     }
 }
