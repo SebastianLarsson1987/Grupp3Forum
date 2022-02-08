@@ -53,7 +53,7 @@
             <input type="checkbox"
             :inProgress="inProgress"
             @click="clickAction">
-            Jag har läst & accepterar <a href="/regler">Forumsregler</a> & <a href="/gdpr">GDPR</a>
+            Jag har läst & accepterar <a href="/regler">Forumsregler</a> & <a href="/gdpr">GDPR</a>!
             
             <br>
             <br>
