@@ -19,8 +19,10 @@
             <div class="d-flex flex-row">
               <div class="justify-content-end">
                 <form @submit.prevent="searchThreads()">
-                  <input type="search" id="searchForm" class="form-control" v-model="searchString"/>
-                  <input type="submit" value="Sök" class="btn btn-primary">
+                  <input type="search" id="searchForm" class="form-control flex-row" v-model="searchString"/>
+                  <span class="input-group-text border-0">
+                    <input type="submit" value="Sök" class="btn btn-primary">
+                  </span>
                 </form>
               </div>
               <div class="align-items-center">
