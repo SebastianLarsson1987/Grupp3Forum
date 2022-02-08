@@ -23,15 +23,15 @@ namespace Backend.Services
         public async Task RemoveThreadAndMessages(int id)
         {
             //var resutl = _db.NewThreads.Include(x => x.Messages.Where(x=>x.ThreadId==id)).SingleOrDefault(x => x.Id == id);
-            var threadResult = _db.NewThreads.SingleOrDefault(x => x.Id == id);
-
-            var messagesResult = _db.Messages.Where(x => x.ThreadId == id);
-
-            _db.NewThreads.Remove(threadResult);
-            foreach (var item in messagesResult)
+            var threadResult = _db.NewThreads.FirstOrDefault(x => x.Id == id);
+            var messages = _db.Messages.Where(x => x.ThreadId == id);
+            foreach (var item in messages)
             {
                 _db.Messages.Remove(item);
             }
+            _db.NewThreads.Remove(threadResult);
+
+                       
 
             await _db.SaveChangesAsync();
 
@@ -83,7 +83,8 @@ namespace Backend.Services
 
         public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)
         {
-            var result = await _db.NewThreads.Where(u => u.UserUid == id).ToListAsync();
+            var result = _db.NewThreads.Where(x => x.UserUid == id)
+                .Include(x => x.Messages.Where(x=> x.IsDeleated == false));
             return result;
         }
 

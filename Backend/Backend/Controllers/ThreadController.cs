@@ -63,8 +63,13 @@ namespace Backend.Controllers
             await _db.SaveChangesAsync();
             return newMessage;
         }
+<<<<<<< HEAD
         [HttpDelete("Remove Thread")]
         public async Task RemoveThread(int id)
+=======
+        [HttpDelete("RemoveThread")]
+        public void RemoveThread(int id)
+>>>>>>> dev
         {
             await _threadService.RemoveThreadAndMessages(id);
         }

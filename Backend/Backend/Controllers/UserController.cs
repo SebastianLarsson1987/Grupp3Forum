@@ -73,5 +73,10 @@ namespace Backend.Controllers
             return await _userService.EditUserDetails(id, email, UserName);
         }
 
+        [HttpGet("GetUserStatus")]
+        public async Task<IEnumerable<bool>> GetUserStatus(string email)
+        {
+            return await _userService.CheckUserStatus(email);
+        }
     }
 }

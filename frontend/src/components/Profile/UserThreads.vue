@@ -26,20 +26,27 @@
                     </div>
                 </nav>
             </div>
-            <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
-                <div class="userprofile-form-grid4-no-threads-message" v-if="localThreads.length == 0 && !item.banned">
+            <div class="userprofile-form-grid4" >
+                <div class="userprofile-form-grid4-no-threads-message" v-if="localThreads.length == 0">
                         <p>Inga trådar att visa</p>
                 </div>
-                <div class="userprofile-form-grid4-banned" v-if="item.banned">
-                    <h2>Användaren är blockerad</h2>
-                </div>
                 <div v-else class="userprofile-form-grid4-wrapperscroll">
-                    <div  v-for="thread in localThreads" :key="thread">
+                    <div v-for="thread in localThreads" :key="thread.id">
                         <ul class="userprofile-form-grid4-wrapperscroll-unordered-list">
                             <li class="userprofile-form-grid4-wrapperscroll-list">
                                 <router-link :to="`/threadmessages/${thread.id}`" >{{thread.topic}}</router-link>
                                 <i>Senast uppdaterad: {{thread.updatedAt}}</i>
                                 <p>{{thread.text}}</p>
+                            </li>
+                        </ul>
+                        <ul class="userprofile-form-grid4-wrapperscroll-unordered-list-reportedmessages" v-for="msg in thread.messages" :key="msg">
+                            <li class="userprofile-form-grid4-wrapperscroll-list-reportedmessages" v-if="msg.isReported">
+                                <h1>Anmält innehåll</h1>
+                                <button class="fas fa-ban" @click="deleteMessage(msg.id)"></button>
+                                <p>{{msg.text}}</p>
+                                <button 
+                                class="btn btn-primary btn-lg btn-block" 
+                                @click="restoreMessage(msg.id)">Återställ meddelande</button>
                             </li>
                         </ul>
                    </div>
@@ -55,11 +62,14 @@
 
 import { auth } from "../../assets/js/firebase";
 
+
 export default {
 
     data(){
         return{
             keyword: "",
+            isReported: [],
+            
         }
     },
 
@@ -88,7 +98,10 @@ export default {
                 return this.$store.state.userThreads;
             }
             
+            
         },
+
+      
 
         
     },
@@ -96,8 +109,17 @@ export default {
     methods:{
         getUserThreadsByUid(id){
             return this.$store.dispatch('getThreadByUserId', id)
+        },
+
+        restoreMessage(id){
+            return this.$store.dispatch('putMessageAsNotReported', id)
+        },
+
+        deleteMessage(id){
+            return this.$store.dispatch('putDeleteMessage', id)
         }
     },
+
 
     created(){
             auth.onAuthStateChanged(user => {
@@ -106,7 +128,14 @@ export default {
                 }
             }),
             this.getUserThreadsByUid(this.$route.params.id);
+        
+            
+           
+            
+            
     },
+
+   
 
     
 }
@@ -262,6 +291,7 @@ export default {
         min-height: 5vh;
     }
 
+
     .userprofile-form-grid4-wrapperscroll{
         overflow-x: hidden;
         overflow-y: auto;
@@ -269,10 +299,44 @@ export default {
         height:55vh;
     }
 
+    .userprofile-form-grid4-wrapperscroll-unordered-list-reportedmessages{
+        padding-bottom: 0.5vh;
+    }
+
+    .userprofile-form-grid4-wrapperscroll-list-reportedmessages{
+        border: 1px solid black;
+        padding: 2vw;
+        width: 60%;
+        margin-left: 10vw;
+        
+    }
+
+    .userprofile-form-grid4-wrapperscroll-list-reportedmessages>p{
+        margin-top: 2vh;
+        border:1px solid black;
+        min-height: 5vh;
+    }
+
+    .userprofile-form-grid4-wrapperscroll-list-reportedmessages>h1{
+        color:red;
+        font-size: 100%;
+        display: inline-block;
+    }
+
+    .fa-ban{
+        float:right;
+        background-color: red;
+        color: white;
+    }
+
     .userprofile-form-grid4-no-threads-message>p{
         text-align: center;
         font-size: 200%;
 
+    }
+
+    .red{
+        color: red;
     }
 
 </style>

@@ -8,6 +8,10 @@
             <div class="threadmessages-wrapper-form-threadAndMessages">
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
+                    <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid">
+                        <i class="far fa-trash-alt" @click="removeThread(item.id)"></i>
+                        
+                    </div>
                         <li class="threadmessages-wrapper-form-thread-list">
                             <h1>{{ item.topic }}</h1>
                             <i>Tråd Skapad {{ item.createadAt }}</i>
@@ -15,30 +19,35 @@
                         </li>
                     </ul>
                 </div>
-                <div class="threadmessages-wrapper-form-messages-scroll">
-                    <div
-                        class="threadmessages-wrapper-form-messages"
-                        v-for="message in paginatedData"
-                        :key="message.id"
-                    >
-                        <div>
-                            <ul>
-                                <li class="threadmessages-wrapper-form-messages-list">
-                                    <div class="threadmessages-wrapper-form-messages-list-header">
-                                        <i>Skapad {{ message.createdAt }}</i>
-                                        <i>Uppdaterad {{ message.updatedAt }}</i>
-                                        <i>#{{ message.id }}</i>
+                <div class="threadmessages-wrapper-form-messages-scroll"> 
+                    <div class="threadmessages-wrapper-form-messages"
+                    v-for="message in paginatedData" :key="message.id">
+                    <div >
+                        <ul>
+                            <li class="threadmessages-wrapper-form-messages-list">
+                                <div class="threadmessages-wrapper-form-messages-list-header">
+                                    <i>Skapad {{message.createdAt}}</i>
+                                    <i>Uppdaterad {{message.updatedAt}}</i>
+                                    <div v-if="item.userUid === uid">
+                                        <div class="buttons">
+                                            <i class="fas fa-ban" @click.prevent="deleteMessage(message.id)"></i>
+                                    <i>#{{message.id}}</i>
+                                        </div>
+                                </div>
+                                            
+                                </div>
+                                <div class="threadmessages-wrapper-form-messages-list-content">
+                                    <i>Medlem: {{message.userU.userName}}</i>
+                                    <p>{{message.text}}</p>
+                                    <div class="buttons-for-all">
+                                        <i class="far fa-hand-paper" @click="reportMessage(message.id)"></i>
+                                        
                                     </div>
-                                    <div class="threadmessages-wrapper-form-messages-list-content">
-                                        <i>Medlem: {{ message.userU.userName }}</i>
-                                        <p>{{ message.text }}</p>
-                                    </div>
-                                    <div v-if="item.userUid === uid || user.role.name === 'admin'">
-                                        <button @click="removeMessage(message.id)">Ta bort innehåll</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                                </div>
+                                
+                            </li>
+                        </ul>
+                    </div>
                     </div>
                     <div class="threadmessages-wrapper-form-messages-scroll-buttons">
                         <button type="button" @click="firstPage" :disabled="pageNumber === 0">
@@ -83,8 +92,9 @@
 
 <script>
 
+import axios from "axios";
+import router from '../../router/index'
 import { auth } from "../../assets/js/firebase";
-
 export default {
 
     props: {
@@ -94,9 +104,12 @@ export default {
             default: 10
         }
     },
-    data() {
-        return {
-            newMessage: {
+    components: {
+        
+    },
+    data(){
+        return{
+           newMessage:{
                 mtext: "",
             },
             messages: [],
@@ -155,10 +168,49 @@ export default {
             this.threadAndMessages = await this.$store.dispatch('getThreadAndMessagesById', id);
             return this.threadAndMessages;
         },
+        async reportMessage(id){  
+            
+            console.log(id)  
+            
+            axios
+            .put(`https://localhost:44362/api/Message/ReportMessage?id=`+id)
+            .then(response=>{
+                console.log(response)
+            })
+            .then(error=>{
+                console.log(error)
+            })
+            
+           
+        },
+        async removeThread(id){
+            console.log(id)
+            axios
+            .delete(`https://localhost:44362/api/Thread/RemoveThread?id=`+id)
+            .then(response=>{
+                console.log(response)
+            })
+            .then(error=>{
+                console.log(error)
+            })
+            router.push("/main")
+        },
+        async deleteMessage(id){
+            console.log(id)
+            axios
+            .delete(`https://localhost:44362/api/Message/DeleteMessage?id=`+id)
+            .then(response=>{
+                console.log(response)
+            })
+            .then(error=>{
+                console.log(error)
+            })
 
-
-        postMessage() {
-
+            router.push("/forum")
+        },
+        
+        postMessage(){
+            
             let payload = {
                 mtext: this.newMessage.mtext,
                 threadId: this.$route.params.id,
@@ -237,6 +289,7 @@ export default {
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     height: 10vh;
+    position:relative;
 }
 
 .threadmessages-wrapper-form-messages-scroll {
@@ -272,7 +325,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 77vw;
+    width: 76vw;
     border: 1px solid black;
 }
 
@@ -319,4 +372,26 @@ export default {
 .threadmessages-wrapper-form-messages-writeMessage > div > button {
     width: 55%;
 }
+.group-admin-buttons-remove-thread{
+    float:right;
+}
+
+.remove-thread-button{
+   cursor:pointer;
+}
+.bicons{
+    width:25%;
+    
+}
+.threadmessages-wrapper-form-messages-list-header{
+    display:flex;
+    flex-direction: row;
+}
+.far, .fas{
+    font-size: 1.5em;
+    margin-right: 0.5em;
+    margin-top: 0.3em;
+    cursor:pointer;
+}
+
 </style>

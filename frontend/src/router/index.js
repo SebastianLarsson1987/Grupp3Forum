@@ -7,7 +7,6 @@ import FAQ from '../components/Pages/FAQ.vue'
 import RegisterComponent from '../components/Register/RegisterComponent.vue'
 import GDPRComponent from '../components/Pages/GDPRComponent.vue'
 import LoginComponent from '../components/Login/LoginComponent.vue'
-import ForumComponent from '../components/Forum/ForumComponent.vue'
 import Main from '../components/Homepage/Main.vue'
 import Categorythreads from '../components/Forum/Categorythreads.vue'
 import ThreadAndMessages from '../components/Forum/ThreadAndMessages.vue'
@@ -15,6 +14,7 @@ import WriteMessage from "../components/Forum/CreateThread/WriteMessage";
 import UserThreads from '../components/Profile/UserThreads.vue'
 import ForgetPassword from "../components/Login/ForgetPassword"
 import SearchComponent from "../components/SearchResult/SearchComponent"
+import ReglerComponent from '../components/Pages/ReglerComponent.vue'
 
 const routes = [
 
@@ -79,6 +79,11 @@ const routes = [
     component: GDPRComponent
   },
   {
+    path: '/regler',
+    name: 'regler',
+    component: ReglerComponent
+  },
+  {
     path: '/FAQ',
     name: 'FAQ',
     component: FAQ,
@@ -87,15 +92,6 @@ const routes = [
     path: '/signin',
     name: 'signin',
     component: LoginComponent
-  },
-
-  {
-    path: '/forum',
-    name: 'forum',
-    component: ForumComponent,
-    meta: {
-      authRequired: true,
-    },
   },
 
   {
@@ -126,13 +122,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.authRequired)) {
     auth.onAuthStateChanged(user => {
-      if(user){
+      if(user || auth.currentUser){
         next();
       } else{
         alert('You must be logged in to see this page');
-        next({
-          path: '/',
-        });
+        // next({
+        //   path: '/',
+        // });
       } 
     })
   }else{

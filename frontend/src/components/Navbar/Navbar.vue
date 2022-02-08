@@ -4,17 +4,14 @@
       <div>
         <router-link class="nav-link-white-blue pr-4" to="/">Hem |</router-link>|
       </div>
-    <div>
-      <router-link class="nav-link-white-blue" to="/forum">Forum |</router-link>|
-    </div>
-
+  
             <span v-if="isLoggedIn">
             
             <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil
             |
             </router-link>|
             
-            <a class="nav-link-white-blue" @click="signOut">Logga ut</a>|
+            <a class="nav-link-white-blue" @click.prevent="signOut">Logga ut</a>|
             
             </span>
 

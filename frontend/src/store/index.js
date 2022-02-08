@@ -10,42 +10,182 @@ const store = createStore({
         localPosts: [],
         user: [],
         text: "",
+       
+       categories: [],
+       AllCategoriesAndThreads: [],
+       oneCategoryAndThreads: [],
+       oneThreadAndMessages: [],
+       messages: [],
+       newThreads: [],
+       threadsBySearch:[],
+       
+       userThreads: [],
+       messageUser: [],
+       reportedMessagesStatusInThread: [],
+       bannedUser: false
+  },
 
-        categories: [],
-        AllCategoriesAndThreads: [],
-        oneCategoryAndThreads: [],
-        oneThreadAndMessages: [],
-        messages: [],
-        newThreads: [],
-        userThreads: []
-    },
-
-    getters: {
-        getMessages: state => {
-            return state.messages
+  getters: {
+      getMessages: state => {
+          return state.messages
+      }
+  },
+  mutations:{
+      setName(state, x){
+          state.name = x
+      },
+      setCategories(state, data){
+          state.categories = data
+      },
+      setAllCategoriesAndThreads(state, data){
+        state.AllCategoriesAndThreads = data
+      },
+      setOneThreadAndMessages(state,data){
+          state.oneThreadAndMessages = data
+      },
+      setSearchResult(state, data){
+        state.threadsBySearch = data
+      },
+      setMessagesReportedStatus(state){
+        if(state.reportedMessagesStatusInThread[1]){
+            return true;
         }
-    },
-    mutations: {
-        setName(state, x) {
-            state.name = x
-        },
-        setCategories(state, data) {
-            state.categories = data
-        },
-        setAllCategoriesAndThreads(state, data) {
-            state.AllCategoriesAndThreads = data
-        },
-        setOneThreadAndMessages(state, data) {
-            state.oneThreadAndMessages = data
+        else{
+            return false;
         }
-
+      }
+      
 
     },
 
-    actions: {
-        async({ commit }) {
-            let name = 'Vue with vuex'
-            commit('setName', name)
+       getUserPosts(_,id){
+            axios
+            .get(`https://localhost:44362/api/Message/GetUserMessages/` + id , {
+                
+            })
+            .then(result => {
+                this.state.userPosts = result.data;
+                this.state.localPosts = this.state.userPosts.map(e=> {
+                    return {...e, isDisabled: true}
+                })
+                console.log(this.state.userPosts)
+                console.log(this.state.localPosts)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+       },
+
+       putDeleteMessage(_, id){
+        axios
+        .put(`https://localhost:44362/api/Message/SetMessageAsDeleted?id=${id}`, {
+
+        })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+       },
+
+       putMessageAsNotReported(_, id){
+        axios
+        .put(`https://localhost:44362/api/Message/SetMessageToNotReported?id=${id}`, {
+
+        })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+       },
+
+       putMessageText(_, {id, text}){
+        axios
+        .put(`https://localhost:44362/api/Message/EditUserMessage/${id +'?message='+ text}`, {
+            
+        })
+        .then(response => {
+            console.log(response)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+       },
+
+       getOneUser(_,id){
+           axios
+           .get(`https://localhost:44362/api/User/GetUser?id=`+ id)
+           .then(result => {
+               this.state.user.push(result.data)
+               console.log(this.state.user)
+           })
+           .catch(error => {
+               console.log(error)
+           })
+
+       },
+
+       editUser(_, {id, email, userName}){
+           
+           axios
+           .put(`https://localhost:44362/api/User/EditUser/`+id +'?' +'email='+email + '&UserName='+userName, {
+               
+           })
+           .then(response =>{
+               console.log(response)
+           })
+           .catch(error => {
+               console.log(error)
+           })
+       },
+
+      async getCategoryThreadsPerCategoryId(_, id){
+           axios
+           .get(`https://localhost:44362/api/Thread/GetCategoryPerId?id=${id}`)
+           .then(response => {
+               this.state.oneCategoryAndThreads = response.data;
+               this.state.oneCategoryAndThreads.forEach((item) => {
+                   this.state.newThreads = [...item.newThreads]
+                   this.state.newThreads.sort(function(a,b){
+                       return new Date(b.updatedAt) - new Date(a.updatedAt)
+                   })
+               })
+               console.log(this.state.newThreads)
+               console.log(this.state.oneCategoryAndThreads)
+           })
+           .catch(error => {
+               console.log(error)
+           })
+       },
+
+       async getThreadAndMessagesById(_,id){
+           axios
+           .get(`https://localhost:44362/api/Thread/GetMessagesAndThreadById?id=${id}`)
+           .then(response => {
+                this.state.oneThreadAndMessages = response.data
+                this.state.oneThreadAndMessages.forEach((item) => {
+                    
+                    this.state.messages = [...item.messages]
+                    this.state.messages.sort(function(a,b){
+                        return new Date(a.updatedAt) - new Date(b.updatedAt)
+                    })
+                    item.messages.forEach(item => {
+                        this.state.messageUser = item.userU
+                    })
+                    
+                })
+                this.state.bannedUser = this.state.messageUser.banned
+                console.log(this.state.bannedUser)
+                console.log(this.state.messageUser)
+                console.log(this.state.messages)
+                console.log(this.state.oneThreadAndMessages)
+           })
+           .catch(error => {
+               console.log(error)
+           })
         },
 
         getUserPosts(_, id) {
@@ -177,12 +317,16 @@ const store = createStore({
 
         async getThreadByUserId(_, id) {
             axios
-                .get(`https://localhost:44362/api/Thread/GetThreadsByUserId?id=${id}`)
-                .then(response => {
-                    this.state.userThreads = response.data
-                    //  this.state.userThreads.sort(function(a,b){
-                    //      return new Date(a.updatedAt) - new Date(b.updatedAt)
-                    //  })
+            .get(`https://localhost:44362/api/Thread/GetThreadsByUserId?id=${id}`)
+            .then(response => {
+                 this.state.userThreads = response.data
+                 this.state.reportedMessagesStatusInThread = this.state.userThreads.map(x => {
+                        return x.messages.map(msg => {
+                         return msg.isReported
+                     })
+                 })
+                
+                    console.log(this.state.reportedMessagesStatusInThread)
                     console.log(this.state.userThreads)
                 })
                 .catch(error => {
