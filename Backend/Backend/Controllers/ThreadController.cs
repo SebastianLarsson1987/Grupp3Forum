@@ -63,13 +63,8 @@ namespace Backend.Controllers
             await _db.SaveChangesAsync();
             return newMessage;
         }
-<<<<<<< HEAD
-        [HttpDelete("Remove Thread")]
-        public async Task RemoveThread(int id)
-=======
         [HttpDelete("RemoveThread")]
-        public void RemoveThread(int id)
->>>>>>> dev
+        public async void RemoveThread(int id)
         {
             await _threadService.RemoveThreadAndMessages(id);
         }
@@ -83,7 +78,7 @@ namespace Backend.Controllers
         public async Task<IEnumerable<Category>> GetAllCategoriesAndThreds()
         {
             return await _threadService.GetAllCategoriesAndThreads();
-           
+
         }
         [HttpGet("GetAllMessagesFromThread")]
         public async Task<IEnumerable<Message>> GetAllMessagesFromThread(int id)

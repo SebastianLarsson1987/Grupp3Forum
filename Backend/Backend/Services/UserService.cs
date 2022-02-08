@@ -85,8 +85,7 @@ namespace Backend.Services
 
         public async Task<IEnumerable<bool>> CheckUserStatus(string email)
         {
-            var result = _Db.Users.Where(u => u.Email == email).Select(u => u.Banned);
-            return result;
+            return await _db.Users.Where(u => u.Email == email).Select(u => u.Banned).ToListAsync();
         }
     }
 }

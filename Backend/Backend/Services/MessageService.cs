@@ -30,7 +30,7 @@ namespace Backend.Services
         public async Task<IEnumerable<Message>> GetUserMessages(string id)
         {
             
-            var result = await _Db.Messages.Where(message => message.UserUid == id)
+            var result = await _db.Messages.Where(message => message.UserUid == id)
                 .Where(message => message.IsDeleated == false).ToListAsync();
             return result;
         }
@@ -52,24 +52,24 @@ namespace Backend.Services
         }
         public void ReportMessage(int id)
         {
-            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
+            var message = _db.Messages.FirstOrDefault(x => x.Id == id);
             message.IsReported = true;
-            _Db.SaveChangesAsync();
+            _db.SaveChangesAsync();
            
         }
 
         public void SetMessageToDeleted(int id)
         {
-            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
+            var message = _db.Messages.FirstOrDefault(x => x.Id == id);
             message.IsDeleated = true;
-            _Db.SaveChangesAsync();
+            _db.SaveChangesAsync();
         }
 
         public void SetMessageToNotReported(int id)
         {
-            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
+            var message = _db.Messages.FirstOrDefault(x => x.Id == id);
             message.IsReported = false;
-            _Db.SaveChangesAsync();
+            _db.SaveChangesAsync();
         }
     }
 }
