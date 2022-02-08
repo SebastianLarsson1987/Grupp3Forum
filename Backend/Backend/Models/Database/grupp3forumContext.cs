@@ -48,13 +48,12 @@ namespace Backend.Models.Database
 
             modelBuilder.Entity<DeletedUser>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.Property(e => e.DeletionDate).HasColumnType("datetime");
 
                 entity.Property(e => e.UserUid)
                     .IsRequired()
                     .HasMaxLength(50);
+                entity.HasKey(e => e.UserUid);
             });
 
             modelBuilder.Entity<Message>(entity =>
@@ -148,7 +147,7 @@ namespace Backend.Models.Database
                 entity.HasOne(d => d.UserU)
                     .WithMany(p => p.NewThreads)
                     .HasForeignKey(d => d.UserUid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.NoAction)
                     .HasConstraintName("FK_NewThread_Users");
             });
 
@@ -209,7 +208,6 @@ namespace Backend.Models.Database
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Users_Role");
             });
-
             OnModelCreatingPartial(modelBuilder);
         }
 

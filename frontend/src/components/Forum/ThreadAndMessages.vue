@@ -1,51 +1,78 @@
 <template>
     <div>
-        <form class="threadmessages-wrapper-form"
-        v-for="item in oneThreadAndMessages2" :key="item.id">
+        <form
+            class="threadmessages-wrapper-form"
+            v-for="item in oneThreadAndMessages2"
+            :key="item.id"
+        >
             <div class="threadmessages-wrapper-form-threadAndMessages">
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
                         <li class="threadmessages-wrapper-form-thread-list">
-                            <h1>{{item.topic}}</h1>
-                            <i>Tråd Skapad {{item.createadAt}}</i>
-                            <i>Tråd senast uppdaterad {{item.updatedAt}}</i>
+                            <h1>{{ item.topic }}</h1>
+                            <i>Tråd Skapad {{ item.createadAt }}</i>
+                            <i>Tråd senast uppdaterad {{ item.updatedAt }}</i>
                         </li>
                     </ul>
                 </div>
-                <div class="threadmessages-wrapper-form-messages-scroll"> 
-                    <div class="threadmessages-wrapper-form-messages"
-                    v-for="message in paginatedData" :key="message.id">
-                    <div >
-                        <ul>
-                            <li class="threadmessages-wrapper-form-messages-list">
-                                <div class="threadmessages-wrapper-form-messages-list-header">
-                                    <i>Skapad {{message.createdAt}}</i>
-                                    <i>Uppdaterad {{message.updatedAt}}</i>
-                                    <i>#{{message.id}}</i>
-                                </div>
-                                <div class="threadmessages-wrapper-form-messages-list-content">
-                                    <i>Medlem: {{message.userU.userName}}</i>
-                                    <p>{{message.text}}</p>
-                                </div>
-                                <div v-if="item.userUid === uid">
-                                    <button>Ta bort innehåll</button>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                <div class="threadmessages-wrapper-form-messages-scroll">
+                    <div
+                        class="threadmessages-wrapper-form-messages"
+                        v-for="message in paginatedData"
+                        :key="message.id"
+                    >
+                        <div>
+                            <ul>
+                                <li class="threadmessages-wrapper-form-messages-list">
+                                    <div class="threadmessages-wrapper-form-messages-list-header">
+                                        <i>Skapad {{ message.createdAt }}</i>
+                                        <i>Uppdaterad {{ message.updatedAt }}</i>
+                                        <i>#{{ message.id }}</i>
+                                    </div>
+                                    <div class="threadmessages-wrapper-form-messages-list-content">
+                                        <i>Medlem: {{ message.userU.userName }}</i>
+                                        <p>{{ message.text }}</p>
+                                    </div>
+                                    <div v-if="item.userUid === uid || user.role.name === 'admin'">
+                                        <button @click="removeMessage(message.id)">Ta bort innehåll</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="threadmessages-wrapper-form-messages-scroll-buttons">
-                        <button type="button" @click="firstPage" :disabled="pageNumber === 0"><i class="fas fa-angle-double-left"></i></button>
-                        <button type="button" @click="prevPage" :disabled="pageNumber === 0"><i class="fas fa-chevron-left"></i></button>
-                        <p>sida {{pageNumber +1}} av {{pageCount}}</p>
-                        <button type="button" @click="nextPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-chevron-right"></i></button>
-                        <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-angle-double-right"></i></button>
+                        <button type="button" @click="firstPage" :disabled="pageNumber === 0">
+                            <i class="fas fa-angle-double-left"></i>
+                        </button>
+                        <button type="button" @click="prevPage" :disabled="pageNumber === 0">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <p>sida {{ pageNumber + 1 }} av {{ pageCount }}</p>
+                        <button
+                            type="button"
+                            @click="nextPage"
+                            :disabled="pageNumber >= pageCount - 1"
+                        >
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button
+                            type="button"
+                            @click="lastPage"
+                            :disabled="pageNumber >= pageCount - 1"
+                        >
+                            <i class="fas fa-angle-double-right"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     <div v-if="!writeMessageDisabled">
-                        <textarea class="threadmessages-wrapper-form-messages-writeMessage-textArea" 
-                        rows="5" cols="100" placeholder="Skriv ditt meddelande här..." v-model="newMessage.mtext"></textarea>
+                        <textarea
+                            class="threadmessages-wrapper-form-messages-writeMessage-textArea"
+                            rows="5"
+                            cols="100"
+                            placeholder="Skriv ditt meddelande här..."
+                            v-model="newMessage.mtext"
+                        ></textarea>
                         <button @click="postMessage()">Skapa meddelande</button>
                     </div>
                 </div>
@@ -60,235 +87,236 @@ import { auth } from "../../assets/js/firebase";
 
 export default {
 
-    props:{
+    props: {
         size: {
             type: Number,
             required: false,
             default: 10
         }
     },
-    data(){
-        return{
-           newMessage:{
+    data() {
+        return {
+            newMessage: {
                 mtext: "",
-           },
-            messages: this.$store.getters.getMessages,
+            },
+            messages: [],
             pageNumber: 0,
             writeMessageDisabled: false
-           
+
         }
     },
 
-    computed:{
+    computed: {
 
-        oneThreadAndMessages2:{
-            get(){
+        oneThreadAndMessages2: {
+            get() {
                 return this.$store.state.oneThreadAndMessages
             },
-            set(value){
+            set(value) {
                 this.$store.commit('setOneThreadAndMessages', value)
             }
         },
 
-        pageCount(){
+        pageCount() {
             let l = this.$store.state.messages.length,
-            s = this.size;
-            return Math.ceil(l/s);
+                s = this.size;
+            return Math.ceil(l / s);
         },
-        paginatedData(){
+        paginatedData() {
             const start = this.pageNumber * this.size,
-            end = start + this.size;
+                end = start + this.size;
 
-            let array = this.$store.state.messages.slice(start,end)
-            .sort((a, b)=> a.updatedAt - b.updatedAt);
+            let array = this.$store.state.messages.slice(start, end)
+                .sort((a, b) => a.updatedAt - b.updatedAt);
             console.log("paginateddata", array)
             return array;
         },
-        uid(){
+        uid() {
             let user = auth.currentUser;
-              if(!user){
+            if (!user) {
                 return console.log("not logged in")
-              }
-              else{
+            }
+            else {
                 return user.uid
-              }
-            
+            }
+
         },
 
-        banned(){
+        banned() {
             return this.$store.state.bannedUser
         }
 
-        
-       
+
+
     },
 
-    methods:{
-        async getOneThreadAndMessages(id){
+    methods: {
+        async getOneThreadAndMessages(id) {
             this.threadAndMessages = await this.$store.dispatch('getThreadAndMessagesById', id);
             return this.threadAndMessages;
         },
 
-        
-        postMessage(){
-            
+
+        postMessage() {
+
             let payload = {
                 mtext: this.newMessage.mtext,
                 threadId: this.$route.params.id,
                 userId: auth.currentUser.uid
             }
-            if(payload.mtext == ""){
+            if (payload.mtext == "") {
                 return alert("Fältet får inte vara tomt")
             }
-            else{
+            else {
                 return this.$store.dispatch('postMessageInThread', payload)
             }
-            
-            
+
+
         },
 
 
-        nextPage(){
+        nextPage() {
             this.pageNumber++;
         },
-        prevPage(){
+        prevPage() {
             this.pageNumber--;
         },
-        lastPage(){
+        lastPage() {
             let length = this.$store.state.messages.length
             let size = this.size;
-            
-            let pageCount = Math.ceil(length/size);
 
-            this.pageNumber = pageCount-1;
+            let pageCount = Math.ceil(length / size);
+
+            this.pageNumber = pageCount - 1;
             return this.pageNumber;
-            
+
         },
-        firstPage(){
+        firstPage() {
             this.pageNumber = 0;
         },
-        
-        stateChanged(){
-           auth.onAuthStateChanged(user => {
-                if(!user){
+
+        async stateChanged() {
+            auth.onAuthStateChanged(user => {
+                if (!user) {
                     this.writeMessageDisabled = true;
                     this.uid == user.uid
                 }
             })
         },
-        
-        
-            
+        async removeMessage(id) {
+            await this.$store.dispatch("deleteMessage", id);
+        },
+        async GetUser() {
+            return await fetch(`https://localhost:44362/GetOneUser?id=${this.uid}`);
+        }
     },
 
-    created(){
-        
-        this.getOneThreadAndMessages(this.$route.params.id)
-        this.stateChanged();
-        
+    async created() {
+
+        await this.getOneThreadAndMessages(this.$route.params.id)
+        await this.stateChanged();
+        await this.GetUser();
+        this.messages = this.$store.getters.getMessages;
     }
 
 
-    
+
 }
 </script>
 
 <style scoped>
-.threadmessages-wrapper-form{
+.threadmessages-wrapper-form {
     margin: 0 auto;
     border: 1px solid black;
     width: 80vw;
     height: 80vh;
     border-radius: 20px;
 }
-.threadmessages-wrapper-form-thread{
+.threadmessages-wrapper-form-thread {
     border: 1px solid black;
     border-top-right-radius: 20px;
     border-top-left-radius: 20px;
     height: 10vh;
 }
 
-.threadmessages-wrapper-form-messages-scroll{
+.threadmessages-wrapper-form-messages-scroll {
     overflow-x: hidden;
     overflow-y: auto;
+
     text-align: justify;
-    height:50vh;
+    height: 50vh;
 }
 
-.threadmessages-wrapper-form-messages-scroll-buttons>button{
-    display:block;
+.threadmessages-wrapper-form-messages-scroll-buttons > button {
+    display: block;
     margin: 0 auto;
 }
-.threadmessages-wrapper-form-messages-scroll-buttons{
-    display:flex;
+.threadmessages-wrapper-form-messages-scroll-buttons {
+    display: flex;
     flex-direction: row;
 }
 
-.threadmessages-wrapper-form-thread-list>i{
-    display:flex;
+.threadmessages-wrapper-form-thread-list > i {
+    display: flex;
     flex-direction: row;
     font-size: 70%;
 }
 
-.threadmessages-wrapper-form-messages-list{
+.threadmessages-wrapper-form-messages-list {
     margin: 0 auto;
     margin-left: 1vw;
     margin-top: 0.5vw;
 }
 
-.threadmessages-wrapper-form-messages-list>div{
-    display:flex;
+.threadmessages-wrapper-form-messages-list > div {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     width: 77vw;
     border: 1px solid black;
 }
 
-.threadmessages-wrapper-form-messages-list>div>i{
+.threadmessages-wrapper-form-messages-list > div > i {
     font-size: 70%;
 }
 
-.threadmessages-wrapper-form-messages-list>div>i:nth-child(2){
+.threadmessages-wrapper-form-messages-list > div > i:nth-child(2) {
     margin-right: 2vw;
 }
 
-
-.threadmessages-wrapper-form-messages-list-content>p{
-    margin-left:1vw;
+.threadmessages-wrapper-form-messages-list-content > p {
+    margin-left: 1vw;
     inline-size: 70vw;
     overflow-wrap: break-word;
 }
 
-.threadmessages-wrapper-form-messages-list-content>i{
+.threadmessages-wrapper-form-messages-list-content > i {
     border-right: 1px solid black;
     width: 10vw;
     background-color: aliceblue;
 }
 
-
-.threadmessages-wrapper-form-messages-writeMessage{
+.threadmessages-wrapper-form-messages-writeMessage {
     border: 1px solid black;
     height: 20vh;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
 }
 
-.threadmessages-wrapper-form-messages-writeMessage-textArea{
+.threadmessages-wrapper-form-messages-writeMessage-textArea {
     resize: none;
-    display:block;
+    display: block;
     margin: 0 auto;
     margin-top: 2vh;
 }
 
-.threadmessages-wrapper-form-messages-writeMessage>div{
-    display:flex;
+.threadmessages-wrapper-form-messages-writeMessage > div {
+    display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.threadmessages-wrapper-form-messages-writeMessage>div>button{
-    width:55%;
+.threadmessages-wrapper-form-messages-writeMessage > div > button {
+    width: 55%;
 }
-
-
 </style>

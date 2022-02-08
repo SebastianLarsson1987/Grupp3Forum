@@ -20,7 +20,7 @@ namespace Backend.Services
             _db = db;
         }
 
-        public void RemoveThreadAndMessages(int id)
+        public async Task RemoveThreadAndMessages(int id)
         {
             //var resutl = _db.NewThreads.Include(x => x.Messages.Where(x=>x.ThreadId==id)).SingleOrDefault(x => x.Id == id);
             var threadResult = _db.NewThreads.SingleOrDefault(x => x.Id == id);
@@ -33,30 +33,31 @@ namespace Backend.Services
                 _db.Messages.Remove(item);
             }
 
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
+
         }
 
-        public void RemoveSingleMessage(int id)
+        public async Task RemoveSingleMessage(int id)
         {
-            var result = _db.Messages.SingleOrDefault(x => x.Id == id);
+            var result = await _db.Messages.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public IEnumerable<Category> GetAllCategories()
+        public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            var result = _db.Categories.AsEnumerable();
-            return result;
+            return await _db.Categories.ToListAsync();
+
         }
 
-        public IEnumerable<Category> GetAllCategoriesAndThreads()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAndThreads()
         {
-            var result = _db.Categories.Include(x => x.NewThreads).ThenInclude(x => x.Messages);
+            var result = await _db.Categories.Include(x => x.NewThreads).ThenInclude(x => x.Messages).ToListAsync();
             //var result = _db.Categories.Include(x => x.NewThreads);
             return result;
         }
 
-        public IEnumerable<Message> GetAllMessagesFromThread(int id)
+        public async Task<IEnumerable<Message>> GetAllMessagesFromThread(int id)
         {
-            var result = _db.Messages.Where(x => x.ThreadId == id).AsEnumerable();
+            var result = await _db.Messages.Where(x => x.ThreadId == id).ToListAsync();
             return result;
         }
 
@@ -86,11 +87,9 @@ namespace Backend.Services
             return result;
         }
 
-        public IEnumerable<NewThread> GetThreadsBySearchString(string input)
+        public async Task<IEnumerable<NewThread>> GetThreadsBySearchString(string input)
         {
-            var result = _db.NewThreads.Where(x => x.Topic.Contains(input)).AsEnumerable();
-            return result;
-
+            return await _db.NewThreads.Where(x => x.Topic.Contains(input)).ToListAsync();
         }
     }
 }

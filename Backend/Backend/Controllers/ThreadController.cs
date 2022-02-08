@@ -40,7 +40,7 @@ namespace Backend.Controllers
 
             };
 
-            _db.NewThreads.Add(newThread);
+            await _db.NewThreads.AddAsync(newThread);
             await _db.SaveChangesAsync();
             return newThread;
         }
@@ -59,31 +59,31 @@ namespace Backend.Controllers
 
             };
 
-            _db.Messages.Add(newMessage);
+            await _db.Messages.AddAsync(newMessage);
             await _db.SaveChangesAsync();
             return newMessage;
         }
         [HttpDelete("Remove Thread")]
-        public void RemoveThread(int id)
+        public async Task RemoveThread(int id)
         {
-            _threadService.RemoveThreadAndMessages(id);
+            await _threadService.RemoveThreadAndMessages(id);
         }
         [HttpGet("GetAllCategories")]
-        public IEnumerable<Category> GetAllCategories()
+        public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            var result = _threadService.GetAllCategories().ToList();
+            var result = await _threadService.GetAllCategories();
             return result;
         }
         [HttpGet("GetAllCategoriesAndThreads")]
-        public IEnumerable<Category> GetAllCategoriesAndThreds()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAndThreds()
         {
-            var result = _threadService.GetAllCategoriesAndThreads();
-            return result;
+            return await _threadService.GetAllCategoriesAndThreads();
+           
         }
         [HttpGet("GetAllMessagesFromThread")]
-        public IEnumerable<Message> GetAllMessagesFromThread(int id)
+        public async Task<IEnumerable<Message>> GetAllMessagesFromThread(int id)
         {
-            var result = _threadService.GetAllMessagesFromThread(id);
+            var result = await _threadService.GetAllMessagesFromThread(id);
             return result;
         }
 
@@ -103,7 +103,7 @@ namespace Backend.Controllers
         [HttpGet("GetThreadsBySearch")]
         public async Task<IEnumerable<NewThread>> GetThreadsBySearch(string input)
         {
-            var result = _threadService.GetThreadsBySearchString(input);
+            var result = await _threadService.GetThreadsBySearchString(input);
             return result;
         }
 

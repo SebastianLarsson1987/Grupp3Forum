@@ -45,11 +45,11 @@ namespace Backend.Services
         public async Task RemoveUser(string id)
         {
             const string deleted = "deleted";
-            var delUser = _db.Users.SingleOrDefault(x => x.Uid == id);
-            delUser.FirstName = deleted;
-            delUser.Banned = false;
-            delUser.UserName = deleted;
-            await _db.DeletedUsers.AddAsync(new DeletedUser { UserUid = delUser.Uid, DeletionDate = DateTime.Now });
+            var userToDelete = await _db.Users.FindAsync(id);
+            userToDelete.FirstName = deleted;
+            userToDelete.Banned = false;
+            userToDelete.UserName = deleted;
+            await _db.DeletedUsers.AddAsync(new DeletedUser { UserUid = userToDelete.Uid, DeletionDate = DateTime.Now });
 
             await _db.SaveChangesAsync();
 
