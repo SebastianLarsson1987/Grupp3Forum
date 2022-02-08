@@ -73,7 +73,7 @@
                     <i class="fas fa-book-open text-primary pe-2"></i> Var kan jag läsa mera om forumsregler?
                 </h6>
                  <p>
-                    På sidan forumsregler kan du läsa om alla regler som gäller på forumet. <a href="/regler">Forumsregler</a>
+                    På sidan <a href="/regler">Forumsregler</a> kan du läsa om alla regler som gäller på forumet. 
                 </p>
             </div>
         </div>
