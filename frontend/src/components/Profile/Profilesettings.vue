@@ -6,8 +6,8 @@
             </div>
             <div class="userprofile-form-grid2">
                 <div class="userprofile-form-grid2-buttons">
-                    <button type="button" @click="edit">Redigera Profil</button>
-                    <button type="button" @click="removeUser">Ta bort Profil</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" @click="edit">Redigera Profil</button>
+                    <button type="button" class="btn btn-primary btn-lg btn-block" @click="removeUser">Ta bort Profil</button>
                 </div>
                 <div class="userprofile-form-grid2-button-amountOfPosts">
                     
@@ -45,9 +45,10 @@
                         <p>Bekräfta lösenord*</p>
                         <input type="password" placeholder="Bekräfta lösenord" v-bind:disabled="isReadOnly">
                     </div> -->
-                    <div class="userprofile-form-grid4-buttons">
-                        <button  @click="putUser($route.params.id, item.email, item.userName)">Spara</button>
-                        <button @click="cancel">Avbryt</button>
+                    <div class="userprofile-form-grid2-buttons" >
+                        <button class="btn btn-primary btn-lg btn-block" @click="putUser($route.params.id, item.email, item.userName)">Spara</button>
+                        
+                        <button class="btn btn-primary btn-lg btn-block" @click="cancel" >Avbryt</button>
                     </div>
                 </div>
             </div>
@@ -336,7 +337,7 @@ export default {
         justify-content: center;
         margin-top: 30vh;
     }
-    
+/*     
     .userprofile-form-grid4-buttons>button:nth-child(2){
         margin-left: 1vw;
     }
@@ -366,14 +367,14 @@ export default {
         vertical-align: baseline;
         white-space: nowrap;
         margin-right: 0.5vw;
-    }
-
+    } */
+/* 
     .userprofile-form-grid4-buttons>button:hover,
     .userprofile-form-grid4-buttons>button:focus {
         background-color: #b3d3ea;
         color: #2c5777;
-    }
-
+    } */
+/* 
     .userprofile-form-grid4-buttons>button:focus {
         box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
     }
@@ -383,5 +384,5 @@ export default {
         box-shadow: none;
         color: #2c5777;
     }
-   
+    */
 </style>
