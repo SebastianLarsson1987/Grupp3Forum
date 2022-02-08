@@ -21,7 +21,8 @@ const store = createStore({
        userThreads: [],
        messageUser: [],
        reportedMessagesStatusInThread: [],
-       bannedUser: false
+       bannedUser: false,
+       roleId: []
   },
 
   getters: {
@@ -126,11 +127,28 @@ const store = createStore({
            .then(result => {
                this.state.user.push(result.data)
                console.log(this.state.user)
+               this.state.user.forEach((item) => {
+                  return this.state.roleId.push(item.roleId)
+                })
+                console.log(this.state.roleId)
+            })
+            .catch(error => {
+               console.log(error)
+           })
+
+       },
+
+       banUser(_,id){
+           axios
+           .put(`https://localhost:44362/api/User/SetUserAsBanned?id=${id}`, {
+
+           })
+           .then(result => {
+               console.log(result)
            })
            .catch(error => {
                console.log(error)
            })
-
        },
 
        editUser(_, {id, email, userName}){

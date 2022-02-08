@@ -34,7 +34,14 @@
                                             
                                 </div>
                                 <div class="threadmessages-wrapper-form-messages-list-content">
-                                    <i>Medlem: {{message.userU.userName}}</i>
+                                    <i>Medlem: {{message.userU.userName}}
+                                        <button 
+                                        v-if="roleId == 2" 
+                                        class="fas fa-ban" 
+                                        @click="banUser(message.userUid)">
+                                        </button>
+                                    </i>
+                                    
                                     <p>{{message.text}}</p>
                                     <div class="buttons-for-all">
                                         <i class="far fa-hand-paper" @click="reportMessage(message.id)"></i>
@@ -90,8 +97,8 @@ export default {
            },
             messages: this.$store.getters.getMessages,
             pageNumber: 0,
-            writeMessageDisabled: false
-           
+            writeMessageDisabled: false,
+            userId: 0
         }
     },
 
@@ -133,9 +140,11 @@ export default {
 
         banned(){
             return this.$store.state.bannedUser
-        }
+        },
 
-        
+        roleId(){
+            return this.$store.state.roleId
+        }
        
     },
 
@@ -228,10 +237,19 @@ export default {
                 if(!user){
                     this.writeMessageDisabled = true;
                     this.uid == user.uid
+                    
                 }
             })
         },
+        getUser(){
+            auth.onAuthStateChanged(user => {
+                return this.$store.dispatch('getOneUser', user.uid)
+            })
+        },
         
+        banUser(id){
+            return this.$store.dispatch('banUser', id)
+        }
         
             
     },
@@ -240,7 +258,8 @@ export default {
         
         this.getOneThreadAndMessages(this.$route.params.id)
         this.stateChanged();
-        
+        this.getUser();
+        console.log(this.uid)
     }
 
 

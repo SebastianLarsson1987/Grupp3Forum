@@ -90,5 +90,14 @@ namespace Backend.Services
             var result = _Db.Users.Where(u => u.Email == email).Select(u => u.Banned);
             return result;
         }
+
+        public void SetUserAsBanned(string id)
+        {
+            var user = _Db.Users.FirstOrDefault(x => x.Uid == id);
+            user.Banned = true;
+            _Db.SaveChangesAsync();
+            
+
+        }
     }
 }

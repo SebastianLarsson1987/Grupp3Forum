@@ -78,5 +78,11 @@ namespace Backend.Controllers
         {
             return await _userService.CheckUserStatus(email);
         }
+
+        [HttpPut("SetUserAsBanned")]
+        public void BanUserAsAdmin(string id)
+        {
+            _userService.SetUserAsBanned(id);
+        }
     }
 }
