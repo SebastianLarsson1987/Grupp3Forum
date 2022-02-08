@@ -7,7 +7,7 @@
 Forumsregler</h5>
 <br>
 <h6 style="text-align:left"><strong>1. Trivsel</strong><br><br>
-För att kunna delta i diskussioner och använda SweClockers tjänster krävs det att du registrerar dig som medlem. Du registrerar dig genom att fylla i ett enkelt formulär och därefter bekräfta medlemskapet via e-post. Innan du blir medlem måste du läsa, förstå och godkänna följande regler:
+För att kunna delta i diskussioner och använda Grupp 3 forums tjänster krävs det att du registrerar dig som medlem. Du registrerar dig genom att fylla i ett enkelt formulär på registeringsidan. Innan du blir medlem måste du läsa, förstå och godkänna följande regler:
 <br>
 <br>
 1.1 För att hålla diskussionerna på en trevlig och konstruktiv nivå ska alla medlemmar följa de etiska regler som gäller på såväl internet som i det vardagliga livet.<br>

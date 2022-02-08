@@ -53,7 +53,7 @@
             <input type="checkbox"
             :inProgress="inProgress"
             @click="clickAction">
-            Jag har läst & accepterar alla villkor!
+            Jag har läst & accepterar forumetsregler & GDPR!
             <router-link style="color:black;"  class="nav-link link-light" to="/gdpr">Läs om alla villkor här.
             </router-link>
             <br>

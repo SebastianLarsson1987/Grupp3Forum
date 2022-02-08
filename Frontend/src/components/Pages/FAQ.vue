@@ -70,10 +70,10 @@
 
               <div class="col-md-6 col-lg-4 mb-4">
                 <h6 class="mb-3 text-primary">
-                    <i class="fas fa-book-open text-primary pe-2"></i> Var kan jag läsa mera om forumregler?
+                    <i class="fas fa-book-open text-primary pe-2"></i> Var kan jag läsa mera om forumsregler?
                 </h6>
                  <p>
-                    På sidan forumsregler kan du läsa om alla regler som gäller på forumet. <a href="/regler">Forumregler</a>
+                    På sidan forumsregler kan du läsa om alla regler som gäller på forumet. <a href="/regler">Forumsregler</a>
                 </p>
             </div>
         </div>
