@@ -4,10 +4,7 @@
       <div>
         <router-link class="nav-link-white-blue pr-4" to="/">Hem |</router-link>|
       </div>
-    <div>
-      <router-link class="nav-link-white-blue" to="/forum">Forum |</router-link>|
-    </div>
-
+  
             <span v-if="isLoggedIn">
             
             <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil

@@ -67,6 +67,15 @@
                     Denna funktion är viktig och vi jobbar på att implementera den så fort som möjligt. 
                 </p>
             </div>
+
+              <div class="col-md-6 col-lg-4 mb-4">
+                <h6 class="mb-3 text-primary">
+                    <i class="fas fa-book-open text-primary pe-2"></i> Var kan jag läsa mera om forumsregler?
+                </h6>
+                 <p>
+                    På sidan forumsregler kan du läsa om alla regler som gäller på forumet. <a href="/regler">Forumsregler</a>
+                </p>
+            </div>
         </div>
     </div>
     </section>

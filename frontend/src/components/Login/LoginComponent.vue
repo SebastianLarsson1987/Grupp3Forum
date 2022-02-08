@@ -66,7 +66,7 @@ export default {
         if(response.data[0] === false){
           console.log(response.data)
           logIn(this.user.email, this.user.password);
-          this.$router.push("/forum");
+          this.$router.push("/");
         } 
         else{
           alert("Ditt konto är avstängt");
