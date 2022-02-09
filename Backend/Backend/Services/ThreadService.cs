@@ -103,6 +103,16 @@ namespace Backend.Services
             {
                 thread.Blocked = false;
             }
+            var blockedThreadMessage = new Message()
+            {
+                Text = "Gruppadmin har stängt tråden",
+                ThreadId = id,
+                CreatedAt = System.DateTime.Now,
+                UpdatedAt = System.DateTime.Now,
+                UserUid = "Gruppadmin"
+
+            };
+            _db.Messages.Add(blockedThreadMessage);
             _db.SaveChanges();
         }
     }

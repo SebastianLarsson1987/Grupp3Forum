@@ -9,14 +9,12 @@
                     <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid">
                         
                         <div v-if="item.blocked==false">
-                             <i class="fas fa-lock" @click.prevent="blockThread(item.id)"></i>
-                        </div>
-                        <div v-if="item.blocked==true">
-                             <i class="fas fa-lock-open" @click="blockThread(item.id)"></i>
-
+                             
+                             <input type="submit" @click="blockThread(item.id)" value="Stäng tråd"/> 
                         </div>
                         
-                        <i class="far fa-trash-alt" @click="removeThread(item.id)"></i>
+                        
+                        <input type="submit" @click="removeThread(item.id)" value="Ta bort tråd"/>
                         
                     </div>
                         <li class="threadmessages-wrapper-form-thread-list">
@@ -37,7 +35,7 @@
                                     <i>Uppdaterad {{message.updatedAt}}</i>
                                     <div v-if="item.userUid === uid">
                                         <div class="buttons">
-                                            <i class="fas fa-ban" @click.prevent="deleteMessage(message.id)"></i>
+                                            <input type="submit" @click="deleteMessage(message.id)" value="Ta bort meddelande"/>
                                     <i>#{{message.id}}</i>
                                         </div>
                                 </div>
@@ -47,7 +45,7 @@
                                     <i>Medlem: {{message.userU.userName}}</i>
                                     <p>{{message.text}}</p>
                                     <div class="buttons-for-all">
-                                        <i class="far fa-hand-paper" @click="reportMessage(message.id)"></i>
+                                        <input type="submit" @click="reportMessage(message.id)" value="Anmäl inlägg"/>
                                         
                                     </div>
                                 </div>
