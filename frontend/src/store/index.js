@@ -118,12 +118,12 @@ const store = createStore({
 
        getOneUser(_,id){
            axios
-           .get(`https://localhost:44362/api/User/GetUser?id=`+ id)
+           .get(`https://localhost:44362/api/User/GetUser?id=${id}`)
            .then(result => {
                this.state.user.push(result.data)
                console.log(this.state.user)
                this.state.user.forEach((item) => {
-                  return this.state.roleId.push(item.roleId)
+                  return this.state.roleId == item.roleId
                 })
                 console.log(this.state.roleId)
             })
@@ -179,7 +179,7 @@ const store = createStore({
            })
        },
 
-       async getThreadAndMessagesById(_,id){
+       getThreadAndMessagesById(_,id){
            axios
            .get(`https://localhost:44362/api/Thread/GetMessagesAndThreadById?id=${id}`)
            .then(response => {
