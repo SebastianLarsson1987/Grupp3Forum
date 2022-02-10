@@ -270,7 +270,6 @@ export default {
         async stateChanged() {
             auth.onAuthStateChanged(user => {
                 if (!user) {
-                    this.writeMessageDisabled = true;
                     this.uid == user.uid
                     
                 }
@@ -311,10 +310,10 @@ export default {
     async created() {
 
         
-        this.messages = this.$store.getters.getMessages;
         this.getOneThreadAndMessages(this.$route.params.id)
         this.stateChanged();
         this.getUser();
+        this.messages = this.$store.getters.getMessages;
         auth.onAuthStateChanged(user => {
             if(user){
                 this.userId = user.uid
