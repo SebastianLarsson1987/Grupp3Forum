@@ -36,7 +36,7 @@
                                 <div class="threadmessages-wrapper-form-messages-list-content">
                                     <i>Medlem: {{message.userU.userName}}
                                         <button 
-                                        v-if="roleId == 2" 
+                                        v-if="roleId == 2 && !message.userU.banned && message.userU.uid !== userId " 
                                         class="fas fa-ban" 
                                         @click="banUser(message.userUid)">
                                         </button>
@@ -128,14 +128,16 @@ export default {
             return array;
         },
         uid(){
-            let user = auth.currentUser;
-              if(!user){
-                return console.log("not logged in")
-              }
-              else{
-                return user.uid
-              }
-            
+            // auth.onAuthStateChanged(user => {
+            //     if(!user){
+            //       return console.log("not logged in")
+            //     }
+            //     else{
+            //       return this.userId == user.uid
+            //     }
+            // });
+            // return this.userId
+            return this.userId;
         },
 
         banned(){
@@ -259,7 +261,12 @@ export default {
         this.getOneThreadAndMessages(this.$route.params.id)
         this.stateChanged();
         this.getUser();
-        console.log(this.uid)
+        auth.onAuthStateChanged(user => {
+            if(user){
+                this.userId = user.uid
+                console.log(this.userId)
+            }
+        })
     }
 
 
