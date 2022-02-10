@@ -19,7 +19,7 @@
             <div class="justify-content-end">
               <form @submit.prevent="searchThreads()">
                 <input type="search" id="searchForm" class="form-control flex-row" v-model="searchString"/>
-                <input type="submit" value="S�k" class="btn btn-primary">
+                <input type="submit" value="Sök" class="btn btn-primary">
               </form>
             </div>
             <div class="justify-content-end align-items-center">
