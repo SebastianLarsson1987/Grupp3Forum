@@ -39,8 +39,21 @@ namespace Backend.Controllers
 
 
             };
+            _db.NewThreads.Add(newThread);
+            await _db.SaveChangesAsync();
 
-            await _db.NewThreads.AddAsync(newThread);
+            var newMessage = new Message()
+            {
+                Text = model.Content,
+                CreatedAt = DateTime.Now,
+                UpdatedAt = DateTime.Now,
+                ThreadId = newThread.Id,
+                UserUid = model.UserId,
+                IsReported = false,
+                IsDeleated = false
+            };
+
+            _db.Messages.Add(newMessage);
             await _db.SaveChangesAsync();
             return newThread;
         }
