@@ -87,5 +87,14 @@ namespace Backend.Services
         {
             return await _db.Users.Where(u => u.Email == email).Select(u => u.Banned).ToListAsync();
         }
+
+        public void SetUserAsBanned(string id)
+        {
+            var user = _Db.Users.FirstOrDefault(x => x.Uid == id);
+            user.Banned = true;
+            _Db.SaveChangesAsync();
+            
+
+        }
     }
 }

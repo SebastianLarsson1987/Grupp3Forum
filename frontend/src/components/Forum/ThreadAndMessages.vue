@@ -42,7 +42,14 @@
                                             
                                 </div>
                                 <div class="threadmessages-wrapper-form-messages-list-content">
-                                    <i>Medlem: {{message.userU.userName}}</i>
+                                    <i>Medlem: {{message.userU.userName}}
+                                        <button 
+                                        v-if="roleId == 2 && !message.userU.banned && message.userU.uid !== userId && message.userU.userName !== 'deleted'" 
+                                        class="fas fa-ban" 
+                                        @click="banUser(message.userUid)">
+                                        </button>
+                                    </i>
+                                    
                                     <p>{{message.text}}</p>
                                     <div class="buttons-for-all">
                                         <input type="submit" @click="reportMessage(message.id)" value="Anmäl inlägg"/>
@@ -123,8 +130,8 @@ export default {
             },
             messages: [],
             pageNumber: 0,
-            writeMessageDisabled: false
-
+            writeMessageDisabled: false,
+            userId: 0
         }
     },
 
@@ -153,23 +160,27 @@ export default {
             console.log("paginateddata", array)
             return array;
         },
-        uid() {
-            let user = auth.currentUser;
-            if (!user) {
-                return console.log("not logged in")
-            }
-            else {
-                return user.uid
-            }
-
+        uid(){
+            // auth.onAuthStateChanged(user => {
+            //     if(!user){
+            //       return console.log("not logged in")
+            //     }
+            //     else{
+            //       return this.userId == user.uid
+            //     }
+            // });
+            // return this.userId
+            return this.userId;
         },
 
         banned() {
             return this.$store.state.bannedUser
+        },
+
+        roleId(){
+            return this.$store.state.roleId
         }
-
-
-
+       
     },
 
     methods: {
@@ -261,6 +272,7 @@ export default {
                 if (!user) {
                     this.writeMessageDisabled = true;
                     this.uid == user.uid
+                    
                 }
             })
         },
@@ -273,9 +285,19 @@ export default {
             })
             .then(error => {
                 console.log(error)
+
+            })
+        },
+
+        getUser(){
+            auth.onAuthStateChanged(user => {
+                return this.$store.dispatch('getOneUser', user.uid)
             })
         },
         
+        banUser(id){
+            return this.$store.dispatch('banUser', id)
+        },
         
             
         async removeMessage(id) {
@@ -288,10 +310,17 @@ export default {
 
     async created() {
 
-        await this.getOneThreadAndMessages(this.$route.params.id)
-        await this.stateChanged();
-        await this.GetUser();
+        
         this.messages = this.$store.getters.getMessages;
+        this.getOneThreadAndMessages(this.$route.params.id)
+        this.stateChanged();
+        this.getUser();
+        auth.onAuthStateChanged(user => {
+            if(user){
+                this.userId = user.uid
+                console.log(this.userId)
+            }
+        })
     }
 
 
