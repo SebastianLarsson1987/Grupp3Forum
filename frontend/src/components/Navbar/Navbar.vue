@@ -19,7 +19,7 @@
             <div class="justify-content-end">
               <form @submit.prevent="searchThreads()">
                 <input type="search" id="searchForm" class="form-control flex-row" v-model="searchString"/>
-                <input type="submit" value="Sök" class="btn btn-primary">
+                <input type="submit" value="Sï¿½k" class="btn btn-primary">
               </form>
             </div>
             <div class="justify-content-end align-items-center">
@@ -36,6 +36,7 @@
 </style> -->
 
 <script>
+import routers from "../../router/index";
 import { auth, logOut } from "../../assets/js/firebase";
 //import { ref } from 'vue' // used for conditional rendering
 
@@ -45,7 +46,8 @@ export default {
     data(){
       return{
         uid: 0,
-        isLoggedIn: false
+        isLoggedIn: false,
+        searchString: ""
       }
     },
 
@@ -74,6 +76,10 @@ export default {
               this.uid = user.uid
             }
         })
+      },
+      searchThreads(){
+        this.$store.dispatch('getThreadsBySearch', this.searchString)
+        routers.push("/searchResult")
       }
     },
 
