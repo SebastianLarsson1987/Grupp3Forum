@@ -274,7 +274,7 @@ export default {
             .then(error => {
                 console.log(error)
             })
-        }
+        },
         
         
             
