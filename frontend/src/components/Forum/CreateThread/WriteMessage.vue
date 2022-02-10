@@ -32,7 +32,7 @@
           </select>
         </div> -->
         <div class="d-grid">
-          <input type="submit" class="btn btn-danger" value="Skapa tråd"/>
+          <input type="submit" class="btn btn-primary" value="Skapa tråd"/>
         </div>
       </form>
     </div>
