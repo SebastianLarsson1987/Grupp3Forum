@@ -54,8 +54,7 @@ const store = createStore({
         else{
             return false;
         }
-      }
-      
+      }, 
 
     },
        actions:{
@@ -268,6 +267,14 @@ const store = createStore({
             let data = await response.json()
             console.log(data)
             commit('setAllCategoriesAndThreads', data)
+        },
+        async getThreadsBySearch({commit}, searchString){
+            console.log(searchString)
+             let response = await fetch(`https://localhost:44362/api/Thread/GetThreadsBySearch?input=${searchString}`)
+             let data = await response.json()
+             console.log(data)
+             commit('setSearchResult', data)
+      
         }
 
 
