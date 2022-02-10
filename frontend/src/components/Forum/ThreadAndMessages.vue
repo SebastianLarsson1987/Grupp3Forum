@@ -244,6 +244,7 @@ export default {
             })
         },
         blockThread(id){
+            
             axios
             .put("https://localhost:44362/api/Thread/BlockThread?id=" +id)
             .then(response => {

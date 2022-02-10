@@ -95,6 +95,7 @@ namespace Backend.Services
         public void BlockThread(int id)
         {
             var thread = _db.NewThreads.FirstOrDefault(x => x.Id == id);
+            var userUid = thread.UserUid;
             if (thread.Blocked==false)
             {
                 thread.Blocked = true;
@@ -109,7 +110,11 @@ namespace Backend.Services
                 ThreadId = id,
                 CreatedAt = System.DateTime.Now,
                 UpdatedAt = System.DateTime.Now,
-                UserUid = "Gruppadmin"
+                UserUid = userUid,
+                IsDeleated = false,
+                IsReported =false,
+
+
 
             };
             _db.Messages.Add(blockedThreadMessage);
