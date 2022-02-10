@@ -113,5 +113,10 @@ namespace Backend.Controllers
             var result = _threadService.GetThreadsByUserId(id);
             return await result;
         }
+        [HttpPut("BlockThread")]
+        public void BlockThread(int id)
+        {
+            _threadService.BlockThread(id);
+        }
     }
 }

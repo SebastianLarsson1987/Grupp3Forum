@@ -92,5 +92,33 @@ namespace Backend.Services
         {
             return await _db.NewThreads.Where(x => x.Topic.Contains(input)).ToListAsync();
         }
+        public void BlockThread(int id)
+        {
+            var thread = _db.NewThreads.FirstOrDefault(x => x.Id == id);
+            var userUid = thread.UserUid;
+            if (thread.Blocked==false)
+            {
+                thread.Blocked = true;
+            }
+            else
+            {
+                thread.Blocked = false;
+            }
+            var blockedThreadMessage = new Message()
+            {
+                Text = "Gruppadmin har stängt tråden",
+                ThreadId = id,
+                CreatedAt = System.DateTime.Now,
+                UpdatedAt = System.DateTime.Now,
+                UserUid = userUid,
+                IsDeleated = false,
+                IsReported =false,
+
+
+
+            };
+            _db.Messages.Add(blockedThreadMessage);
+            _db.SaveChanges();
+        }
     }
 }

@@ -4,14 +4,16 @@ using Backend.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Migrations
 {
     [DbContext(typeof(grupp3forumContext))]
-    partial class grupp3forumContextModelSnapshot : ModelSnapshot
+    [Migration("20220207121231_AddedBoolNewThread")]
+    partial class AddedBoolNewThread
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,14 +40,13 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.Database.DeletedUser", b =>
                 {
-                    b.Property<string>("UserUid")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<DateTime>("DeletionDate")
                         .HasColumnType("datetime");
 
-                    b.HasKey("UserUid");
+                    b.Property<string>("UserUid")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.ToTable("DeletedUsers");
                 });

@@ -1,15 +1,20 @@
 <template>
     <div>
-        <form
-            class="threadmessages-wrapper-form"
-            v-for="item in oneThreadAndMessages2"
-            :key="item.id"
-        >
+    
+        <form class="threadmessages-wrapper-form"
+        v-for="item in oneThreadAndMessages2" :key="item.id">
             <div class="threadmessages-wrapper-form-threadAndMessages">
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
                     <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid">
-                        <i class="far fa-trash-alt" @click="removeThread(item.id)"></i>
+                        
+                        <div v-if="item.blocked==false">
+                             
+                             <input type="submit" @click="blockThread(item.id)" value="Stäng tråd"/> 
+                        </div>
+                        
+                        
+                        <input type="submit" @click="removeThread(item.id)" value="Ta bort tråd"/>
                         
                     </div>
                         <li class="threadmessages-wrapper-form-thread-list">
@@ -30,7 +35,7 @@
                                     <i>Uppdaterad {{message.updatedAt}}</i>
                                     <div v-if="item.userUid === uid">
                                         <div class="buttons">
-                                            <i class="fas fa-ban" @click.prevent="deleteMessage(message.id)"></i>
+                                            <input type="submit" @click="deleteMessage(message.id)" value="Ta bort meddelande"/>
                                     <i>#{{message.id}}</i>
                                         </div>
                                 </div>
@@ -40,7 +45,7 @@
                                     <i>Medlem: {{message.userU.userName}}</i>
                                     <p>{{message.text}}</p>
                                     <div class="buttons-for-all">
-                                        <i class="far fa-hand-paper" @click="reportMessage(message.id)"></i>
+                                        <input type="submit" @click="reportMessage(message.id)" value="Anmäl inlägg"/>
                                         
                                     </div>
                                 </div>
@@ -73,7 +78,8 @@
                         </button>
                     </div>
                 </div>
-                <div class="threadmessages-wrapper-form-messages-writeMessage">
+                <div class="threadmessages-wrapper-form-messages-writeMessage" v-if="item.blocked==false">
+                    
                     <div v-if="!writeMessageDisabled">
                         <textarea
                             class="threadmessages-wrapper-form-messages-writeMessage-textArea"
@@ -84,6 +90,9 @@
                         ></textarea>
                         <button @click="postMessage()">Skapa meddelande</button>
                     </div>
+                </div>
+                <div v-else>
+                    <h4>Tråden är blockad av gruppadmin</h4>
                 </div>
             </div>
         </form>
@@ -255,6 +264,20 @@ export default {
                 }
             })
         },
+        blockThread(id){
+            
+            axios
+            .put("https://localhost:44362/api/Thread/BlockThread?id=" +id)
+            .then(response => {
+                console.log(response)
+            })
+            .then(error => {
+                console.log(error)
+            })
+        }
+        
+        
+            
         async removeMessage(id) {
             await this.$store.dispatch("deleteMessage", id);
         },

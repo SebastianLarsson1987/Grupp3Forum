@@ -21,6 +21,7 @@ namespace Backend.Models.Database
         public DateTime? UpdatedAt { get; set; }
         public string UserUid { get; set; }
         public int CategoryId { get; set; }
+        public bool Blocked { get; set; }
 
         [JsonIgnore]
         public virtual Category Category { get; set; }

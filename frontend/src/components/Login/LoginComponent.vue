@@ -63,6 +63,7 @@ export default {
       axios
       .get(`https://localhost:44362/api/User/GetUserStatus?email=${this.user.email}`)
       .then(response => {
+        console.log(response)
         if(response.data[0] === false){
           console.log(response.data)
           logIn(this.user.email, this.user.password);
