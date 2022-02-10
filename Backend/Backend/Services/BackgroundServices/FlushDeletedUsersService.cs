@@ -7,21 +7,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Backend.Services.BackgroundServices
 {
     public class FlushDeletedUsersService : BackgroundService
     {
         private readonly ILogger<FlushDeletedUsersService> _logger;
-        private readonly grupp3forumContext _ctx;
-        /// <summary>
+        private readonly IServiceScopeFactory _scopeFactory;
         /// The amount of delay to put on the function before flushing users again.
         /// </summary>
         private readonly TimeSpan delay = new(0, 5, 0);
-        public FlushDeletedUsersService(grupp3forumContext ctx, ILogger<FlushDeletedUsersService> logger)
+        public FlushDeletedUsersService(IServiceScopeFactory scopeFactory, ILogger<FlushDeletedUsersService> logger)
         {
             _logger = logger;
-            _ctx = ctx;
+            _scopeFactory = scopeFactory;
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
@@ -41,6 +41,8 @@ namespace Backend.Services.BackgroundServices
         /// <returns>Task</returns>
         private async Task RemoveUsers()
         {
+            using var scope = _scopeFactory.CreateScope();
+            var _ctx = scope.ServiceProvider.GetRequiredService<grupp3forumContext>();
             int removed = 0;
             TimeSpan waitPeriod = new(0, 0, 0, 0);
             List<DeletedUser> users = await _ctx.DeletedUsers.ToListAsync();
@@ -75,6 +77,8 @@ namespace Backend.Services.BackgroundServices
         /// <returns></returns>
         private async Task RemoveRelations(string userUid)
         {
+            using var scope = _scopeFactory.CreateScope();
+            var _ctx = scope.ServiceProvider.GetRequiredService<grupp3forumContext>();
             const string userPlaceholder = "0001";
             List<Message> messages = await _ctx.Messages.Where(m => m.UserUid == userUid).ToListAsync();
             List<NewThread> threads = await _ctx.NewThreads.Where(m => m.UserUid == userUid).ToListAsync();
