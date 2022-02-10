@@ -11,7 +11,7 @@
             </span>
             <span v-else>
               <router-link class="nav-link-white-blue" to="/register-user">Bli medlem |</router-link>
-              <router-link class="nav-link-white-blue" to="/signin">Logga in</router-link>|
+              <router-link class="nav-link-white-blue" to="/signin"> Logga in</router-link>|
             </span>
           </div>
           <div class="d-flex col col-lg-4 m-3 p-2 align-items-center"> 
