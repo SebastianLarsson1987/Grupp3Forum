@@ -5,7 +5,6 @@
         <div class="col col-lg-4"> </div>
           <div class="col-md-auto">
             <router-link class="nav-link-white-blue" to="/">Hem |</router-link>|
-            <router-link class="nav-link-white-blue" to="/forum">Forum |</router-link>|
             <span v-if="isLoggedIn">
               <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil |</router-link>|
               <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
@@ -15,14 +14,14 @@
               <router-link class="nav-link-white-blue" to="/signin">Logga in</router-link>|
             </span>
           </div>
-          <div class="d-flex col col-lg-4"> 
+          <div class="d-flex col col-lg-4 m-3 p-2 align-items-center"> 
             <div class="justify-content-end">
-              <form @submit.prevent="searchThreads()">
-                <input type="search" id="searchForm" class="form-control flex-row" v-model="searchString"/>
+              <form class="d-flex col col-lg-4" @submit.prevent="searchThreads()">
+                <input type="search" id="searchForm" v-model="searchString"/>
                 <input type="submit" value="Sök" class="btn btn-primary">
               </form>
             </div>
-            <div class="justify-content-end align-items-center">
+            <div class="justify-content-end align-items-center m-3 p-2">
               <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
               <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
             </div>

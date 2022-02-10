@@ -289,10 +289,13 @@ export default {
             })
         },
 
-       async getUser(){
-            auth.onAuthStateChanged(user => {
-                 return this.$store.dispatch('getOneUser', user.uid)
-            })
+       getUser(){
+           auth.onAuthStateChanged(user => {
+               
+               return this.$store.dispatch('getOneUser', user.uid)
+
+           })
+            
         },
         
         banUser(id){
@@ -311,16 +314,16 @@ export default {
     async created() {
 
         
-        this.getOneThreadAndMessages(this.$route.params.id)
-        this.stateChanged();
-        await this.getUser();
-        this.messages = this.$store.getters.getMessages;
-        auth.onAuthStateChanged(user => {
+        await auth.onAuthStateChanged((user) => {
             if(user){
                 this.userId = user.uid
                 console.log(this.userId)
             }
         })
+        await this.getOneThreadAndMessages(this.$route.params.id)
+        await this.getUser();
+        this.stateChanged();
+        this.messages = this.$store.getters.getMessages;
     }
 
 

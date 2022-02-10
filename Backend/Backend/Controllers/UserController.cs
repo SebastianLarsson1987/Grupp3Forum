@@ -43,7 +43,7 @@ namespace Backend.Controllers
         }
 
         [HttpGet("GetUser")]
-        public async Task<User> GetOneUser(string id)
+        public async Task<IEnumerable<User>> GetOneUser(string id)
         {
             var oneUser = await _userService.GetOneUser(id);
             return oneUser;
