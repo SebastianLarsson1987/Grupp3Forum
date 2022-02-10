@@ -36,7 +36,7 @@
                                 <div class="threadmessages-wrapper-form-messages-list-content">
                                     <i>Medlem: {{message.userU.userName}}
                                         <button 
-                                        v-if="roleId == 2 && !message.userU.banned && message.userU.uid !== userId " 
+                                        v-if="roleId == 2 && !message.userU.banned && message.userU.uid !== userId && message.userU.userName !== 'deleted'" 
                                         class="fas fa-ban" 
                                         @click="banUser(message.userUid)">
                                         </button>
