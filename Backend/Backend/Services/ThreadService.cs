@@ -31,7 +31,7 @@ namespace Backend.Services
             }
             _db.NewThreads.Remove(threadResult);
 
-                       
+
 
             await _db.SaveChangesAsync();
 
@@ -83,9 +83,9 @@ namespace Backend.Services
 
         public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)
         {
-            var result = _db.NewThreads.Where(x => x.UserUid == id)
-                .Include(x => x.Messages.Where(x=> x.IsDeleated == false));
-            return result;
+            return await _db.NewThreads.Where(x => x.UserUid == id)
+                .Include(x => x.Messages.Where(x => x.IsDeleated == false)).ToListAsync();
+
         }
 
         public async Task<IEnumerable<NewThread>> GetThreadsBySearchString(string input)
@@ -96,7 +96,7 @@ namespace Backend.Services
         {
             var thread = _db.NewThreads.FirstOrDefault(x => x.Id == id);
             var userUid = thread.UserUid;
-            if (thread.Blocked==false)
+            if (thread.Blocked == false)
             {
                 thread.Blocked = true;
             }
@@ -112,7 +112,7 @@ namespace Backend.Services
                 UpdatedAt = System.DateTime.Now,
                 UserUid = userUid,
                 IsDeleated = false,
-                IsReported =false,
+                IsReported = false,
 
 
 

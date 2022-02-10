@@ -123,8 +123,7 @@ namespace Backend.Controllers
         [HttpGet("GetThreadsByUserId")]
         public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)
         {
-            var result = _threadService.GetThreadsByUserId(id);
-            return await result;
+            return await _threadService.GetThreadsByUserId(id);
         }
         [HttpPut("BlockThread")]
         public void BlockThread(int id)
