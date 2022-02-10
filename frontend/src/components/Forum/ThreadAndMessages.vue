@@ -6,7 +6,7 @@
             <div class="threadmessages-wrapper-form-threadAndMessages">
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
-                    <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid">
+                    <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid || roleId == 2">
                         
                         <div v-if="item.blocked==false">
                              
@@ -33,7 +33,7 @@
                                 <div class="threadmessages-wrapper-form-messages-list-header">
                                     <i>Skapad {{message.createdAt}}</i>
                                     <i>Uppdaterad {{message.updatedAt}}</i>
-                                    <div v-if="item.userUid === uid">
+                                    <div v-if="item.userUid === uid || roleId == 2">
                                         <div class="buttons">
                                             <input type="submit" @click="deleteMessage(message.id)" value="Ta bort meddelande"/>
                                     <i>#{{message.id}}</i>
@@ -44,7 +44,10 @@
                                 <div class="threadmessages-wrapper-form-messages-list-content">
                                     <i>Medlem: {{message.userU.userName}}
                                         <button 
-                                        v-if="roleId == 2 && !message.userU.banned && message.userU.uid !== userId && message.userU.userName !== 'deleted'" 
+                                        v-if="roleId == 2 && 
+                                        !message.userU.banned && 
+                                        message.userU.uid !== userId && 
+                                        message.userU.userName !== 'deleted'" 
                                         class="fas fa-ban" 
                                         @click="banUser(message.userUid)">
                                         </button>
@@ -288,9 +291,9 @@ export default {
             })
         },
 
-        getUser(){
+       async getUser(){
             auth.onAuthStateChanged(user => {
-                return this.$store.dispatch('getOneUser', user.uid)
+                 return this.$store.dispatch('getOneUser', user.uid)
             })
         },
         
@@ -312,7 +315,7 @@ export default {
         
         this.getOneThreadAndMessages(this.$route.params.id)
         this.stateChanged();
-        this.getUser();
+        await this.getUser();
         this.messages = this.$store.getters.getMessages;
         auth.onAuthStateChanged(user => {
             if(user){
