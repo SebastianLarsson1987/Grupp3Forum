@@ -8,9 +8,9 @@ namespace Backend.Services
 {
     public interface IThreadService
     {
-        void RemoveThreadAndMessages(int id);
-        void RemoveSingleMessage(int id);
-        IEnumerable<Category> GetAllCategories();
-        IEnumerable<Message> GetAllMessagesFromThread(int id);
+        Task RemoveThreadAndMessages(int id);
+        Task RemoveSingleMessage(int id);
+        Task<IEnumerable<Category>> GetAllCategories();
+        Task<IEnumerable<Message>> GetAllMessagesFromThread(int id);
     }
 }

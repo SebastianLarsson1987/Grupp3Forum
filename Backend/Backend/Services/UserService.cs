@@ -11,27 +11,27 @@ namespace Backend.Services
     public class UserService : ControllerBase, IUserService
     {
 
-        private readonly grupp3forumContext _Db;
+        private readonly grupp3forumContext _db;
 
-        public UserService()
+        public UserService(grupp3forumContext db)
         {
-            _Db = new grupp3forumContext();
+            _db = db;
         }
 
         public async Task<IEnumerable<User>> GetAllUser()
         {
-            return await _Db.Users.ToListAsync();
+            return await _db.Users.ToListAsync();
         }
 
         public User GetOneUser(string id)
-        { return _Db.Users.FirstOrDefault(x => x.Uid == id); }
+        { return _db.Users.FirstOrDefault(x => x.Uid == id); }
 
         public async Task<bool> UpdateUser(User user)
         {
             try
             {
-                _Db.Entry(user).State = EntityState.Modified;
-                await _Db.SaveChangesAsync();
+                _db.Entry(user).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
                 return true;
 
             }
@@ -42,21 +42,19 @@ namespace Backend.Services
             }
         }
 
-        public void RemoveUser(string id)
+        public async Task RemoveUser(string id)
         {
             const string deleted = "deleted";
-            var customer = _Db.Users.SingleOrDefault(x => x.Uid == id);
-            customer.Banned = false;
-            customer.Email = deleted;
-            customer.UserName = deleted;
-            
+            var userToDelete = await _db.Users.FindAsync(id);
+            userToDelete.FirstName = deleted;
+            userToDelete.Banned = false;
+            userToDelete.UserName = deleted;
+            await _db.DeletedUsers.AddAsync(new DeletedUser { UserUid = userToDelete.Uid, DeletionDate = DateTime.Now });
 
-            _Db.SaveChanges();
-                
-            
+            await _db.SaveChangesAsync();
 
         }
-        
+
         public async Task<ActionResult<User>> EditUserDetails(string id, string email, string UserName)
         {
 
@@ -65,7 +63,7 @@ namespace Backend.Services
                 return BadRequest("Not a valid model");
             }
 
-            var existingUser = _Db.Users.Where(u => u.Uid == id)
+            var existingUser = _db.Users.Where(u => u.Uid == id)
                 .FirstOrDefault();
 
             if (existingUser != null)
@@ -73,7 +71,7 @@ namespace Backend.Services
                 existingUser.Email = email;
                 existingUser.UserName = UserName;
 
-               await _Db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
             else
             {
@@ -87,8 +85,7 @@ namespace Backend.Services
 
         public async Task<IEnumerable<bool>> CheckUserStatus(string email)
         {
-            var result = _Db.Users.Where(u => u.Email == email).Select(u => u.Banned);
-            return result;
+            return await _db.Users.Where(u => u.Email == email).Select(u => u.Banned).ToListAsync();
         }
     }
 }

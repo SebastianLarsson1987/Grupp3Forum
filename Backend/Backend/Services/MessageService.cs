@@ -10,18 +10,18 @@ namespace Backend.Services
 {
     public class MessageService : ControllerBase
     {
-        private readonly grupp3forumContext _Db;
+        private readonly grupp3forumContext _db;
 
-        public MessageService()
+        public MessageService(grupp3forumContext db)
         {
-            _Db = new grupp3forumContext();
+            _db = db;
         }
 
         public async Task<ActionResult<Message>> DeleteMessage(int id)
         {
-            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
-            _Db.Messages.Remove(message);
-            await _Db.SaveChangesAsync();
+            var message = _db.Messages.FirstOrDefault(x => x.Id == id);
+            _db.Messages.Remove(message);
+            await _db.SaveChangesAsync();
 
             return NoContent();
 
@@ -30,7 +30,7 @@ namespace Backend.Services
         public async Task<IEnumerable<Message>> GetUserMessages(string id)
         {
             
-            var result = await _Db.Messages.Where(message => message.UserUid == id)
+            var result = await _db.Messages.Where(message => message.UserUid == id)
                 .Where(message => message.IsDeleated == false).ToListAsync();
             return result;
         }
@@ -38,38 +38,38 @@ namespace Backend.Services
         public async Task<ActionResult<Message>> EditMessage(int id, string text)
         {
             var msg = new Message() { Id = id, Text = text };
-            _Db.Messages.Attach(msg);
-            _Db.Entry(msg).Property(x => x.Text).IsModified = true;
-            if (_Db.Entry(msg).Property(x=> x.Text).IsModified)
+            _db.Messages.Attach(msg);
+            _db.Entry(msg).Property(x => x.Text).IsModified = true;
+            if (_db.Entry(msg).Property(x => x.Text).IsModified)
             {
                 msg.UpdatedAt = DateTime.Now;
             }
-            await _Db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
 
             return msg;
 
-            
+
         }
         public void ReportMessage(int id)
         {
-            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
+            var message = _db.Messages.FirstOrDefault(x => x.Id == id);
             message.IsReported = true;
-            _Db.SaveChangesAsync();
+            _db.SaveChangesAsync();
            
         }
 
         public void SetMessageToDeleted(int id)
         {
-            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
+            var message = _db.Messages.FirstOrDefault(x => x.Id == id);
             message.IsDeleated = true;
-            _Db.SaveChangesAsync();
+            _db.SaveChangesAsync();
         }
 
         public void SetMessageToNotReported(int id)
         {
-            var message = _Db.Messages.FirstOrDefault(x => x.Id == id);
+            var message = _db.Messages.FirstOrDefault(x => x.Id == id);
             message.IsReported = false;
-            _Db.SaveChangesAsync();
+            _db.SaveChangesAsync();
         }
     }
 }

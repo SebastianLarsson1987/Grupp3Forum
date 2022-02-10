@@ -19,10 +19,10 @@ namespace Backend.Controllers
         private readonly ThreadService _threadService;
         private readonly grupp3forumContext _db;
 
-        public ThreadController(IThreadService threadService)
+        public ThreadController(IThreadService threadService, grupp3forumContext db)
         {
             _threadService = threadService as ThreadService;
-            _db = new grupp3forumContext();
+            _db = db;
         }
 
         [HttpPost("CreateThread")]
@@ -40,7 +40,7 @@ namespace Backend.Controllers
 
             };
 
-            _db.NewThreads.Add(newThread);
+            await _db.NewThreads.AddAsync(newThread);
             await _db.SaveChangesAsync();
             return newThread;
         }
@@ -58,32 +58,32 @@ namespace Backend.Controllers
                 IsReported = false
 
             };
-            
-            _db.Messages.Add(newMessage);
+
+            await _db.Messages.AddAsync(newMessage);
             await _db.SaveChangesAsync();
             return newMessage;
         }
         [HttpDelete("RemoveThread")]
-        public void RemoveThread(int id)
+        public async void RemoveThread(int id)
         {
-            _threadService.RemoveThreadAndMessages(id);
+            await _threadService.RemoveThreadAndMessages(id);
         }
         [HttpGet("GetAllCategories")]
-        public IEnumerable<Category> GetAllCategories()
+        public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            var result = _threadService.GetAllCategories().ToList();
+            var result = await _threadService.GetAllCategories();
             return result;
         }
         [HttpGet("GetAllCategoriesAndThreads")]
-        public IEnumerable<Category> GetAllCategoriesAndThreds()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAndThreds()
         {
-            var result = _threadService.GetAllCategoriesAndThreads();
-            return result;
+            return await _threadService.GetAllCategoriesAndThreads();
+
         }
         [HttpGet("GetAllMessagesFromThread")]
-        public IEnumerable<Message> GetAllMessagesFromThread(int id)
+        public async Task<IEnumerable<Message>> GetAllMessagesFromThread(int id)
         {
-            var result = _threadService.GetAllMessagesFromThread(id);
+            var result = await _threadService.GetAllMessagesFromThread(id);
             return result;
         }
 
@@ -103,7 +103,7 @@ namespace Backend.Controllers
         [HttpGet("GetThreadsBySearch")]
         public async Task<IEnumerable<NewThread>> GetThreadsBySearch(string input)
         {
-            var result = _threadService.GetThreadsBySearchString(input);
+            var result = await _threadService.GetThreadsBySearchString(input);
             return result;
         }
 

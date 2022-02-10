@@ -1,4 +1,5 @@
 using Backend.Services;
+using Backend.Services.BackgroundServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Backend.Models.Database;
 
 namespace Backend
 {
@@ -31,9 +33,11 @@ namespace Backend
             services.AddTransient<IThreadService, ThreadService>();
             services.AddTransient<IUserService, UserService>();
             services.AddControllers();
+            services.AddDbContext<grupp3forumContext>(ServiceLifetime.Singleton);
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddHostedService<FlushDeletedUsersService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Backend", Version = "v1" });
@@ -65,7 +69,7 @@ namespace Backend
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()));
-                
+
 
             app.UseAuthorization();
 
@@ -76,4 +80,3 @@ namespace Backend
         }
     }
 }
-

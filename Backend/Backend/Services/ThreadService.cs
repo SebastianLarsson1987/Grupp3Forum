@@ -15,12 +15,12 @@ namespace Backend.Services
     {
         private readonly grupp3forumContext _db;
 
-        public ThreadService()
+        public ThreadService(grupp3forumContext db)
         {
-            _db = new grupp3forumContext();
+            _db = db;
         }
 
-        public void RemoveThreadAndMessages(int id)
+        public async Task RemoveThreadAndMessages(int id)
         {
             //var resutl = _db.NewThreads.Include(x => x.Messages.Where(x=>x.ThreadId==id)).SingleOrDefault(x => x.Id == id);
             var threadResult = _db.NewThreads.FirstOrDefault(x => x.Id == id);
@@ -33,38 +33,39 @@ namespace Backend.Services
 
                        
 
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
+
         }
 
-        public void RemoveSingleMessage(int id)
+        public async Task RemoveSingleMessage(int id)
         {
-            var result = _db.Messages.SingleOrDefault(x => x.Id == id);
+            var result = await _db.Messages.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public IEnumerable<Category> GetAllCategories()
+        public async Task<IEnumerable<Category>> GetAllCategories()
         {
-            var result = _db.Categories.AsEnumerable();
-            return result;
+            return await _db.Categories.ToListAsync();
+
         }
 
-        public IEnumerable<Category> GetAllCategoriesAndThreads()
+        public async Task<IEnumerable<Category>> GetAllCategoriesAndThreads()
         {
-            var result = _db.Categories.Include(x => x.NewThreads).ThenInclude(x=>x.Messages);
+            var result = await _db.Categories.Include(x => x.NewThreads).ThenInclude(x => x.Messages).ToListAsync();
             //var result = _db.Categories.Include(x => x.NewThreads);
             return result;
         }
 
-        public IEnumerable<Message> GetAllMessagesFromThread(int id)
+        public async Task<IEnumerable<Message>> GetAllMessagesFromThread(int id)
         {
-            var result = _db.Messages.Where(x => x.ThreadId == id).AsEnumerable();
+            var result = await _db.Messages.Where(x => x.ThreadId == id).ToListAsync();
             return result;
         }
 
         public async Task<IEnumerable<Category>> GetCategoryAndThreadsPerCategoryId(int id)
         {
-            
-            var result = _db.Categories.Where(x => x.Id == id)
-                .Include(threads => threads.NewThreads);
+
+            var result = await _db.Categories.Where(x => x.Id == id)
+                .Include(threads => threads.NewThreads).ToListAsync();
             return result;
         }
 
@@ -75,8 +76,8 @@ namespace Backend.Services
                 .ThenInclude(message => message.UserU)
                 .AsNoTracking()
                 .ToListAsync();
-                
-              
+
+
             return await result;
         }
 
@@ -86,12 +87,10 @@ namespace Backend.Services
                 .Include(x => x.Messages.Where(x=> x.IsDeleated == false));
             return result;
         }
-        
-        public IEnumerable<NewThread>GetThreadsBySearchString(string input)
-        {
-            var result = _db.NewThreads.Where(x => x.Topic.Contains(input)).AsEnumerable();
-            return result;
 
+        public async Task<IEnumerable<NewThread>> GetThreadsBySearchString(string input)
+        {
+            return await _db.NewThreads.Where(x => x.Topic.Contains(input)).ToListAsync();
         }
     }
 }
