@@ -90,9 +90,9 @@ namespace Backend.Services
 
         public void SetUserAsBanned(string id)
         {
-            var user = _Db.Users.FirstOrDefault(x => x.Uid == id);
+            var user = _db.Users.FirstOrDefault(x => x.Uid == id);
             user.Banned = true;
-            _Db.SaveChangesAsync();
+            _db.SaveChangesAsync();
             
 
         }
