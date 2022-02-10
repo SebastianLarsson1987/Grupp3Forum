@@ -2,7 +2,7 @@
   <div v-if="disableWriteThread" class="row d-flex justify-content-center">
     <!-- <h1>Create Thread</h1> -->
     <div class="col-md-8 mt-5">
-      <form @submit.stop.prevent="submit">
+      <form @submit="submit">
         <div class="form-group mb-3">
           <label>Ämne</label>
           <input

@@ -20,7 +20,8 @@
       </div>
       <div v-for="item2 in item.newThreads.slice(-2) " :key="item2.id" class="threads">
         <div class="left">
-          <h4 class="thread-name">{{item2.topic}}</h4>
+          
+          <h4 class="thread-name"><router-link :to="`/threadmessages/${item2.id}`" class="thread-link">{{item2.topic}}</router-link></h4>
           <p>Antal svar i tråd:{{item2.messages.length}}</p>
         </div>
 
@@ -147,6 +148,10 @@ a {
 
 .category-header{
   font-size: 150%;
+  text-decoration: none;
+  color:orange;
+}
+.thread-link{
   text-decoration: none;
 }
 </style>

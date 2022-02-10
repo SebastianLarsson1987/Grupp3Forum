@@ -101,9 +101,7 @@
                         <button @click="postMessage()">Skapa meddelande</button>
                     </div>
                 </div>
-                <div v-else>
-                    <h4>Tråden är blockad av gruppadmin</h4>
-                </div>
+                
             </div>
         </form>
     </div>
