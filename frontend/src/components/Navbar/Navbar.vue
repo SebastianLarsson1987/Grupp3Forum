@@ -110,5 +110,7 @@ export default {
   color: white;
 
 }
-
+span{ 
+  cursor: pointer;
+}
 </style>
