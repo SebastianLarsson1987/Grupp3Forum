@@ -15,20 +15,16 @@
               <router-link class="nav-link-white-blue" to="/signin">Logga in</router-link>|
             </span>
           </div>
-          <div class="col col-lg-4"> 
-            <div class="d-flex flex-row">
-              <div class="justify-content-end">
-                <form @submit.prevent="searchThreads()">
-                  <input type="search" id="searchForm" class="form-control flex-row" v-model="searchString"/>
-                  <span class="input-group-text border-0">
-                    <input type="submit" value="Sök" class="btn btn-primary">
-                  </span>
-                </form>
-              </div>
-              <div class="align-items-center">
-                <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
-                <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
-              </div>
+          <div class="d-flex col col-lg-4"> 
+            <div class="justify-content-end">
+              <form @submit.prevent="searchThreads()">
+                <input type="search" id="searchForm" class="form-control flex-row" v-model="searchString"/>
+                <input type="submit" value="Sök" class="btn btn-primary">
+              </form>
+            </div>
+            <div class="justify-content-end align-items-center">
+              <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
+              <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
             </div>
           </div>
         </div>
