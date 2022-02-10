@@ -23,9 +23,9 @@ namespace Backend.Services
             return await _db.Users.ToListAsync();
         }
 
-        public async Task<User> GetOneUser(string id)
+        public async Task<IEnumerable<User>> GetOneUser(string id)
         { 
-            return await _db.Users.FirstOrDefaultAsync(x => x.Uid == id); 
+            return await _db.Users.Where(x => x.Uid == id).ToListAsync(); 
             }
 
         public async Task<bool> UpdateUser(User user)
