@@ -48,16 +48,15 @@
                                         !message.userU.banned && 
                                         message.userU.uid !== userId && 
                                         message.userU.userName !== 'deleted' &&
-                                        message.userU.roleId !== 2" 
+                                        message.userU.roleId !== 2"
                                         class="fas fa-ban" 
                                         @click="banUser(message.userUid)">
                                         </button>
                                     </i>
                                     
                                     <p>{{message.text}}</p>
-                                    <div class="buttons-for-all" v-if="message.userU.uid !==userId">
+                                    <div class="buttons-for-all">
                                         <input type="submit" @click="reportMessage(message.id)" value="Anmäl inlägg"/>
-                                        
                                     </div>
                                 </div>
                                 
@@ -89,9 +88,9 @@
                         </button>
                     </div>
                 </div>
-                <div class="threadmessages-wrapper-form-messages-writeMessage" v-if="item.blocked==false">
+                <div class="threadmessages-wrapper-form-messages-writeMessage">
                     
-                    <div v-if="!writeMessageDisabled">
+                    <div v-if="isLoggedIn">
                         <textarea
                             class="threadmessages-wrapper-form-messages-writeMessage-textArea"
                             rows="5"
@@ -133,7 +132,8 @@ export default {
             messages: [],
             pageNumber: 0,
             writeMessageDisabled: false,
-            userId: 0
+            userId: 0,
+            isLoggedIn: false
         }
     },
 
@@ -181,11 +181,25 @@ export default {
 
         roleId(){
             return this.$store.state.roleId
-        }
+        },
+
        
     },
 
     methods: {
+
+        
+        loggedIn(){
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    this.isLoggedIn = true // if we have a user
+                } else {
+                    this.isLoggedIn = false // if we do not
+                }
+                console.log(this.isLoggedIn)
+            })
+        },
+
         async getOneThreadAndMessages(id) {
             this.threadAndMessages = await this.$store.dispatch('getThreadAndMessagesById', id);
             return this.threadAndMessages;
@@ -215,7 +229,7 @@ export default {
             .then(error=>{
                 console.log(error)
             })
-            router.push("/")
+            router.push("/main")
         },
         async deleteMessage(id){
             console.log(id)
@@ -228,7 +242,7 @@ export default {
                 console.log(error)
             })
 
-            router.push("/")
+            router.push("/forum")
         },
         
         postMessage(){
@@ -269,14 +283,14 @@ export default {
             this.pageNumber = 0;
         },
 
-        async stateChanged() {
-            auth.onAuthStateChanged(user => {
-                if (!user) {
-                    this.uid == user.uid
+        // async stateChanged() {
+        //     auth.onAuthStateChanged(user => {
+        //         if (!user) {
+        //             this.uid == user.uid
                     
-                }
-            })
-        },
+        //         }
+        //     })
+        // },
         blockThread(id){
             
             axios
@@ -292,9 +306,14 @@ export default {
 
        getUser(){
            auth.onAuthStateChanged(user => {
-               
-               return this.$store.dispatch('getOneUser', user.uid)
+               if(user){
+                   this.userId == user.uid
+               }
+               else{
+                   return this.writeMessageDisabled == true;
+               }
 
+                return this.$store.dispatch('getOneUser', this.userId)
            })
             
         },
@@ -323,8 +342,11 @@ export default {
         })
         await this.getOneThreadAndMessages(this.$route.params.id)
         await this.getUser();
-        this.stateChanged();
+        //this.stateChanged();
         this.messages = this.$store.getters.getMessages;
+        await this.loggedIn();
+
+        
     }
 
 
