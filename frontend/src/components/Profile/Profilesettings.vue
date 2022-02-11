@@ -27,15 +27,15 @@
                     </div>
                 </nav>
             </div>
-            <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
+            <div class="userprofile-form-grid4" v-for="userInfo in user" :key="userInfo">
                 <div>
                     <div class="userprofile-form-grid4-username">
                         <p>Användarnamn</p>
-                        <input type="text" placeholder="Användarnamn" v-bind:disabled="isReadOnly" v-model="item.userName">
+                        <input type="text" placeholder="Användarnamn" v-bind:disabled="isReadOnly" v-model="userInfo.userName">
                     </div>
                     <div class="userprofile-form-grid4-email">
                         <p>Email</p>
-                        <input type="text" placeholder="Email" v-bind:disabled="isReadOnly" v-model="item.email">
+                        <input type="text" placeholder="Email" v-bind:disabled="isReadOnly" v-model="userInfo.email">
                     </div>
                     <!-- <div class="userprofile-form-grid4-password">
                         <p>Lösenord</p>
@@ -132,11 +132,8 @@ export default {
         
     },
 
-    created(){
+    async created(){
         this.getUser();
-        auth.onAuthStateChanged(user => {
-            console.log(user)
-        })
         
         auth.onAuthStateChanged(user => {
             if(user){

@@ -39,21 +39,8 @@ namespace Backend.Controllers
 
 
             };
-            _db.NewThreads.Add(newThread);
-            await _db.SaveChangesAsync();
 
-            var newMessage = new Message()
-            {
-                Text = model.Content,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
-                ThreadId = newThread.Id,
-                UserUid = model.UserId,
-                IsReported = false,
-                IsDeleated = false
-            };
-
-            _db.Messages.Add(newMessage);
+            await _db.NewThreads.AddAsync(newThread);
             await _db.SaveChangesAsync();
             return newThread;
         }
@@ -123,7 +110,8 @@ namespace Backend.Controllers
         [HttpGet("GetThreadsByUserId")]
         public async Task<IEnumerable<NewThread>> GetThreadsByUserId(string id)
         {
-            return await _threadService.GetThreadsByUserId(id);
+            var result = _threadService.GetThreadsByUserId(id);
+            return await result;
         }
         [HttpPut("BlockThread")]
         public void BlockThread(int id)

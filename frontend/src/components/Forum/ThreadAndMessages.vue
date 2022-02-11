@@ -47,7 +47,8 @@
                                         v-if="roleId == 2 && 
                                         !message.userU.banned && 
                                         message.userU.uid !== userId && 
-                                        message.userU.userName !== 'deleted'" 
+                                        message.userU.userName !== 'deleted' &&
+                                        message.userU.userName !== 'admin'" 
                                         class="fas fa-ban" 
                                         @click="banUser(message.userUid)">
                                         </button>
@@ -134,7 +135,7 @@ export default {
             messages: [],
             pageNumber: 0,
             writeMessageDisabled: false,
-            userId: 0
+            uid: 0
         }
     },
 
@@ -163,18 +164,8 @@ export default {
             console.log("paginateddata", array)
             return array;
         },
-        uid(){
-            // auth.onAuthStateChanged(user => {
-            //     if(!user){
-            //       return console.log("not logged in")
-            //     }
-            //     else{
-            //       return this.userId == user.uid
-            //     }
-            // });
-            // return this.userId
-            return this.userId;
-        },
+        
+        
 
         banned() {
             return this.$store.state.bannedUser
@@ -187,6 +178,10 @@ export default {
     },
 
     methods: {
+
+
+
+
         async getOneThreadAndMessages(id) {
             this.threadAndMessages = await this.$store.dispatch('getThreadAndMessagesById', id);
             return this.threadAndMessages;
@@ -291,13 +286,8 @@ export default {
             })
         },
 
-       getUser(){
-           auth.onAuthStateChanged(user => {
-               
-               return this.$store.dispatch('getOneUser', user.uid)
-
-           })
-            
+        getUser(id){
+                return this.$store.dispatch('getOneUser', id)
         },
         
         banUser(id){
@@ -308,26 +298,36 @@ export default {
         async removeMessage(id) {
             await this.$store.dispatch("deleteMessage", id);
         },
-        async GetUser() {
-            return await fetch(`https://localhost:44362/GetOneUser?id=${this.uid}`);
-        }
+        // async GetUser() {
+        //     return await fetch(`https://localhost:44362/GetOneUser?id=${this.uid}`);
+        // },
+
+        getUid(){
+        auth.onAuthStateChanged(user => {
+            if(user){
+              this.uid = user.uid
+              console.log(this.uid)
+            }
+        })
+      },
     },
 
     async created() {
 
-        
-        await auth.onAuthStateChanged((user) => {
-            if(user){
-                this.userId = user.uid
-                console.log(this.userId)
+        await auth.onAuthStateChanged(user => {
+            this.getUser(user.uid);
+            if(!this.getUser(user.uid)){
+                window.location.reload();
             }
+            console.log(user.uid)
         })
         await this.getOneThreadAndMessages(this.$route.params.id)
-        await this.getUser();
-        this.stateChanged();
+        await this.getUid();
+        // await this.stateChanged();
         this.messages = this.$store.getters.getMessages;
-    }
+    },
 
+    
 
 
 }

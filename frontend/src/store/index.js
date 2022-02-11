@@ -119,15 +119,15 @@ const store = createStore({
            axios
            .get(`https://localhost:44362/api/User/GetUser?id=${id}`)
            .then(result => {
-               this.state.user.push(result.data)
+               this.state.user = result.data
                console.log(this.state.user)
-               this.state.user.forEach((item) => {
-                  return this.state.roleId == item.roleId
+               result.data.forEach((item) => {
+                   this.state.roleId.push(item.roleId)
                 })
                 console.log(this.state.roleId)
             })
             .catch(error => {
-               console.log(error)
+               console.log(error.message)
            })
 
        },
