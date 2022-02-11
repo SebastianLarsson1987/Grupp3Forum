@@ -17,7 +17,7 @@
           <div class="d-flex col col-lg-4 m-3 p-2 align-items-center"> 
             <div class="justify-content-end">
               <form class="d-flex col col-lg-4" @submit.prevent="searchThreads()">
-                <input type="search" id="searchForm" v-model="searchString"/>
+                <input type="search" id="searchForm" placeholder="Skriv en tråd här" v-model="searchString"/>
                 <input type="submit" value="Sök" class="btn btn-primary">
               </form>
             </div>
