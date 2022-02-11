@@ -48,7 +48,7 @@
                                         !message.userU.banned && 
                                         message.userU.uid !== userId && 
                                         message.userU.userName !== 'deleted' &&
-                                        message.userU.userName !== 'admin'" 
+                                        message.userU.roleId !== 2" 
                                         class="fas fa-ban" 
                                         @click="banUser(message.userUid)">
                                         </button>
