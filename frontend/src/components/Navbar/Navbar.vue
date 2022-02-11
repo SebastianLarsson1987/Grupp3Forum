@@ -23,7 +23,10 @@
             </div>
             <div class="justify-content-end align-items-center m-3 p-2">
               <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
-              <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
+              <router-link class="nav-link-white-blue" to="/GDPR">GDPR |</router-link>
+            <span v-if="userFromBackend.roleId==2 && loggedIn">
+              <router-link class="nav-link-white-blue" to="/admin"> Admin</router-link>
+            </span>
             </div>
           </div>
         </div>
@@ -62,6 +65,7 @@ export default {
         auth.onAuthStateChanged(user => {
         if (user) {
           this.isLoggedIn = true // if we have a user
+          
         } else {
           this.isLoggedIn = false // if we do not
         }
@@ -73,6 +77,7 @@ export default {
         auth.onAuthStateChanged(user => {
             if(user){
               this.uid = user.uid
+          
             }
         })
       },
@@ -90,6 +95,11 @@ export default {
         //console.log(this.isLoggedIn)
         
     },
+    computed:{
+      userFromBackend(){
+        return this.$store.state.userFromBackend
+      }
+    }
 }
 
 // runs after firebase is initialized

@@ -130,5 +130,11 @@ namespace Backend.Controllers
         {
             _threadService.BlockThread(id);
         }
+        [HttpGet("GetAllThreads")]
+        public List<NewThread> GetAllThreads()
+        {
+            var result = _threadService.GetAllThreads();
+            return result;
+        }
     }
 }

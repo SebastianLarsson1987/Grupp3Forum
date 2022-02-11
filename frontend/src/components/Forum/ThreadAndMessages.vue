@@ -57,6 +57,7 @@
                                     <p>{{message.text}}</p>
                                     <div class="buttons-for-all" v-if="isLoggedIn && roleId != 2">
                                         <input type="submit" @click="reportMessage(message.id)" value="Anmäl inlägg"/>
+                                        
                                     </div>
                                 </div>
                                 
