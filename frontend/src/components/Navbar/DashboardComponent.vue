@@ -158,6 +158,7 @@ export default {
   data() {
     return {
       user: '',
+      uid: 0
     };
   },
   created() {
@@ -168,13 +169,22 @@ export default {
         this.user = '';
       }
     });
+    this.getUid()
   },
   methods: {
     signOut() {
       logOut();
       this.$router.push("/")
-    }
-  }
+    },
+    getUid(){
+      auth.onAuthStateChanged(user => {
+      if(user){
+      this.uid = user.uid
+      }
+    })
+  },
+},
+  
 };
 </script>
 
