@@ -119,7 +119,7 @@ const store = createStore({
            axios
            .get(`https://localhost:44362/api/User/GetUser?id=${id}`)
            .then(result => {
-               this.state.user.push(result.data)
+               this.state.user = result.data
                console.log(this.state.user)
                result.data.map((item) => {
                   this.state.roleId.push(item.roleId)

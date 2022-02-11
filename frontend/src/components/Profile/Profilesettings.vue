@@ -27,7 +27,7 @@
                     </div>
                 </nav>
             </div>
-            <div class="userprofile-form-grid4" v-for="(item, index) in user" :key="index">
+            <div class="userprofile-form-grid4" v-for="item in user" :key="item">
                 <div>
                     <div class="userprofile-form-grid4-username">
                         <p>Användarnamn</p>
