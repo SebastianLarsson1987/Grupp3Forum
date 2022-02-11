@@ -49,6 +49,7 @@ namespace Backend.Services
 
         public async Task RemoveUser(string id, grupp3forumContext _ctx)
         {
+            _logger.LogInformation($"Trying to find id {id} for deletion.");
             const string deleted = "deleted";
             var userToDelete = _ctx.Users.Find(id);
             userToDelete.FirstName = deleted;

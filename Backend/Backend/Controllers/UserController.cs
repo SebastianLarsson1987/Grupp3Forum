@@ -4,6 +4,8 @@ using Backend.Services;
 using Backend.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using System;
+using Microsoft.Extensions.Logging;
 
 namespace Backend.Controllers
 {
@@ -13,11 +15,13 @@ namespace Backend.Controllers
     {
         private readonly UserService _userService;
         private readonly grupp3forumContext _db;
+        private readonly ILogger<UserService> _logger;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ILogger<UserService> logger, grupp3forumContext db)
         {
             _userService = userService as UserService;
-            _db = new grupp3forumContext();
+            _db = db;
+            _logger = logger;
         }
 
         [HttpGet("GetAll")]
@@ -62,9 +66,18 @@ namespace Backend.Controllers
         }
 
         [HttpDelete("DeleteUser")]
-        public async void DeleteUser(string uid)
+        public async Task<ActionResult> DeleteUser(string uid)
         {
-            await _userService.RemoveUser(uid, _db);
+            try
+            {
+                await _userService.RemoveUser(uid, _db);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, e.Message);
+                return BadRequest();
+            }
         }
 
         [HttpPut("EditUser/{id}")]
