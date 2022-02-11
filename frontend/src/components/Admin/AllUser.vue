@@ -8,7 +8,9 @@
       <div class="left-bar" v-for="item in allUsers" :key="item.id">
         <div class="left-bar-item">
           <p @click="fetchThreadsByUser(item.uid)" v-if="item.userName!=='Borttagen'" class="user-links">{{item.userName}}</p>
-          <button v-if="item.userName!=='Borttagen'" class="delete-button" @click="deleteUser(item.uid)">Ta bort användare</button>
+          <!-- <button v-if="item.userName!=='Borttagen'" class="delete-button" @click="deleteUser(item.uid)">Ta bort användare</button> -->
+          <button v-if="item.userName!=='Borttagen'" class="delete-button" >Ta bort användare</button>
+
         </div>
       </div>
       <div class="right-bar">
@@ -42,7 +44,7 @@ import CreatedThreadsByUser from './CreatedThreadsByUser.vue'
         
       },
       deleteUser(uid){
-        console.log(uid)
+       this.$store.dispatch("adminDeleteUser", uid)
       },
       filterUser(search){
         console.log(search)

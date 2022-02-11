@@ -47,7 +47,8 @@ namespace Backend.Services
         public async Task RemoveUser(string id)
         {
             const string deleted = "deleted";
-            var userToDelete = await _db.Users.FindAsync(id);
+            //var userToDelete = await _db.Users.FindAsync(id);
+            var userToDelete = await _db.Users.FirstOrDefaultAsync(x => x.Uid == id);
             userToDelete.FirstName = deleted;
             userToDelete.Banned = false;
             userToDelete.UserName = deleted;

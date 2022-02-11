@@ -315,10 +315,13 @@ const store = createStore({
             let data = await response.json();
             commit("setThreadsByUser", data)
 
+        },
+        async adminDeleteUser(_, uid){
+            console.log(uid)
+            await fetch("https://localhost:44362/api/User/DeleteUser?uid=" +uid)
+            // remove()
+
         }
-        
-
-
     }
 })
 
