@@ -55,7 +55,7 @@
                                     </i>
                                     
                                     <p>{{message.text}}</p>
-                                    <div class="buttons-for-all">
+                                    <div class="buttons-for-all" v-if="message.userU.uid !==userId">
                                         <input type="submit" @click="reportMessage(message.id)" value="Anmäl inlägg"/>
                                         
                                     </div>
@@ -215,7 +215,7 @@ export default {
             .then(error=>{
                 console.log(error)
             })
-            router.push("/main")
+            router.push("/")
         },
         async deleteMessage(id){
             console.log(id)
@@ -228,7 +228,7 @@ export default {
                 console.log(error)
             })
 
-            router.push("/forum")
+            router.push("/")
         },
         
         postMessage(){
