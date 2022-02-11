@@ -11,7 +11,7 @@ namespace Backend.Services
     {
         Task<IEnumerable<User>> GetAllUser();
         Task<IEnumerable<User>> GetOneUser(string id);
-        Task RemoveUser(string id);
+        Task RemoveUser(string id, grupp3forumContext ctx);
         Task<bool> UpdateUser(User user);
     }
 }

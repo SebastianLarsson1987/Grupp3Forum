@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Backend.Services
 {
@@ -12,10 +13,12 @@ namespace Backend.Services
     {
 
         private readonly grupp3forumContext _db;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(grupp3forumContext db)
+        public UserService(grupp3forumContext db, ILogger<UserService> logger)
         {
             _db = db;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<User>> GetAllUser()
@@ -24,9 +27,9 @@ namespace Backend.Services
         }
 
         public async Task<IEnumerable<User>> GetOneUser(string id)
-        { 
-            return await _db.Users.Where(x => x.Uid == id).ToListAsync(); 
-            }
+        {
+            return await _db.Users.Where(x => x.Uid == id).ToListAsync();
+        }
 
         public async Task<bool> UpdateUser(User user)
         {
@@ -44,16 +47,19 @@ namespace Backend.Services
             }
         }
 
-        public async Task RemoveUser(string id)
+        public async Task RemoveUser(string id, grupp3forumContext _ctx)
         {
             const string deleted = "deleted";
-            var userToDelete = await _db.Users.FindAsync(id);
+            var userToDelete = _ctx.Users.Find(id);
             userToDelete.FirstName = deleted;
             userToDelete.Banned = false;
             userToDelete.UserName = deleted;
-            await _db.DeletedUsers.AddAsync(new DeletedUser { UserUid = userToDelete.Uid, DeletionDate = DateTime.Now });
+            await _ctx.SaveChangesAsync();
+            _logger.LogInformation($"Updated entry");
+            var deletedUser = await _ctx.DeletedUsers.AddAsync(new DeletedUser { UserUid = userToDelete.Uid, DeletionDate = DateTime.Now });
+            _logger.LogInformation($"Added {deletedUser.Entity.UserUid} for deletion");
 
-            await _db.SaveChangesAsync();
+            await _ctx.SaveChangesAsync();
 
         }
 
@@ -95,7 +101,7 @@ namespace Backend.Services
             var user = _db.Users.FirstOrDefault(x => x.Uid == id);
             user.Banned = true;
             _db.SaveChangesAsync();
-            
+
 
         }
     }
