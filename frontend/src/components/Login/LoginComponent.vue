@@ -67,7 +67,11 @@ export default {
         if(response.data[0] === false){
           console.log(response.data)
           logIn(this.user.email, this.user.password);
-          this.$router.push("/dashboard");
+          var email2 = this.user.email
+          console.log(this.user.email)
+          this.$store.dispatch("fetchUser", email2)
+          this.$router.push("/");
+          
         } 
         else{
           alert("Ditt konto är avstängt");

@@ -60,6 +60,7 @@ const resetPassword = async (email) => {
 const logIn = async (email, password) => {
     try {
         await signInWithEmailAndPassword(auth, email, password);
+        
     } catch (err) {
         console.log(auth)
         console.error(err.code);

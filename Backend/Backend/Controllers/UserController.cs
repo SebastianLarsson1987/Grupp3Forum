@@ -97,5 +97,11 @@ namespace Backend.Controllers
         {
             _userService.SetUserAsBanned(id);
         }
+        [HttpGet("GetUserByEmail")]
+        public User GetUserByEmail(string email)
+        {
+            var result = _userService.GetUserByEmail(email);
+            return result;
+        }
     }
 }

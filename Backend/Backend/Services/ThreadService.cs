@@ -120,5 +120,10 @@ namespace Backend.Services
             _db.Messages.Add(blockedThreadMessage);
             _db.SaveChanges();
         }
+        public List<NewThread> GetAllThreads()
+        {
+            var result = _db.NewThreads.ToList();
+            return result;
+        }
     }
 }
