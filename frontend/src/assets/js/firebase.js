@@ -78,8 +78,7 @@ const remove = async () => {
     try {
         const user = auth.currentUser;
         const id = user.uid;
-        await deleteUser(user);
-        await fetch(`https://localhost:44362/api/User/DeleteUser?id=${id}`, {
+        const response = await fetch(`https://localhost:44362/api/User/DeleteUser?uid=${id}`, {
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',
@@ -87,7 +86,10 @@ const remove = async () => {
             }
 
         });
-        logOut();
+        if (response.ok) {
+            await deleteUser(user);
+            logOut();
+        }
     } catch (err) {
         console.error(err);
         alert(err.message);

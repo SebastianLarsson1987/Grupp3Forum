@@ -66,6 +66,23 @@ namespace Backend.Services.BackgroundServices
 
                 }
             }
+            // Flush the users who for some reason wasnt added to the DeletedUsers table.
+            List<User> usersNotDeleted = await _ctx.Users.Where(u => u.UserName == "deleted").ToListAsync();
+            removed += usersNotDeleted.Count;
+            foreach (var user in usersNotDeleted)
+            {
+                try
+                {
+                    await RemoveRelations(user.Uid);
+                    _ = _ctx.Users.Remove(await _ctx.Users.FindAsync(user.Uid));
+                    _ = await _ctx.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e.ToString());
+                    throw;
+                }
+            }
             _ = await _ctx.SaveChangesAsync();
             _logger.LogInformation($"{removed} users were permanently deleted.");
         }
