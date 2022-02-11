@@ -275,7 +275,8 @@ const store = createStore({
              console.log(data)
              commit('setSearchResult', data)
       
-        }
+        },
+        
 
 
     }

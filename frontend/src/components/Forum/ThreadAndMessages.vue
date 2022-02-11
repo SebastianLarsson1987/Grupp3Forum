@@ -57,6 +57,7 @@
                                     <div class="buttons-for-all">
                                         <input type="submit" @click="reportMessage(message.id)" value="Anmäl inlägg"/>
                                         
+                                        
                                     </div>
                                 </div>
                                 

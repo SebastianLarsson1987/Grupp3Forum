@@ -66,7 +66,8 @@
       AllCategoriesAndThreads(){
         return this.$store.state.AllCategoriesAndThreads
       }
-    }
+    },
+    
   }
 </script>
 

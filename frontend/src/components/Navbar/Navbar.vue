@@ -24,6 +24,7 @@
             <div class="justify-content-end align-items-center m-3 p-2">
               <router-link class="nav-link-white-blue" to="/FAQ">FAQ |</router-link>|
               <router-link class="nav-link-white-blue" to="/GDPR">GDPR</router-link>
+            
             </div>
           </div>
         </div>
@@ -62,6 +63,7 @@ export default {
         auth.onAuthStateChanged(user => {
         if (user) {
           this.isLoggedIn = true // if we have a user
+          
         } else {
           this.isLoggedIn = false // if we do not
         }
@@ -73,6 +75,7 @@ export default {
         auth.onAuthStateChanged(user => {
             if(user){
               this.uid = user.uid
+          
             }
         })
       },

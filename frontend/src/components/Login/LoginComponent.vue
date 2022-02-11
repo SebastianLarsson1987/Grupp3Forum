@@ -68,6 +68,7 @@ export default {
           console.log(response.data)
           logIn(this.user.email, this.user.password);
           this.$router.push("/");
+          
         } 
         else{
           alert("Ditt konto är avstängt");
