@@ -121,10 +121,10 @@ const store = createStore({
            .then(result => {
                this.state.user = result.data
                console.log(this.state.user)
-               result.data.forEach((item) => {
+               result.data.map((item) => {
                    this.state.roleId.push(item.roleId)
                 })
-                console.log(this.state.roleId)
+                console.log("RoleID",this.state.roleId)
             })
             .catch(error => {
                console.log(error.message)

@@ -46,7 +46,7 @@
                                         <button 
                                         v-if="roleId == 2 && 
                                         !message.userU.banned && 
-                                        message.userU.uid !== userId && 
+                                        message.userU.uid !== uid && 
                                         message.userU.userName !== 'deleted' &&
                                         message.userU.userName !== 'admin'" 
                                         class="fas fa-ban" 
@@ -315,12 +315,12 @@ export default {
     async created() {
 
         await auth.onAuthStateChanged(user => {
-            this.getUser(user.uid);
             if(!this.getUser(user.uid)){
                 window.location.reload();
             }
             console.log(user.uid)
         })
+        await this.getUser(this.uid);
         await this.getOneThreadAndMessages(this.$route.params.id)
         await this.getUid();
         // await this.stateChanged();
