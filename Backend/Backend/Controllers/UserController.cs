@@ -58,13 +58,13 @@ namespace Backend.Controllers
         [HttpPost("Remove")]
         public async void RemoveGuest(string id)
         {
-            await _userService.RemoveUser(id);
+            await _userService.RemoveUser(id, _db);
         }
 
         [HttpDelete("DeleteUser")]
         public async void DeleteUser(string uid)
         {
-            await _userService.RemoveUser(uid);
+            await _userService.RemoveUser(uid, _db);
         }
 
         [HttpPut("EditUser/{id}")]

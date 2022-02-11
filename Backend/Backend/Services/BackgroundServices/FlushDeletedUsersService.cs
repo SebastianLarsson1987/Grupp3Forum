@@ -52,7 +52,7 @@ namespace Backend.Services.BackgroundServices
                 {
                     try
                     {
-                        ++removed;
+                        removed++;
                         await RemoveRelations(user.UserUid);
                         _ = _ctx.Users.Remove(await _ctx.Users.FindAsync(user.UserUid));
                         _ = _ctx.DeletedUsers.Remove(user);

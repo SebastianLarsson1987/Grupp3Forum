@@ -33,7 +33,7 @@ namespace Backend
             services.AddTransient<IThreadService, ThreadService>();
             services.AddTransient<IUserService, UserService>();
             services.AddControllers();
-            services.AddDbContext<grupp3forumContext>(ServiceLifetime.Transient);
+            services.AddDbContext<grupp3forumContext>();
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
