@@ -9,7 +9,9 @@ const store = createStore({
         userPosts: [],
         localPosts: [],
         user: [],
+        userFromBackend:{},
         text: "",
+        allUsers:[],
        
        categories: [],
        AllCategoriesAndThreads: [],
@@ -18,7 +20,9 @@ const store = createStore({
        messages: [],
        newThreads: [],
        threadsBySearch:[],
+       threadsFromBackend:[],
        
+       threadsByUser:[],
        userThreads: [],
        messageUser: [],
        reportedMessagesStatusInThread: [],
@@ -55,7 +59,18 @@ const store = createStore({
             return false;
         }
       }, 
-
+      setUser(state, data){
+          state.userFromBackend=data
+      },
+      setThreads(state, data){
+          state.threadsFromBackend=data 
+      },
+      setAllUsers(state, data){
+          state.allUsers = data
+      },
+      setThreadsByUser(state, data){
+          state.threadsByUser = data
+      }
     },
        actions:{
        getUserPosts(_,id){
@@ -276,6 +291,31 @@ const store = createStore({
              commit('setSearchResult', data)
       
         },
+        async fetchUser({commit},email){
+            console.log('test funkar det')
+            let response = await fetch('https://localhost:44362/api/User/GetUserByEmail?email='+email)
+            let data = await response.json();
+            console.log(data)
+            commit('setUser', data)
+        },
+        async fetchThreads({commit}){
+            
+            let response = await fetch('https://localhost:44362/api/Thread/GetAllThreads')
+            let data = await response.json();
+            console.log(data)
+            commit('setThreads', data)
+        },
+        async fetchAllUsers({commit}){
+            let response = await fetch("https://localhost:44362/api/User/GetAll")
+            let data = await response.json();
+            commit('setAllUsers', data)
+        },
+        async fetchThreadsByUser({commit}, uid){
+            let response = await fetch(`https://localhost:44362/api/Thread/GetThreadsByUserId?id=${uid}`)
+            let data = await response.json();
+            commit("setThreadsByUser", data)
+
+        }
         
 
 

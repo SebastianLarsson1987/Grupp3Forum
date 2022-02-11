@@ -15,6 +15,11 @@ import UserThreads from '../components/Profile/UserThreads.vue'
 import ForgetPassword from "../components/Login/ForgetPassword"
 import SearchComponent from "../components/SearchResult/SearchComponent"
 import ReglerComponent from '../components/Pages/ReglerComponent.vue'
+import Admin from '../components/Admin/Admin'
+import LatestThreads from '../components/Admin/LatestThreads'
+import AllUser from '../components/Admin/AllUser'
+import ReportedUsers from '../components/Admin/ReportedUsers'
+import CreatedThreadsByUser from '../components/Admin/CreatedThreadsByUser'
 
 const routes = [
 
@@ -111,7 +116,38 @@ const routes = [
     path: '/forgetpassword',
     name: 'forgetpassword',
     component: ForgetPassword
-  }
+  },
+  {
+    path:'/admin',
+    name:'admin',
+    component: Admin,
+    meta: {
+      authRequired: true,
+    },
+    children:[
+      {
+        path:'/latestThreads',
+        name:'latestThreads',
+        component:LatestThreads,
+      },
+      {
+        path:"/allUsers",
+        name: 'allUsers',
+        component:AllUser
+      },
+      {
+        path:"/repotedUsers",
+        name: 'repotedUsers',
+        component:ReportedUsers
+      },
+      {
+        path: "/createdThreadsByUser/:id",
+        name: 'createdThreadsByUser',
+        component:CreatedThreadsByUser
+      }
+    ]
+  },
+  
 
 ]
 const router = createRouter({

@@ -98,5 +98,10 @@ namespace Backend.Services
             
 
         }
+        public User GetUserByEmail(string email)
+        {
+            var user = _db.Users.FirstOrDefault(x => x.Email == email);
+            return user;
+        }
     }
 }
