@@ -127,6 +127,9 @@ const store = createStore({
                 console.log("Roleid", this.state.roleId)
             })
             .catch(error => {
+                if(error){
+                    window.location.reload();
+                }
                console.log(error)
            })
 

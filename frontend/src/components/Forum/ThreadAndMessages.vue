@@ -47,7 +47,8 @@
                                         v-if="roleId == 2 && 
                                         !message.userU.banned && 
                                         message.userU.uid !== userId && 
-                                        message.userU.userName !== 'deleted'" 
+                                        message.userU.userName !== 'deleted' &&
+                                        message.userU.userName !== 'admin'" 
                                         class="fas fa-ban" 
                                         @click="banUser(message.userUid)">
                                         </button>
