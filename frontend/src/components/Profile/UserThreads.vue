@@ -42,7 +42,9 @@
                         <ul class="userprofile-form-grid4-wrapperscroll-unordered-list-reportedmessages" v-for="msg in thread.messages" :key="msg">
                             <li class="userprofile-form-grid4-wrapperscroll-list-reportedmessages" v-if="msg.isReported">
                                 <h1>Anmält innehåll</h1>
+                                <button class="" @click="deleteAndReportMessage( msg)">XX</button>
                                 <button class="fas fa-ban" @click="deleteMessage(msg.id)"></button>
+
                                 <p>{{msg.text}}</p>
                                 <button 
                                 class="btn btn-primary btn-lg btn-block" 
@@ -117,6 +119,20 @@ export default {
 
         deleteMessage(id){
             return this.$store.dispatch('putDeleteMessage', id)
+        },
+        async deleteAndReportMessage(msg){
+            // const body = JSON.stringify({Id:msg.id, Text:msg.text,  ThreadId:msg.threadId, UserUid:msg.uid,})
+            
+            await fetch("https://localhost:44362/api/Message/DeleteAndRepportMessage", {
+                headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify({Id:msg.id, Text:msg.text,  ThreadId:msg.threadId, UserUid:msg.userUid, Email:""})
+            })
+         
+           
         }
     },
 

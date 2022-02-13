@@ -71,5 +71,11 @@ namespace Backend.Services
             message.IsReported = false;
             _db.SaveChangesAsync();
         }
+        public string FindEmailFromUser(string uid)
+        {
+            var result = _db.Users.FirstOrDefault(x => x.Uid == uid);
+            var email = result.Email;
+            return email;
+        }
     }
 }

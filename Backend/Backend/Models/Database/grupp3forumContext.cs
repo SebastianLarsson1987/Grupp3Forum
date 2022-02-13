@@ -153,7 +153,7 @@ namespace Backend.Models.Database
 
             modelBuilder.Entity<ReportedMessage>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(s => s.Id);
 
                 entity.Property(e => e.DelatedAt).HasColumnType("datetime");
 

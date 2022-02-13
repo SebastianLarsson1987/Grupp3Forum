@@ -7,6 +7,7 @@ namespace Backend.Models.Database
 {
     public partial class ReportedMessage
     {
+        public int Id { get; set; }
         public string Uid { get; set; }
         public string Email { get; set; }
         public DateTime DelatedAt { get; set; }
