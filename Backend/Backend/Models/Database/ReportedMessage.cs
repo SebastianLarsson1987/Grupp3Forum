@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -7,6 +8,8 @@ namespace Backend.Models.Database
 {
     public partial class ReportedMessage
     {
+       
+
         public string Uid { get; set; }
         public string Email { get; set; }
         public DateTime DelatedAt { get; set; }

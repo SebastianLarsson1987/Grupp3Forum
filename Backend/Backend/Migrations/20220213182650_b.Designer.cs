@@ -4,14 +4,16 @@ using Backend.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Migrations
 {
     [DbContext(typeof(grupp3forumContext))]
-    partial class grupp3forumContextModelSnapshot : ModelSnapshot
+    [Migration("20220213182650_b")]
+    partial class b
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -175,6 +177,11 @@ namespace Backend.Migrations
 
             modelBuilder.Entity("Backend.Models.Database.ReportedMessage", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<DateTime>("DelatedAt")
                         .HasColumnType("datetime");
 
@@ -195,6 +202,8 @@ namespace Backend.Migrations
                         .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("ReportedMessages");
                 });

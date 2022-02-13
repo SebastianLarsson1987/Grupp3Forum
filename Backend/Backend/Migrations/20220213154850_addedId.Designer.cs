@@ -4,14 +4,16 @@ using Backend.Models.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Backend.Migrations
 {
     [DbContext(typeof(grupp3forumContext))]
-    partial class grupp3forumContextModelSnapshot : ModelSnapshot
+    [Migration("20220213154850_addedId")]
+    partial class addedId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,6 +184,9 @@ namespace Backend.Migrations
                         .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
                     b.Property<string>("Text")
                         .IsRequired()

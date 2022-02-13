@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Backend.Models.Database;
+using Backend.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -70,6 +71,23 @@ namespace Backend.Services
             var message = _db.Messages.FirstOrDefault(x => x.Id == id);
             message.IsReported = false;
             _db.SaveChangesAsync();
+        }
+
+        public async Task<Message> DeleteAndReportMessage(int id)
+        {
+            var message = _db.Messages.FirstOrDefault(x => x.Id == id);
+           
+            
+            _db.Messages.Remove(message);
+            await _db.SaveChangesAsync();
+
+            return message;
+        }
+        public string FindEmailFromUser(string uid)
+        {
+            var result = _db.Users.FirstOrDefault(x => x.Uid == uid);
+            var email = result.Email;
+            return email;
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Backend.Models.Database;
 using Backend.Services;
 using Microsoft.AspNetCore.Cors;
+using Backend.Models.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace Backend.Controllers
 {
@@ -13,9 +15,12 @@ namespace Backend.Controllers
     public class MessageController : ControllerBase
     {
         private readonly MessageService _messageService;
+        private readonly grupp3forumContext _db;
+        
 
         public MessageController(grupp3forumContext ctx)
         {
+            _db = new grupp3forumContext();
             _messageService = new MessageService(ctx);
         }
 
@@ -44,6 +49,26 @@ namespace Backend.Controllers
         public void ReportMessage(int id)
         {
             _messageService.ReportMessage(id);
+        }
+        [HttpPost("DeleteAndRepportMessage")]
+        public void DeleteAndReportMessage([FromBody]DeleteAndReportMessageViewModel model)
+        {
+            var newDeletedAndReportedMessage = new ReportedMessage()
+            {
+                Uid = model.UserUid,
+                Email = _messageService.FindEmailFromUser(model.UserUid),
+                DelatedAt = DateTime.Now,
+                ThreadId = model.ThreadId,
+                Text = model.Text,
+            };
+
+
+            
+            _db.ReportedMessages.Add(newDeletedAndReportedMessage);
+            _db.SaveChangesAsync();
+            _messageService.DeleteMessage(model.Id);
+
+            
         }
         
         [HttpPut("SetMessageAsDeleted")]
