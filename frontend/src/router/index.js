@@ -20,6 +20,7 @@ import LatestThreads from '../components/Admin/LatestThreads'
 import AllUser from '../components/Admin/AllUser'
 import ReportedUsers from '../components/Admin/ReportedUsers'
 import CreatedThreadsByUser from '../components/Admin/CreatedThreadsByUser'
+import store from '../store/index.js'
 
 const routes = [
 
@@ -121,9 +122,6 @@ const routes = [
     path:'/admin',
     name:'admin',
     component: Admin,
-    meta: {
-      authRequired: true,
-    },
     children:[
       {
         path:'/latestThreads',
@@ -156,9 +154,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  const userFromBacked = store.state.userFromBackend
   if (to.matched.some(record => record.meta.authRequired)) {
     auth.onAuthStateChanged(user => {
       if(user || auth.currentUser){
+        console.log(userFromBacked  )
         next();
       } else{
         alert('You must be logged in to see this page');
@@ -166,6 +166,14 @@ router.beforeEach((to, from, next) => {
         //   path: '/',
         // });
       } 
+      // if(store.userFromBackend.roleId==2){
+      //   next({
+      //     path:"/admin"
+      //   })
+      // }else{
+        
+      //   router.push('/')
+      // }
     })
   }else{
     next();

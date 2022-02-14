@@ -243,7 +243,7 @@ export default {
                 console.log(error)
             })
 
-            router.push("/forum")
+            window.location.reload()
         },
         
         postMessage(){

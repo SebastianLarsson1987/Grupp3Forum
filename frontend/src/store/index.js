@@ -27,13 +27,14 @@ const store = createStore({
        messageUser: [],
        reportedMessagesStatusInThread: [],
        bannedUser: false,
-       roleId: []
+       roleId: [],
   },
 
   getters: {
       getMessages: state => {
           return state.messages
-      }
+      },
+      
   },
   mutations:{
       setName(state, x){
@@ -61,6 +62,7 @@ const store = createStore({
       }, 
       setUser(state, data){
           state.userFromBackend=data
+          
       },
       setThreads(state, data){
           state.threadsFromBackend=data 
@@ -70,7 +72,11 @@ const store = createStore({
       },
       setThreadsByUser(state, data){
           state.threadsByUser = data
+      },
+      singleRole(state, data){
+          state.singleRole =data
       }
+      
     },
        actions:{
        getUserPosts(_,id){
@@ -299,8 +305,11 @@ const store = createStore({
             let response = await fetch('https://localhost:44362/api/User/GetUserByEmail?email='+email)
             let data = await response.json();
             console.log(data)
+            
             commit('setUser', data)
+            
         },
+        
         async fetchThreads({commit}){
             
             let response = await fetch('https://localhost:44362/api/Thread/GetAllThreads')

@@ -27,6 +27,7 @@
             <span v-if="userFromBackend.roleId==2 && loggedIn">
               <router-link class="nav-link-white-blue" to="/admin"> Admin</router-link>
             </span>
+            
             </div>
           </div>
         </div>
@@ -81,6 +82,7 @@ export default {
             }
         })
       },
+      
       searchThreads(){
         this.$store.dispatch('getThreadsBySearch', this.searchString)
         routers.push("/searchResult")
@@ -90,15 +92,28 @@ export default {
     
     created(){
       
+      this.userFromBackend
         this.loggedIn()
         this.getUid();
+        auth.onAuthStateChanged(user=>{
+            if(user){
+              this.$store.dispatch('fetchUser', user.email)
+            }
+        })
         //console.log(this.isLoggedIn)
         
+    },
+
+    Update(){
+      console.log("teststatat")
     },
     computed:{
       userFromBackend(){
         return this.$store.state.userFromBackend
-      }
+      },
+      
+    },
+    mounted(){
     }
 }
 
