@@ -15,9 +15,9 @@ namespace Backend.Services
     {
         private readonly grupp3forumContext _db;
 
-        public ThreadService(grupp3forumContext db)
+        public ThreadService()
         {
-            _db = db;
+            _db = new grupp3forumContext();
         }
 
         public async Task RemoveThreadAndMessages(int id)

@@ -330,7 +330,14 @@ const store = createStore({
         },
         async adminDeleteUser(_, uid){
             console.log(uid)
-            await fetch("https://localhost:44362/api/User/DeleteUser?uid=" +uid)
+            await fetch(`https://localhost:44362/api/User/DeleteUser?uid=` +uid, {
+                Method: "POST",
+                Headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': "application/json"
+                },
+                body: JSON.stringify({uid:uid})
+            })
             // remove()
 
         }

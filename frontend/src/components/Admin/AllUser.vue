@@ -7,9 +7,9 @@
     <div class="main">
       <div class="left-bar" v-for="item in allUsers" :key="item.id">
         <div class="left-bar-item">
-          <p @click="fetchThreadsByUser(item.uid)" v-if="item.userName!=='Borttagen'" class="user-links">{{item.userName}}</p>
+          <p @click="fetchThreadsByUser(item.uid)" v-if="item.userName!=='Borttagen' && item.userName!=='deleted'" class="user-links">{{item.userName}}</p>
           <!-- <button v-if="item.userName!=='Borttagen'" class="delete-button" @click="deleteUser(item.uid)">Ta bort användare</button> -->
-          <button v-if="item.userName!=='Borttagen'" class="delete-button" >Ta bort användare</button>
+          <button v-if="item.userName!=='Borttagen' && item.userName!=='deleted'" class="delete-button" @click="deleteUser(item.uid)" >Ta bort användare</button>
 
         </div>
       </div>
@@ -43,9 +43,15 @@ import CreatedThreadsByUser from './CreatedThreadsByUser.vue'
         this.$store.dispatch("fetchThreadsByUser", id)
         
       },
-      deleteUser(uid){
-       this.$store.dispatch("adminDeleteUser", uid)
-      },
+      async deleteUser(uid){
+        await fetch(`https://localhost:44362/api/User/DeleteUser?uid=${uid}`,{
+          method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': "application/json"
+            }
+        }
+        )},
       filterUser(search){
         console.log(search)
         this.allUsers.filter(x=>x.userName.includes(search.toLowerCase))

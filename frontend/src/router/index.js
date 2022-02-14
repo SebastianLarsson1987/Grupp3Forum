@@ -121,7 +121,18 @@ const routes = [
   {
     path:'/admin',
     name:'admin',
-    component: Admin,
+    component: ()=>{
+      const roleId = store.state.userFromBackend.roleId
+      const role = store.state.roleId
+      console.log("Rollen", role)
+      console.log("roll", roleId)
+      if(roleId==2) {
+        return Admin
+      }else{
+        return ReglerComponent
+      }
+    },
+    
     children:[
       {
         path:'/latestThreads',

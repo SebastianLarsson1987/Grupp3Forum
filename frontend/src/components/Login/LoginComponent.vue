@@ -49,6 +49,7 @@
 <script>
 import { logIn, resetPassword } from "../../assets/js/firebase";
 import axios from 'axios'
+import {auth} from "../../assets/js/firebase"
 export default {
   data() {
     return {
@@ -67,9 +68,7 @@ export default {
         if(response.data[0] === false){
           console.log(response.data)
           logIn(this.user.email, this.user.password);
-          var email2 = this.user.email
-          console.log(this.user.email)
-          this.$store.dispatch("fetchUser", email2)
+          
           this.$router.push("/");
           
         } 
@@ -77,7 +76,18 @@ export default {
           alert("Ditt konto är avstängt");
           this.$router.push('/')
         }
+        
       })
+      this.getUser()
+    },
+    getUser(){
+      auth.onAuthStateChanged(user => {
+          if(user){
+            this.$store.dispatch('fetchUser', user.email)
+          }else{
+            this.$router.push('/')
+          }
+        })
     },
     async forgetPassword(){
     await resetPassword(this.user.email)
