@@ -31,7 +31,9 @@ namespace Backend.Services
         {
             
             var result = await _db.Messages.Where(message => message.UserUid == id)
-                .Where(message => message.IsDeleated == false && message.IsReported==false).ToListAsync();
+                .Where(message => message.IsDeleated == false && message.IsReported==false)
+                .Include(message => message.Thread)
+                .ToListAsync();
             return result;
         }
 

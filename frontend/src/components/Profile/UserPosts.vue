@@ -30,15 +30,16 @@
                 <div class="userprofile-form-grid4-wrapperscroll">
                     <ul class="userprofile-form-grid4-ul" v-for="(post, index) in localPosts" :key="index">
                         <li class="userprofile-form-grid4-list">
+                            <h4>Tråd: <router-link :to="`/threadmessages/${post.thread.id}`" >{{post.thread.topic}}</router-link></h4>
                             <p>Inlägg skapat: {{post.createdAt}}</p>
                             <p>Inlägg uppdaterat: {{post.updatedAt}}</p>
                             <textarea v-bind:disabled="post.isDisabled" class="userprofile-form-grid4-textarea" 
                             rows="4" cols="50" v-model="post.text"></textarea>
                             <div class="userprofile-form-grid4-buttons">
-                                <button @click="deleteMessage(post.id)">Ta bort</button>
-                                <button type="button" @click="post.isDisabled = false">Redigera</button>
-                                <button @click="putMessageText(post.id, post.text)">Spara</button>
-                                <button @click="post.isDisabled = true">Avbryt</button>
+                                <button @click="deleteMessage(post.id)" :disabled="post.thread.blocked == true">Ta bort</button>
+                                <button type="button" @click="post.isDisabled = false" :disabled="post.thread.blocked == true" >Redigera</button>
+                                <button @click="putMessageText(post.id, post.text)" :disabled="post.thread.blocked == true" >Spara</button>
+                                <button @click="post.isDisabled = true" :disabled="post.thread.blocked == true" >Avbryt</button>
                             </div>
                         </li> 
                     </ul>
