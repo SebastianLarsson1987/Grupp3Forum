@@ -44,7 +44,7 @@
                                 <h1>Anmält innehåll</h1>
                                 <button class="" @click="deleteAndReportMessage( msg)">XX</button>
                                 <button class="fas fa-ban" @click="deleteMessage(msg.id)"></button>
-
+                                <!-- <p>{{msg.userU.userName}}</p> -->
                                 <p>{{msg.text}}</p>
                                 <button 
                                 class="btn btn-primary btn-lg btn-block" 
