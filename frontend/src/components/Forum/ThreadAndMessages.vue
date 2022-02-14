@@ -24,6 +24,7 @@
                             <i>Tråd senast uppdaterad {{ item.updatedAt }}</i>
                         </li>
                     </ul>
+                    
                 </div>
                 <div class="threadmessages-wrapper-form-messages-scroll"> 
                     <div class="threadmessages-wrapper-form-messages"
@@ -231,7 +232,7 @@ export default {
             .then(error=>{
                 console.log(error)
             })
-            router.push("/main")
+            router.push("/")
         },
         async deleteMessage(id){
             console.log(id)
