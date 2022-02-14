@@ -50,7 +50,8 @@ export default {
       return{
         uid: 0,
         isLoggedIn: false,
-        searchString: ""
+        searchString: "",
+        roleId: ""
       }
     },
 
@@ -105,9 +106,6 @@ export default {
         
     },
 
-    Update(){
-      console.log("teststatat")
-    },
     computed:{
       userFromBackend(){
         return this.$store.state.userFromBackend

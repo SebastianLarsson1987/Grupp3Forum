@@ -6,6 +6,7 @@
             <div class="threadmessages-wrapper-form-threadAndMessages">
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
+                        
                     <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid || roleId == 2">
                         
                         <div v-if="item.blocked==false">
