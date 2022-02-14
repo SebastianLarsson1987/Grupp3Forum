@@ -33,8 +33,8 @@
                                 <div class="threadmessages-wrapper-form-messages-list-header">
                                     <i>Skapad {{message.createdAt}}</i>
                                     <i>Uppdaterad {{message.updatedAt}}</i>
-                                    <div v-if="item.userUid === uid || roleId == 2">
-                                        <div class="buttons">
+                                    <div v-if="item.userUid === uid && item.blocked == false">
+                                        <div class="buttons" v-if="roleId == 2 || item.userUid === uid">
                                             <input type="submit" @click="deleteMessage(message.id)" value="Ta bort meddelande"/>
                                     <i>#{{message.id}}</i>
                                         </div>
@@ -55,7 +55,7 @@
                                     </i>
                                     
                                     <p>{{message.text}}</p>
-                                    <div class="buttons-for-all" v-if="isLoggedIn && roleId != 2">
+                                    <div class="buttons-for-all" v-if="isLoggedIn && roleId != 2 && message.userUid != userId && item.blocked == false">
                                         <input type="submit" @click="reportMessage(message.id)" value="Anmäl inlägg"/>
                                         
                                     </div>
@@ -91,7 +91,7 @@
                 </div>
                 <div class="threadmessages-wrapper-form-messages-writeMessage">
                     
-                    <div v-if="isLoggedIn">
+                    <div v-if="isLoggedIn && roleId == 1 && item.blocked == false">
                         <textarea
                             class="threadmessages-wrapper-form-messages-writeMessage-textArea"
                             rows="5"
@@ -346,11 +346,10 @@ export default {
         //this.stateChanged();
         this.messages = this.$store.getters.getMessages;
         await this.loggedIn();
-
         
-    }
+    },
 
-
+    
 
 }
 </script>

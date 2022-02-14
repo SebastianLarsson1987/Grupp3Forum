@@ -24,7 +24,7 @@
                     <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-angle-double-right"></i></button>
                 </div>
             </div>
-            <div class="categorythreads-wrapper-form-writeMessage">
+            <div class="categorythreads-wrapper-form-writeMessage" v-if="roleId == 1">
                 <WriteMessage/>
             </div>
         </form>
@@ -34,6 +34,7 @@
 <script>
 
 import WriteMessage from '../Forum/CreateThread/WriteMessage.vue'
+import { auth } from "../../assets/js/firebase";
 
 export default {
     components:{
@@ -52,7 +53,8 @@ export default {
         return{
            categoryAndThreads: [],
            handlePaginationValue: [],
-           pageNumber: 0
+           pageNumber: 0,
+           userId: 0
         }
     },
     computed: {
@@ -69,11 +71,16 @@ export default {
             const start = this.pageNumber * this.size,
             end = start + this.size;
             return this.$store.state.newThreads.slice(start,end);
-        }
+        },
+        roleId(){
+            return this.$store.state.roleId
+        },
     },
 
 
     methods: {
+
+        
         async getCategoryAndThreads(id){
             this.categoryAndThreadsComputed = await this.$store.dispatch('getCategoryThreadsPerCategoryId', id);
             //this.handlePaginationValue = handlePagination(this.oneCategoryAndThreads)
@@ -99,13 +106,28 @@ export default {
         },
         firstPage(){
             this.pageNumber = 0;
-        }
+        },
+
+        getUser(){
+           auth.onAuthStateChanged(user => {
+               if(user){
+                   this.userId == user.uid
+               }
+               else{
+                   return this.writeMessageDisabled == true;
+               }
+
+                return this.$store.dispatch('getOneUser', this.userId)
+           })
+            
+        },
     
 
     },
 
     async created(){
         this.getCategoryAndThreads(this.$route.params.id);
+        this.getUser();
     }
 }
 </script>
