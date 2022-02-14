@@ -60,6 +60,7 @@ export default {
         //const router = useRouter()
         logOut()
         this.$router.push('/')
+        window.location.reload();
       },
 
       loggedIn(){
