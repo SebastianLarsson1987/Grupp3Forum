@@ -6,6 +6,7 @@
           <div class="col-md-auto">
             <router-link class="nav-link-white-blue" to="/">Hem |</router-link>|
             <span v-if="isLoggedIn">
+             <router-link class="nav-link-white-blue" to="/Dashboard">Dashboard |</router-link>|
               <router-link class="nav-link-white-blue"  :to="`/profilesettings/${uid}`">Profil |</router-link>|
               <a class="nav-link-white-blue" @click="signOut()">Logga ut</a>|
             </span>
