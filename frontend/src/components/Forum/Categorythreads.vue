@@ -24,7 +24,7 @@
                     <button type="button" @click="lastPage" :disabled="pageNumber >= pageCount -1"><i class="fas fa-angle-double-right"></i></button>
                 </div>
             </div>
-            <div class="categorythreads-wrapper-form-writeMessage" v-if="roleId == 1">
+            <div class="categorythreads-wrapper-form-writeMessage" v-if="getOneUserFromBackend.roleId != 2">
                 <WriteMessage/>
             </div>
         </form>
@@ -75,6 +75,10 @@ export default {
         roleId(){
             return this.$store.state.roleId
         },
+
+        getOneUserFromBackend(){
+            return this.$store.state.userFromBackend
+        }
     },
 
 
@@ -113,11 +117,9 @@ export default {
                if(user){
                    this.userId == user.uid
                }
-               else{
-                   return this.writeMessageDisabled == true;
-               }
+               
+                return this.$store.dispatch('fetchUser', user.email)
 
-                return this.$store.dispatch('getOneUser', this.userId)
            })
             
         },
@@ -127,7 +129,7 @@ export default {
 
     async created(){
         this.getCategoryAndThreads(this.$route.params.id);
-        this.getUser();
+        await this.getUser();
     }
 }
 </script>

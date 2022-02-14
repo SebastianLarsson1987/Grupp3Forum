@@ -142,8 +142,8 @@ const store = createStore({
            .then(result => {
                this.state.user = result.data
                console.log(this.state.user)
-               result.data.map((item) => {
-                  this.state.roleId.push(item.roleId)
+               result.data.map(item => {
+                  this.state.roleId = item.roleId
                 })
                 console.log("Roleid", this.state.roleId)
             })
