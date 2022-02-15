@@ -60,8 +60,8 @@ export default {
     methods:{
       signOut(){
         //const router = useRouter()
-        logOut()
         this.$router.push('/')
+        logOut()
         window.location.reload();
       },
 

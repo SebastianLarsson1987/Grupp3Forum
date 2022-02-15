@@ -173,7 +173,7 @@ router.beforeEach((to, from, next) => {
         console.log(userFromBacked  )
         next();
       } else{
-        alert('You must be logged in to see this page');
+        //alert('You must be logged in to see this page');
         // next({
         //   path: '/',
         // });
