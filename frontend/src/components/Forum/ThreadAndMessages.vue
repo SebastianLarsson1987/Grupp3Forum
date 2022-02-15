@@ -7,7 +7,7 @@
                 <div class="threadmessages-wrapper-form-thread">
                     <ul>
                         
-                    <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid || roleId == 2">
+                    <div class="group-admin-buttons-remove-thread" v-if="item.userUid==uid || userFromBackend.roleId == 2">
                         
                         <div v-if="item.blocked==false">
                              
@@ -149,6 +149,9 @@ export default {
             set(value) {
                 this.$store.commit('setOneThreadAndMessages', value)
             }
+        },
+        userFromBackend(){
+            return this.$store.state.userFromBackend
         },
 
         pageCount() {
@@ -350,6 +353,7 @@ export default {
         await this.loggedIn();
         
     },
+    
 
     
 
